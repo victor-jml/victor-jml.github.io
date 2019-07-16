@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[hello,hexo]]></title>
-    <url>%2F2019%2F06%2F30%2Fhello-hexo%2F</url>
+    <title><![CDATA[hello hexo]]></title>
+    <url>%2F2019%2F07%2F16%2Fhello-hexo%2F</url>
     <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[hello jml]]></title>
-    <url>%2F2019%2F06%2F25%2Fhello-jml%2F</url>
-    <content type="text"></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2019%2F06%2F25%2Fhello-world%2F</url>
     <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[CentOS7下Tomcat启动慢的原因及解决方案]]></title>
+    <url>%2F2017%2F12%2F02%2Ftest%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>云服务器</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
   </entry>
 </search>
