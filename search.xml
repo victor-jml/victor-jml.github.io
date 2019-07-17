@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[hello hexo]]></title>
-    <url>%2F2019%2F07%2F17%2Fhello-hexo%2F</url>
-    <content type="text"><![CDATA[hello hexo这是我在我自己的博客发表的第一篇博文]]></content>
+    <title><![CDATA[git basic command]]></title>
+    <url>%2F2019%2F07%2F17%2Fgit-basic-command%2F</url>
+    <content type="text"><![CDATA[###Git 基本命令 git init (命令把这个目录变成Git可以管理的仓库)12$ git initInitialized empty Git repository in /Users/michael/learngit/.git/ git add (将文件添加到仓库)1git add readme.txt git commit (将文件提交到仓库)1234$ git commit -m &quot;wrote a readme file&quot;[master (root-commit) eaadf4e] wrote a readme file 1 file changed, 2 insertions(+) create mode 100644 readme.txt (这里git commit -m “这里是添加本次提交的说明”git add 是可以添加多个文件,而git commit是可以一次提交多个的) git status (查看当前仓库的状态)123456789$ git statusOn branch masterChanges not staged for commit: (use &quot;git add &lt;file&gt;...&quot; to update what will be committed) (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory) modified: readme.txtno changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;) (这里表示readme.txt是已经修改了,但是还没有提交修改) git diff (查看不同(difference))123456789$ git diff readme.txt diff --git a/readme.txt b/readme.txtindex 46d49bf..9247db6 100644--- a/readme.txt+++ b/readme.txt@@ -1,2 +1,2 @@-Git is a version control system.+Git is a distributed version control system. Git is free software. git log (命令显示从最近到最远的提交日志)123456789101112131415161718$ git logcommit 1094adb7b9b3807259d8cb349e7df1d4d6477073 (HEAD -&gt; master)Author: Michael Liao &lt;askxuefeng@gmail.com&gt;Date: Fri May 18 21:06:15 2018 +0800 append GPLcommit e475afc93c209a690c39c13a46716e8fa000c366Author: Michael Liao &lt;askxuefeng@gmail.com&gt;Date: Fri May 18 21:03:36 2018 +0800 add distributedcommit eaadf4e385e865d25c48e7ca9c8395c3f7dfaef0Author: Michael Liao &lt;askxuefeng@gmail.com&gt;Date: Fri May 18 20:59:18 2018 +0800 wrote a readme file (如果嫌输出信息太多，看得眼花缭乱的，可以试试加上–pretty=oneline参数：) 1234$ git log --pretty=oneline1094adb7b9b3807259d8cb349e7df1d4d6477073 (HEAD -&gt; master) append GPLe475afc93c209a690c39c13a46716e8fa000c366 add distributedeaadf4e385e865d25c48e7ca9c8395c3f7dfaef0 wrote a readme file]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
       <tags>
-        <tag>随笔</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
