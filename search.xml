@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2F2019%2F07%2F18%2Ftest%2F</url>
-    <content type="text"><![CDATA[console.error("Error: [hexo-tag-aplayer] Unrecognized tag argument(2): autoplay=false");]]></content>
+    <title><![CDATA[Mybatis--jdbcType报错]]></title>
+    <url>%2F2019%2F08%2F12%2FBuilderException-%20Error%20resolving%20JdbcType%2F</url>
+    <content type="text"><![CDATA[问题启动tomcat的时候报错 12345678910111213141516171819` Caused by: org.apache.ibatis.builder.BuilderException: Error parsing Mapper XML. Cause: org.apache.ibatis.builder.BuilderException: Error resolving JdbcType. Cause: java.lang.IllegalArgumentException: No enum constant org.apache.ibatis.type.JdbcType.DATATIME at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:120) at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:92) at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:521) ... 84 moreCaused by: org.apache.ibatis.builder.BuilderException: Error resolving JdbcType. Cause: java.lang.IllegalArgumentException: No enum constant org.apache.ibatis.type.JdbcType.DATATIME at org.apache.ibatis.builder.BaseBuilder.resolveJdbcType(BaseBuilder.java:73) at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildResultMappingFromContext(XMLMapperBuilder.java:382) at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:280) at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:252) at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElements(XMLMapperBuilder.java:244) at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:116) ... 86 moreCaused by: java.lang.IllegalArgumentException: No enum constant org.apache.ibatis.type.JdbcType.DATATIME at java.lang.Enum.valueOf(Enum.java:238) at org.apache.ibatis.type.JdbcType.valueOf(JdbcType.java:25) at org.apache.ibatis.builder.BaseBuilder.resolveJdbcType(BaseBuilder.java:71) ... 91 more` 原因看报错的原因,是因为我在resultmap中jdbcType写了datatime,而在mybatis中是这个数据类型的 解决办法修改resultmap中的jdbcType即可 Tip我去网上查看了源码,发现mybatis的jdbcType是一个枚举类,有以下类型: 12345678910111213141516171819202122232425262728293031323334353637383940public enum JdbcType &#123; ARRAY(2003), BIT(-7), TINYINT(-6), SMALLINT(5), INTEGER(4), BIGINT(-5), FLOAT(6), REAL(7), DOUBLE(8), NUMERIC(2), DECIMAL(3), CHAR(1), VARCHAR(12), LONGVARCHAR(-1), DATE(91), TIME(92), TIMESTAMP(93), BINARY(-2), VARBINARY(-3), LONGVARBINARY(-4), NULL(0), OTHER(1111), BLOB(2004), CLOB(2005), BOOLEAN(16), CURSOR(-10), UNDEFINED(-2147482648), NVARCHAR(-9), NCHAR(-15), NCLOB(2011), STRUCT(2002), JAVA_OBJECT(2000), DISTINCT(2001), REF(2006), DATALINK(70), ROWID(-8), LONGNVARCHAR(-16), SQLXML(2009), DATETIMEOFFSET(-155); 总结希望以后自己能越过这个坎,多长记性.]]></content>
+      <categories>
+        <category>study</category>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>Mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[idea--target不同步问题]]></title>
+    <url>%2F2019%2F08%2F09%2F%E5%85%B3%E4%BA%8Eidea%E4%B8%ADtarget%E4%B8%8D%E5%90%8C%E6%AD%A5%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[问题所在ssm小项目中,加入了新的css文件和js文件,然后重启项目,发现并没有效果.然鹅在页面中也及时的引用了相关的css和js文件. 分析原因我使用的idea编译器,发现target文件中并没有相关的css和js文件,导致我在页面中引入了等同于没有引用,所以导致页面没有相关的效果. 解决办法先清理项目中的target目录,然后再rebuild项目即可 12//清理target目录mvn clean package 然后rebuild项目(快捷键Ctrl+Shift+F9) 解决问题ok拉!!]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
+      <tags>
+        <tag>idea</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[学习笔记:Mybatis-PageHelper]]></title>
@@ -26,6 +44,7 @@
       </categories>
       <tags>
         <tag>hexo</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>

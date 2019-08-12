@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-18T03:25:43.693Z</updated>
+  <updated>2019-08-12T08:14:53.294Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test</title>
-    <link href="http://yoursite.com/2019/07/18/test/"/>
-    <id>http://yoursite.com/2019/07/18/test/</id>
-    <published>2019-07-18T03:25:17.000Z</published>
-    <updated>2019-07-18T03:25:43.693Z</updated>
+    <title>Mybatis--jdbcType报错</title>
+    <link href="http://yoursite.com/2019/08/12/BuilderException-%20Error%20resolving%20JdbcType/"/>
+    <id>http://yoursite.com/2019/08/12/BuilderException- Error resolving JdbcType/</id>
+    <published>2019-08-12T08:14:25.000Z</published>
+    <updated>2019-08-12T08:14:53.294Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script>console.error("Error: [hexo-tag-aplayer] Unrecognized tag argument(2): autoplay=false");</script>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>启动tomcat的时候报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">` Caused by: org.apache.ibatis.builder.BuilderException: Error parsing Mapper XML. Cause: org.apache.ibatis.builder.BuilderException: Error resolving JdbcType. Cause: java.lang.IllegalArgumentException: No enum constant org.apache.ibatis.type.JdbcType.DATATIME</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:120)</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:92)</span><br><span class="line">at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:521)</span><br><span class="line">... 84 more</span><br><span class="line">Caused by: org.apache.ibatis.builder.BuilderException: Error resolving JdbcType. Cause: java.lang.IllegalArgumentException: No enum constant org.apache.ibatis.type.JdbcType.DATATIME</span><br><span class="line">at org.apache.ibatis.builder.BaseBuilder.resolveJdbcType(BaseBuilder.java:73)</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildResultMappingFromContext(XMLMapperBuilder.java:382)</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:280)</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:252)</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElements(XMLMapperBuilder.java:244)</span><br><span class="line">at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:116)</span><br><span class="line">... 86 more</span><br><span class="line">Caused by: java.lang.IllegalArgumentException: No enum constant org.apache.ibatis.type.JdbcType.DATATIME</span><br><span class="line">at java.lang.Enum.valueOf(Enum.java:238)</span><br><span class="line">at org.apache.ibatis.type.JdbcType.valueOf(JdbcType.java:25)</span><br><span class="line">at org.apache.ibatis.builder.BaseBuilder.resolveJdbcType(BaseBuilder.java:71)</span><br><span class="line">... 91 more</span><br><span class="line">`</span><br></pre></td></tr></table></figure><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>看报错的原因,是因为我在resultmap中jdbcType写了datatime,而在mybatis中是这个数据类型的</p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>修改resultmap中的jdbcType即可</p><h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>我去网上查看了源码,发现mybatis的jdbcType是一个枚举类,有以下类型:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public enum JdbcType &#123;</span><br><span class="line">    ARRAY(2003),</span><br><span class="line">    BIT(-7),</span><br><span class="line">    TINYINT(-6),</span><br><span class="line">    SMALLINT(5),</span><br><span class="line">    INTEGER(4),</span><br><span class="line">    BIGINT(-5),</span><br><span class="line">    FLOAT(6),</span><br><span class="line">    REAL(7),</span><br><span class="line">    DOUBLE(8),</span><br><span class="line">    NUMERIC(2),</span><br><span class="line">    DECIMAL(3),</span><br><span class="line">    CHAR(1),</span><br><span class="line">    VARCHAR(12),</span><br><span class="line">    LONGVARCHAR(-1),</span><br><span class="line">    DATE(91),</span><br><span class="line">    TIME(92),</span><br><span class="line">    TIMESTAMP(93),</span><br><span class="line">    BINARY(-2),</span><br><span class="line">    VARBINARY(-3),</span><br><span class="line">    LONGVARBINARY(-4),</span><br><span class="line">    NULL(0),</span><br><span class="line">    OTHER(1111),</span><br><span class="line">    BLOB(2004),</span><br><span class="line">    CLOB(2005),</span><br><span class="line">    BOOLEAN(16),</span><br><span class="line">    CURSOR(-10),</span><br><span class="line">    UNDEFINED(-2147482648),</span><br><span class="line">    NVARCHAR(-9),</span><br><span class="line">    NCHAR(-15),</span><br><span class="line">    NCLOB(2011),</span><br><span class="line">    STRUCT(2002),</span><br><span class="line">    JAVA_OBJECT(2000),</span><br><span class="line">    DISTINCT(2001),</span><br><span class="line">    REF(2006),</span><br><span class="line">    DATALINK(70),</span><br><span class="line">    ROWID(-8),</span><br><span class="line">    LONGNVARCHAR(-16),</span><br><span class="line">    SQLXML(2009),</span><br><span class="line">    DATETIMEOFFSET(-155);</span><br></pre></td></tr></table></figure><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>希望以后自己能越过这个坎,多长记性.</p>]]></content>
     
     <summary type="html">
     
@@ -34,6 +34,37 @@
     
     </summary>
     
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+      <category term="java" scheme="http://yoursite.com/categories/study/java/"/>
+    
+    
+      <category term="Mybatis" scheme="http://yoursite.com/tags/Mybatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>idea--target不同步问题</title>
+    <link href="http://yoursite.com/2019/08/09/%E5%85%B3%E4%BA%8Eidea%E4%B8%ADtarget%E4%B8%8D%E5%90%8C%E6%AD%A5%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://yoursite.com/2019/08/09/关于idea中target不同步的问题/</id>
+    <published>2019-08-09T11:15:25.000Z</published>
+    <updated>2019-08-12T08:15:57.645Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="问题所在"><a href="#问题所在" class="headerlink" title="问题所在"></a>问题所在</h3><p>ssm小项目中,加入了新的css文件和js文件,然后重启项目,发现并没有效果.然鹅在页面中也及时的引用了相关的css和js文件.</p><h3 id="分析原因"><a href="#分析原因" class="headerlink" title="分析原因"></a>分析原因</h3><p>我使用的idea编译器,发现target文件中并没有相关的css和js文件,导致我在页面中引入了等同于没有引用,所以导致页面没有相关的效果.</p><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>先清理项目中的target目录,然后再rebuild项目即可</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//清理target目录</span><br><span class="line">mvn clean package</span><br></pre></td></tr></table></figure><p>然后rebuild项目(<code>快捷键Ctrl+Shift+F9</code>)</p><p>解决问题ok拉!!</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+    
+      <category term="idea" scheme="http://yoursite.com/tags/idea/"/>
     
   </entry>
   
@@ -69,7 +100,7 @@
     <link href="http://yoursite.com/2019/07/17/Hexo%E5%8D%9A%E5%AE%A2%E5%A4%87%E4%BB%BD/"/>
     <id>http://yoursite.com/2019/07/17/Hexo博客备份/</id>
     <published>2019-07-17T03:49:15.000Z</published>
-    <updated>2019-07-17T03:53:13.340Z</updated>
+    <updated>2019-08-04T12:45:10.217Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="关于hexo博客备份"><a href="#关于hexo博客备份" class="headerlink" title="关于hexo博客备份"></a>关于hexo博客备份</h2><p>使用 Hexo 在 GitHub Pages 搭建博客时，博客作为一个单独的 GitHub 仓库存在，但是这个仓库只有生成的静态网页文件，并没有 Hexo 的源文件。这样一来换电脑或者重装系统后，再想找回源文件就比较麻烦了，这里推荐一种比较完美的方法解决备份问题。</p><h1 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h1><ol><li>创建仓库 WincerChan.github.io，如果同名仓库之前已经创建，请将之前的仓库改名新建的仓库必须是 Username.github.io（如果你是将 Hexo 博客部署到了自己的服务器，那么仓库名可以随意设置，我这里就是随意设置的仓库）</li><li>创建两个分支：master 和 hexo；</li><li>设置 hexo 为默认分支</li><li>将刚刚创建的新仓库 clone 至本地，将之前的 hexo 文件夹中的 _config.yml、themes/、source/、scaffolds/、package.json 和 .gitignore 复制至 WincerChan.github.io 文件夹</li><li>将 themes/next/（我用的是 NexT 主题）中的 .git/ 删除，否则无法将主题文件夹 push（也可以将主题文件夹使用子模块的方式添加到该仓库)</li><li>在 WincerChan.github.io 文件夹执行 npm install 和 npm install hexo-deployer-git（这里可以看一看分支是不是显示为 hexo）</li><li>执行 git add、git commit -m “”、git push origin hexo 来提交 hexo 网站源文件；</li><li>执行 hexo g -d 生成静态网页部署至 Github 上</li></ol><h1 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h1><ol><li>依次执行 git add、git commit -m “” 和 git push origin hexo 来提交 hexo 网站源文件</li><li>执行 hexo g -d 生成静态网页部署至 Github 上</li></ol><h1 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h1><ol><li>安装 git</li><li>安装Nodejs和npm</li><li>使用 git clone git#github.com:WincerChan/WincerChan.github.io.git 将仓库拷贝至本地</li><li>在文件夹内执行以下命令 npm install hexo-cli -g、npm install、npm install hexo-deployer-git</li></ol>]]></content>
     
@@ -86,6 +117,8 @@
     
     
       <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
     
   </entry>
   
