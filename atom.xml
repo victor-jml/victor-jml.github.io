@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-09-01T08:14:59.564Z</updated>
+  <updated>2019-09-03T08:03:28.857Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Springboot整合Thymeleaf</title>
+    <link href="http://yoursite.com/2019/09/03/Springboot%E6%95%B4%E5%90%88Thymeleaf/"/>
+    <id>http://yoursite.com/2019/09/03/Springboot整合Thymeleaf/</id>
+    <published>2019-09-03T07:58:31.000Z</published>
+    <updated>2019-09-03T08:03:28.857Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="thymeleaf的介绍"><a href="#thymeleaf的介绍" class="headerlink" title="thymeleaf的介绍"></a>thymeleaf的介绍</h2><p>Thymeleaf 介绍<br>Thymeleaf 是一款用于渲染 XML/XHTML/HTML5 内容的模板引擎。类似 JSP，Velocity，FreeMaker 等，它也可以轻易的与 Spring MVC 等 Web 框架进行集成作为 Web 应用的模板引擎。与其它模板引擎相比，Thymeleaf 最大的特点是能够直接在浏览器中打开并正确显示模板页面，而不需要启动整个 Web 应用。</p><p>好了，你们说了我们已经习惯使用了什么 Velocity,FreMaker，beetle之类的模版，那么到底好在哪里呢？</p><p>比一比吧</p><p>Thymeleaf 是与众不同的，因为它使用了自然的模板技术。这意味着 Thymeleaf 的模板语法并不会破坏文档的结构，模板依旧是有效的XML文档。模板还可以用作工作原型，Thymeleaf 会在运行期替换掉静态值。Velocity 与 FreeMarke r则是连续的文本处理器。 下面的代码示例分别使用 Velocity、FreeMarker 与 Thymeleaf 打印出一条消息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Velocity: &lt;p&gt;$message&lt;/p&gt;</span><br><span class="line">FreeMarker: &lt;p&gt;$&#123;message&#125;&lt;/p&gt;</span><br><span class="line">Thymeleaf: &lt;p th:text=&quot;$&#123;message&#125;&quot;&gt;Hello World!&lt;/p&gt;</span><br></pre></td></tr></table></figure><p>注意，由于 Thymeleaf 使用了 <code>XML DOM</code> 解析器，因此它并不适合于处理大规模的 XML 文件。</p><h2 id="添加Jar包"><a href="#添加Jar包" class="headerlink" title="添加Jar包"></a>添加Jar包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- thymelaef模板 --&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br></pre></td></tr></table></figure><h2 id="添加配置文件"><a href="#添加配置文件" class="headerlink" title="添加配置文件"></a>添加配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#Thymeleaf配置</span><br><span class="line"></span><br><span class="line">#开发时关闭缓存,不然没法看到实时页面</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">spring.thymeleaf.check-template=true</span><br><span class="line"># 模板模式设置，默认为HTML5</span><br><span class="line">spring.thymeleaf.mode=HTML5</span><br><span class="line">spring.thymeleaf.check-template-location=true</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line">spring.thymeleaf.prefix=classpath:/templates/</span><br><span class="line">spring.thymeleaf.servlet.content-type=text/html</span><br><span class="line">spring.thymeleaf.suffix=.html</span><br></pre></td></tr></table></figure><h2 id="模板中引入thymeleaf"><a href="#模板中引入thymeleaf" class="headerlink" title="模板中引入thymeleaf"></a>模板中引入thymeleaf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</span><br></pre></td></tr></table></figure><h2 id="thymeleaf部分语法"><a href="#thymeleaf部分语法" class="headerlink" title="thymeleaf部分语法"></a>thymeleaf部分语法</h2><p>URL<br>URL 在 Web 应用模板中占据着十分重要的地位，需要特别注意的是 Thymeleaf 对于 URL 的处理是通过语法 @{…} 来处理的。Thymeleaf 支持绝对路径 URL：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a th:href=&quot;@&#123;http://www.thymeleaf.org&#125;&quot;&gt;Thymeleaf&lt;/a&gt;</span><br></pre></td></tr></table></figure><p>条件求值</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a th:href=&quot;@&#123;/login&#125;&quot; th:unless=$&#123;session.user != null&#125;&gt;Login&lt;/a&gt;</span><br></pre></td></tr></table></figure><p>for循环</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr th:each=&quot;prod : $&#123;prods&#125;&quot;&gt;</span><br><span class="line">      &lt;td th:text=&quot;$&#123;prod.name&#125;&quot;&gt;Onions&lt;/td&gt;</span><br><span class="line">      &lt;td th:text=&quot;$&#123;prod.price&#125;&quot;&gt;2.41&lt;/td&gt;</span><br><span class="line">      &lt;td th:text=&quot;$&#123;prod.inStock&#125;? #&#123;true&#125; : #&#123;false&#125;&quot;&gt;yes&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br></pre></td></tr></table></figure><h2 id="thymeleaf中文文档"><a href="#thymeleaf中文文档" class="headerlink" title="thymeleaf中文文档"></a>thymeleaf中文文档</h2><p><a href="https://blog.csdn.net/zhangcc233/article/details/80831056" target="_blank" rel="noopener">Thymeleaf中文文档</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+      <category term="java" scheme="http://yoursite.com/categories/study/java/"/>
+    
+    
+      <category term="SpringBoot" scheme="http://yoursite.com/tags/SpringBoot/"/>
+    
+      <category term="Thymeleaf" scheme="http://yoursite.com/tags/Thymeleaf/"/>
+    
+  </entry>
   
   <entry>
     <title>Springboot整合Jpa</title>
