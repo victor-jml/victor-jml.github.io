@@ -20,9 +20,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="git,hexo">
+    <meta name="keywords" content="hexo,git">
     <meta name="description" content="关于hexo博客备份使用 Hexo 在 GitHub Pages 搭建博客时，博客作为一个单独的 GitHub 仓库存在，但是这个仓库只有生成的静态网页文件，并没有 Hexo 的源文件。这样一来换电脑或者重装系统后，再想找回源文件就比较麻烦了，这里推荐一种比较完美的方法解决备份问题。 备份 创建仓库 WincerChan.github.io，如果同名仓库之前已经创建，请将之前的仓库改名新建的仓库必">
-<meta name="keywords" content="git,hexo">
+<meta name="keywords" content="hexo,git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo博客备份">
 <meta property="og:url" content="http://yoursite.com/2019/07/17/Hexo博客备份/index.html">
@@ -330,6 +330,30 @@
 
 
 
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'true' == 'true',
+            appId: "2sqSsypMYEeX4rH0gQ784JnR-gzGzoHsz",
+            appKey: "LQ9eqgWma2qsvbk3s59Wc58f",
+            avatar: "mm",
+            placeholder: "",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
 
 
 
