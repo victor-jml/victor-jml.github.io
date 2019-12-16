@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[101计划(1)]]></title>
-    <url>%2F2019%2F09%2F26%2F101%E8%AE%A1%E5%88%92-1%2F</url>
-    <content type="text"><![CDATA[关于shiroApache Shiro 是一个强大易用的 Java 安全框架，提供了认证、授权、加密和会话管理等功能，对于任何一个应用程序，Shiro 都可以提供全面的安全管理服务。并且相对于其他安全框架，Shiro 要简单的多。 来自Shiro官方文档的登录流程 unQMXd.jpg 创建令牌(Token)1UsernamePasswordToken token = new UsernamePasswordToken(&quot;zy&quot;,&quot;123&quot;); 执行登录1234567891011121314//构建 SecurityManager 环境 DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager(); //为 SecurityManager 设置 Realm defaultSecurityManager.setRealm(simpleAccountRealm); // 将 SecurityManager 放入 SecurityUtils 这个工具类中 SecurityUtils.setSecurityManager(defaultSecurityManager); // 获取一个 Subject Subject subject = SecurityUtils.getSubject(); //测试登录 subject.login(token); Shiro的核心部分是SecurityManager,它负责安全认证与授权.Shiro本身已经实现了所有的细节,用户可以完全把它当做一个黑盒来使用SecurityUtils对象. 本质上就是一个工厂类似Spring中的ApplicationContext,也可以理解成springMVC中的DispatcherServlet. Shiro对用户的约束也采用了这样的方式.AuthenticationInfo代表了用户的角色信息集合,AuthorizationInfo代表了角色的权限信息集合 什么是Realm?根据 Realm 文档上的解释，Realms 担当 Shiro 和你的应用程序的安全数据之间的“桥梁”或“连接器”。当它实际上与安全相关的数据如用来执行身份验证（登录）及授权（访问控制）的用户帐户交互时，Shiro 从一个或多个为应用程序配置的 Realm 中寻找许多这样的东西 (PS:当配置 Shiro 时，你必须指定至少一个 Realm 用来进行身份验证和/或授权。SecurityManager 可能配置多个 Realms，但至少有一个是必须的) 123Realm realm = new IniRealm(&quot;classpath:shiro.ini&quot;);defaultSecurityManager.setRealm(realm); 缓存机制Ehcache是大多数Java项目使用的缓存框架. 它的本质就是将原本只能存储在内存中的数据通过算法保存到硬盘上，再根据需求依次取出.可以理解为Map&lt;String,Object&gt;对象 put保存对象,get取出对象. 散列算法和加密算法md5是属于散列算法,散列算法是一个单向的过程,无法还原. 而加密算法是可以通过密钥解密和还原的. iniRealmIniRealm 顾名思义，即通过读取ini文件来获取用户，角色，权限信息。 配置用户名/密码及其角色, 格式: “用户名=密码，角色1，角色2”，如: 123[users]zy = 123 , adminguest = 1 , user 配置角色与权限的关系 123[roles]admin = user:deleteuser = user:select jdbcRealmJdbcRelam 顾名思义，即通过通过访问数据库来获取用户，角色，权限信息。 首先需要导入 mysql 的驱动包和 druid 数据库连接池的包: 12345678910&lt;dependency&gt; &lt;groupId&gt;com.alibaba&lt;/groupId&gt; &lt;artifactId&gt;druid&lt;/artifactId&gt; &lt;version&gt;1.1.16&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;mysql&lt;/groupId&gt; &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt; &lt;version&gt;5.1.47&lt;/version&gt; &lt;/dependency&gt; 初始化DataSource 1234dataSource.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);dataSource.setUrl(&quot;jdbc:mysql://127.0.0.1:3306/shiro&quot;);dataSource.setUsername(&quot;root&quot;);dataSource.setPassword(&quot;root&quot;); 构建JdbcRealm 123456// 构建 JdbcRelamJdbcRealm jdbcRealm = new JdbcRealm();// 为 JdbcRelam 设置数据源jdbcRealm.setDataSource(dataSource);// 设置启用权限查询, 默认为 falsejdbcRealm.setPermissionsLookupEnabled(true); 因为JdbcRealm的源码中内置了默认的角色权限查询SQL语句如下: 1234protected static final String DEFAULT_AUTHENTICATION_QUERY = &quot;select password from users where username = ?&quot;;protected static final String DEFAULT_SALTED_AUTHENTICATION_QUERY = &quot;select password, password_salt from users where username = ?&quot;;protected static final String DEFAULT_USER_ROLES_QUERY = &quot;select role_name from user_roles where username = ?&quot;;protected static final String DEFAULT_PERMISSIONS_QUERY = &quot;select permission from roles_permissions where role_name = ?&quot;; 所以我们在实际开发中,按照自己的表结构来修改JdbcRealm的默认查询语句来实现 自定义Realm在真实项目开发中，我们往往会使用自定义 Realm 来实现一些自定义的功能，如判断账号锁定，账号登陆次数限制等。 我们需要创建一个类来继承AuthorizingRealm，并实现其抽象方法 12345678910111213141516171819202122232425262728293031323334353637383940/** * 根据用户凭证查询所用拥有的角色和权限 * @param principalCollection 用户凭证 * @return 返回授权信息，包含所拥有的角色和权限 */@Overrideprotected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) &#123; String username = (String)principalCollection.getPrimaryPrincipal(); SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo(); // 根据用户名其所拥有的角色和权限 Set&lt;String&gt; roles = selectRolesByUserName(username); Set&lt;String&gt; permissions = selectPermissionsByUserName(username); authorizationInfo.setRoles(roles); authorizationInfo.setStringPermissions(permissions); return authorizationInfo;&#125;/** * 根据用户提交的凭证查询是否具有这个用户 (这里不判断密码是否正确) * @param authenticationToken 用户凭证 (账户密码) * @return 相应的用户信息 * @throws AuthenticationException 当用户不存在或具备其他状态, 如被锁定, 等状态会抛出相应的异常 */@Overrideprotected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException &#123; // 这个方法也可以使用 DAO 层的方法来查询数据库，返回 user 对象。 User user = selectUserByUserName((String) authenticationToken.getPrincipal()); if (user == null) &#123; throw new UnknownAccountException(&quot;账号不存在&quot;); &#125; return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), super.getName());&#125;]]></content>
+    <title><![CDATA[THOUGHT]]></title>
+    <url>%2F2019%2F12%2F13%2FTHOUGHT%2F</url>
+    <content type="text"><![CDATA[不知不觉已经很久没有打开过自己的博客去更新自己的博客,很多时候自己其实也在学习新的技术新的东西,但是就是没有心思去记录下来去写博客. 说到底还是自己太懒了. 在这学期中自己制定过一个目标—101计划,也从国庆收假后慢慢被自己遗忘了.可能真的是自己懒得去更新自己的博客,懒得去整理知识点.这可能也是我和我姐之间的差距吧.优秀的人无论何时都会想起完成自己的事.而我的事呢对于我最重要可能就是打游戏吧.哈哈 不知不觉已经快结束大三上的学习.快要到是考研还是本科毕业就工作的分岔路口了.我姐也给我打过电话,总而来说就是劝我考研希望我通过读研出身社会后能够更好的找工作,能够找更好的工作.我也理解她也能理解我的父母,他们都是想让我以后过的很好.但是自己呢,我对我自己的感觉就是属于那种喜欢贪玩,集中不了注意力,我不想拿最近失恋作为借口,因为在谈恋爱的时候我也是这种.我容易随着别人的脚步,我没有自己的主见.我也不知道自己以后该怎么办. 鸡汤我也喝过不少,但是付出的行动永远最少.就这样吧[ ](https://s2.ax1x.com/2019/12/16/Qh2XqS.jpg)]]></content>
       <categories>
-        <category>study</category>
+        <category>杂七杂八</category>
       </categories>
       <tags>
-        <tag>101计划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[101计划(0)]]></title>
-    <url>%2F2019%2F09%2F25%2F101%E8%AE%A1%E5%88%92-0%2F</url>
-    <content type="text"><![CDATA[101计划何为101计划? 连续 100 天每天完成1小时的编程学习(训练)目标就是关于springboot的学习以及相关的中间件! 该idea是来自于我姐! 她在大学本科也是每天1小时编程连续100天 我觉得成功还是源于自觉 源于努力. 每天的学习不在多 而在于能够好好消化它! 送给自己的一句话: 既然选择了远方便只顾风雨兼程.]]></content>
-      <categories>
-        <category>study</category>
-      </categories>
-      <tags>
-        <tag>101计划</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
