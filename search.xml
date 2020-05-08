@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[hadoop集群搭建]]></title>
+    <url>%2F2020%2F05%2F08%2Fhadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%2F</url>
+    <content type="text"><![CDATA[1. 基本环境1.1 三台虚拟机169.254.110.100 master 169.254.110.101 slave1 169.254.110.102 slave2 1.2 软件包jdk-8u231-linux-i586.tar.gz hadoop-2.8.5.tar.gz 2. 环境配置2.1 新建hadoop用户useradd hadoop 通过passwd命令修改hadoop用户密码，启用hadoop用户。passwd hadoop 2.2 配置ssh免密码登录2.2.1 集群环境 节点名称 节点ip master 169.254.110.100 slave1 169.254.110.101 slave2 169.254.110.102 2.2.2 免登录原理每台主机authorized_keys文件里面包含的主机（ssh密钥），该主机都能无密码登录，所以只要每台主机的authorized_keys文件里面都放入其他主机（需要无密码登录的主机）的ssh密钥就行了。 2.2.3 实现每个节点生成ssh密钥 123456789101112[root@master ~]# ssh-keygen -t rsa(一直点确定)Generating public/private rsa key pair.Enter file in which to save the key (/root/.ssh/id_rsa): Created directory &apos;/root/.ssh&apos;.Enter passphrase (empty for no passphrase): Enter same passphrase again: Your identification has been saved in /root/.ssh/id_rsa.Your public key has been saved in /root/.ssh/id_rsa.pub......................[root@master .ssh]# lsid_rsa id_rsa.pub 在主节点(master)将公钥(id_rsa.pub)拷到一个特定文件authorized_keys中 123[root@master .ssh]# cp id_rsa.pub authorized_keys[root@master .ssh]# lsauthorized_keys id_rsa id_rsa.pub 然后将该文件拷到下一个节点中去,并将该节点的ssh密钥追加到该文件中 123456789101112131415#在master上使用scp命令实现远程文件拷贝[root@master .ssh]# scp authorized_keys root@hadoop02:/root/.ssh/The authenticity of host &apos;hadoop02 (192.168.44.11)&apos; can&apos;t be established.ECDSA key fingerprint is SHA256:MyB1zs0E3J/fm8pC0AN8ycsgEIBNHtUqd9xS0WAyv3s.ECDSA key fingerprint is MD5:88:48:3a:ba:3e:14:a7:d7:86:f6:51:74:00:10:f9:00.Are you sure you want to continue connecting (yes/no)? yesWarning: Permanently added &apos;hadoop02,192.168.44.11&apos; (ECDSA) to the list of known hosts.root@hadoop02&apos;s password: authorized_keys 100% 395 306.2KB/s 00:00 #登录slave1主机[root@slave1 ~]# cd .ssh/[root@slave1 .ssh]# lsauthorized_keys id_rsa id_rsa.pub[root@slave1 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys #使用cat追加方式 重复上步操作,将slave1的authorized_keys文件传到slave2中并将slave2中的密钥追加到该文件中.最后将slave2的authorized_keys文件传到master与slave1中 1234567#登录slave2主机，将ssh密钥加入authorized_keys文件中[root@slave2 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys #将最后生成的authorized_keys文件分别拷贝到master,slave1[root@slave2 .ssh]# scp authorized_keys root@master:/root/.ssh/[root@slave2 .ssh]# scp authorized_keys root@slave1:/root/.ssh/ 最后免密登录 2.3 修改hosts文件修改master主机hosts文件vi /etc/hosts 并添加: 123169.254.110.100 master169.254.110.101 slave1169.254.110.102 slave2 并且同步到其他主机上去 2.4 JDK安装这里不多阐述 用WinSCP传到虚拟机中然后解压并且配置环境变量 2.5 Hadoop环境配置2.5.1 上传并且解压hadoop2.8.5 hadoop-env.sh 12# 指定JDK的安装位置export JAVA_HOME=/usr/java/jdk1.8.0_201/ core-site.xml 123456789101112&lt;configuration&gt; &lt;property&gt; &lt;!--指定 namenode 的 hdfs 协议文件系统的通信地址--&gt; &lt;name&gt;fs.defaultFS&lt;/name&gt; &lt;value&gt;hdfs://master:8020&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;!--指定 hadoop 集群存储临时文件的目录--&gt; &lt;name&gt;hadoop.tmp.dir&lt;/name&gt; &lt;value&gt;/home/hadoop/tmp&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; hdfs-site.xml 12345678910&lt;property&gt; &lt;!--namenode 节点数据（即元数据）的存放位置，可以指定多个目录实现容错，多个目录用逗号分隔--&gt; &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt; &lt;value&gt;/home/hadoop/namenode/data&lt;/value&gt;&lt;/property&gt;&lt;property&gt; &lt;!--datanode 节点数据（即数据块）的存放位置--&gt; &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt; &lt;value&gt;/home/hadoop/datanode/data&lt;/value&gt;&lt;/property&gt; yarn-site.xml 123456789101112&lt;configuration&gt; &lt;property&gt; &lt;!--配置 NodeManager 上运行的附属服务。需要配置成 mapreduce_shuffle 后才可以在 Yarn 上运行 MapReduce 程序。--&gt; &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt; &lt;value&gt;mapreduce_shuffle&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;!--resourcemanager 的主机名--&gt; &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt; &lt;value&gt;hadoop001&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; slaves 123masterslave1slave2 2.5.2 分发程序将 Hadoop 安装包分发到其他两台服务器，分发后建议在这两台服务器上也配置一下 Hadoop 的环境变量。 1234# 将安装包分发到hadoop002scp -r /usr/home/hadoop-2.8.5-cdh5.15.2/ root@slave1:/usr/home/# 将安装包分发到hadoop003scp -r /usr/home/hadoop-2.8.5-cdh5.15.2/ root@slave2:/usr/home/ 2.6 初始化在 master 上执行 namenode 初始化命令： 1hdfs namenode -format 2.7 启动集群在master主机中进入${HADOOP_HOME}/sbin 目录下，启动 Hadoop 1234# 启动dfs服务start-dfs.sh# 启动yarn服务start-yarn.sh 3.7 查看集群在每台服务器上使用 jps 命令查看服务进程，或直接进入 Web-UI 界面进行查看，端口为 50070。 4 提交服务到集群提交作业到集群的方式和单机环境完全一致，这里以提交 Hadoop 内置的计算 Pi 的示例程序为例，在任何一个节点上执行都可以，命令如下： 1hadoop jar /usr/app/hadoop-2.6.0-cdh5.15.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.0-cdh5.15.2.jar pi 3 3]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[THOUGHT]]></title>
     <url>%2F2019%2F12%2F13%2FTHOUGHT%2F</url>
     <content type="text"><![CDATA[不知不觉已经很久没有打开过自己的博客去更新自己的博客,很多时候自己其实也在学习新的技术新的东西,但是就是没有心思去记录下来去写博客. 说到底还是自己太懒了. 在这学期中自己制定过一个目标—101计划,也从国庆收假后慢慢被自己遗忘了.可能真的是自己懒得去更新自己的博客,懒得去整理知识点.这可能也是我和我姐之间的差距吧.优秀的人无论何时都会想起完成自己的事.而我的事呢对于我最重要可能就是打游戏吧.哈哈 不知不觉已经快结束大三上的学习.快要到是考研还是本科毕业就工作的分岔路口了.我姐也给我打过电话,总而来说就是劝我考研希望我通过读研出身社会后能够更好的找工作,能够找更好的工作.我也理解她也能理解我的父母,他们都是想让我以后过的很好.但是自己呢,我对我自己的感觉就是属于那种喜欢贪玩,集中不了注意力,我不想拿最近失恋作为借口,因为在谈恋爱的时候我也是这种.我容易随着别人的脚步,我没有自己的主见.我也不知道自己以后该怎么办. 鸡汤我也喝过不少,但是付出的行动永远最少.就这样吧[ ](https://s2.ax1x.com/2019/12/16/Qh2XqS.jpg)]]></content>
@@ -80,8 +92,8 @@
         <category>study</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
         <tag>git</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>

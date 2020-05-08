@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>hadoop集群搭建 |  | 保持独立 适当拥有</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Hadoop">
+    <meta name="description" content="1. 基本环境1.1 三台虚拟机169.254.110.100 master 169.254.110.101 slave1 169.254.110.102 slave2 1.2 软件包jdk-8u231-linux-i586.tar.gz hadoop-2.8.5.tar.gz 2. 环境配置2.1 新建hadoop用户useradd hadoop 通过passwd命令修改hadoop用户密码，启">
+<meta name="keywords" content="Linux,Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop集群搭建">
+<meta property="og:url" content="http://yoursite.com/2020/05/08/hadoop集群搭建/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="1. 基本环境1.1 三台虚拟机169.254.110.100 master 169.254.110.101 slave1 169.254.110.102 slave2 1.2 软件包jdk-8u231-linux-i586.tar.gz hadoop-2.8.5.tar.gz 2. 环境配置2.1 新建hadoop用户useradd hadoop 通过passwd命令修改hadoop用户密码，启">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-08T13:43:57.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hadoop集群搭建">
+<meta name="twitter:description" content="1. 基本环境1.1 三台虚拟机169.254.110.100 master 169.254.110.101 slave1 169.254.110.102 slave2 1.2 软件包jdk-8u231-linux-i586.tar.gz hadoop-2.8.5.tar.gz 2. 环境配置2.1 新建hadoop用户useradd hadoop 通过passwd命令修改hadoop用户密码，启">
+    
+        <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/imgs/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/imgs/重庆森林.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Enoch_oahz</h5>
+          <a href="mailto:972193026zy@gmail.com" title="972193026zy@gmail.com" class="mail">972193026zy@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Homepage
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/victor-jml" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/6348371389?topnav=1&wvr=6&topsug=1" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">hadoop集群搭建</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">hadoop集群搭建</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-05-08T13:17:50.000Z" itemprop="datePublished" class="page-time">
+  2020-05-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#1-基本环境"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 基本环境</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-1-三台虚拟机"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1 三台虚拟机</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-2-软件包"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.2 软件包</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2-环境配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 环境配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-1-新建hadoop用户"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 新建hadoop用户</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-2-配置ssh免密码登录"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 配置ssh免密码登录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-3-修改hosts文件"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">2.3 修改hosts文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-4-JDK安装"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">2.4 JDK安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-5-Hadoop环境配置"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">2.5 Hadoop环境配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-5-1-上传并且解压hadoop2-8-5"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">2.5.1 上传并且解压hadoop2.8.5</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-5-2-分发程序"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">2.5.2 分发程序</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-6-初始化"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">2.6 初始化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-7-启动集群"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">2.7 启动集群</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-7-查看集群"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">3.7 查看集群</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#4-提交服务到集群"><span class="post-toc-number">3.</span> <span class="post-toc-text">4 提交服务到集群</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hadoop集群搭建"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">hadoop集群搭建</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-05-08 21:17:50" datetime="2020-05-08T13:17:50.000Z"  itemprop="datePublished">2020-05-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="1-基本环境"><a href="#1-基本环境" class="headerlink" title="1. 基本环境"></a>1. 基本环境</h1><h2 id="1-1-三台虚拟机"><a href="#1-1-三台虚拟机" class="headerlink" title="1.1 三台虚拟机"></a>1.1 三台虚拟机</h2><p>169.254.110.100 master</p>
+<p>169.254.110.101 slave1</p>
+<p>169.254.110.102 slave2</p>
+<h2 id="1-2-软件包"><a href="#1-2-软件包" class="headerlink" title="1.2 软件包"></a>1.2 软件包</h2><p>jdk-8u231-linux-i586.tar.gz</p>
+<p>hadoop-2.8.5.tar.gz</p>
+<h1 id="2-环境配置"><a href="#2-环境配置" class="headerlink" title="2. 环境配置"></a>2. 环境配置</h1><h2 id="2-1-新建hadoop用户"><a href="#2-1-新建hadoop用户" class="headerlink" title="2.1 新建hadoop用户"></a>2.1 新建hadoop用户</h2><p><code>useradd hadoop</code></p>
+<p>通过passwd命令修改hadoop用户密码，启用hadoop用户。<br><code>passwd hadoop</code></p>
+<h2 id="2-2-配置ssh免密码登录"><a href="#2-2-配置ssh免密码登录" class="headerlink" title="2.2 配置ssh免密码登录"></a>2.2 配置ssh免密码登录</h2><p>2.2.1 集群环境</p>
+<table>
+<thead>
+<tr>
+<th>节点名称</th>
+<th>节点ip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master</td>
+<td>169.254.110.100</td>
+</tr>
+<tr>
+<td>slave1</td>
+<td>169.254.110.101</td>
+</tr>
+<tr>
+<td>slave2</td>
+<td>169.254.110.102</td>
+</tr>
+</tbody></table>
+<p>2.2.2 免登录原理<br>每台主机<code>authorized_keys</code>文件里面包含的主机（ssh密钥），该主机都能无密码登录，所以只要每台主机的<code>authorized_keys</code>文件里面都放入其他主机（需要无密码登录的主机）的ssh密钥就行了。</p>
+<p>2.2.3 实现<br>每个节点生成ssh密钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# ssh-keygen -t rsa(一直点确定)</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/root/.ssh/id_rsa): </span><br><span class="line">Created directory &apos;/root/.ssh&apos;.</span><br><span class="line">Enter passphrase (empty for no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved in /root/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved in /root/.ssh/id_rsa.pub.</span><br><span class="line">.....................</span><br><span class="line"></span><br><span class="line">[root@master .ssh]# ls</span><br><span class="line">id_rsa  id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>在主节点(master)将公钥(id_rsa.pub)拷到一个特定文件<code>authorized_keys</code>中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@master .ssh]# cp id_rsa.pub authorized_keys</span><br><span class="line">[root@master .ssh]# ls</span><br><span class="line">authorized_keys  id_rsa  id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>然后将该文件拷到下一个节点中去,并将该节点的ssh密钥<em>追加</em>到该文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#在master上使用scp命令实现远程文件拷贝</span><br><span class="line">[root@master .ssh]# scp authorized_keys  root@hadoop02:/root/.ssh/</span><br><span class="line">The authenticity of host &apos;hadoop02 (192.168.44.11)&apos; can&apos;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:MyB1zs0E3J/fm8pC0AN8ycsgEIBNHtUqd9xS0WAyv3s.</span><br><span class="line">ECDSA key fingerprint is MD5:88:48:3a:ba:3e:14:a7:d7:86:f6:51:74:00:10:f9:00.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br><span class="line">Warning: Permanently added &apos;hadoop02,192.168.44.11&apos; (ECDSA) to the list of known hosts.</span><br><span class="line">root@hadoop02&apos;s password: </span><br><span class="line">authorized_keys                                                                100%  395   306.2KB/s   00:00    </span><br><span class="line"></span><br><span class="line">#登录slave1主机</span><br><span class="line">[root@slave1 ~]# cd .ssh/</span><br><span class="line">[root@slave1 .ssh]# ls</span><br><span class="line">authorized_keys  id_rsa  id_rsa.pub</span><br><span class="line">[root@slave1 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys #使用cat追加方式</span><br></pre></td></tr></table></figure>
+
+<p>重复上步操作,将slave1的<code>authorized_keys</code>文件传到slave2中并将slave2中的密钥追加到该文件中.最后将slave2的<code>authorized_keys</code>文件传到master与slave1中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#登录slave2主机，将ssh密钥加入authorized_keys文件中</span><br><span class="line">[root@slave2 .ssh]# cat id_rsa.pub &gt;&gt; authorized_keys </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#将最后生成的authorized_keys文件分别拷贝到master,slave1</span><br><span class="line">[root@slave2 .ssh]# scp authorized_keys root@master:/root/.ssh/</span><br><span class="line">[root@slave2 .ssh]# scp authorized_keys root@slave1:/root/.ssh/</span><br></pre></td></tr></table></figure>
+
+<p>最后免密登录</p>
+<h2 id="2-3-修改hosts文件"><a href="#2-3-修改hosts文件" class="headerlink" title="2.3 修改hosts文件"></a>2.3 修改hosts文件</h2><p>修改master主机hosts文件<br><code>vi /etc/hosts</code> 并添加:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">169.254.110.100 master</span><br><span class="line">169.254.110.101 slave1</span><br><span class="line">169.254.110.102 slave2</span><br></pre></td></tr></table></figure>
+
+<p>并且同步到其他主机上去</p>
+<h2 id="2-4-JDK安装"><a href="#2-4-JDK安装" class="headerlink" title="2.4 JDK安装"></a>2.4 JDK安装</h2><p>这里不多阐述 用<code>WinSCP</code>传到虚拟机中然后解压并且配置环境变量</p>
+<h2 id="2-5-Hadoop环境配置"><a href="#2-5-Hadoop环境配置" class="headerlink" title="2.5 Hadoop环境配置"></a>2.5 Hadoop环境配置</h2><h3 id="2-5-1-上传并且解压hadoop2-8-5"><a href="#2-5-1-上传并且解压hadoop2-8-5" class="headerlink" title="2.5.1 上传并且解压hadoop2.8.5"></a>2.5.1 上传并且解压hadoop2.8.5</h3><ul>
+<li><p>hadoop-env.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定JDK的安装位置</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_201/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>core-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!--指定 namenode 的 hdfs 协议文件系统的通信地址--&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdfs://master:8020&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!--指定 hadoop 集群存储临时文件的目录--&gt;</span><br><span class="line">        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;/home/hadoop/tmp&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>hdfs-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">      &lt;!--namenode 节点数据（即元数据）的存放位置，可以指定多个目录实现容错，多个目录用逗号分隔--&gt;</span><br><span class="line">    &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/home/hadoop/namenode/data&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">      &lt;!--datanode 节点数据（即数据块）的存放位置--&gt;</span><br><span class="line">    &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/home/hadoop/datanode/data&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>yarn-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!--配置 NodeManager 上运行的附属服务。需要配置成 mapreduce_shuffle 后才可以在 Yarn 上运行 MapReduce 程序。--&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!--resourcemanager 的主机名--&gt;</span><br><span class="line">        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hadoop001&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>slaves</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">master</span><br><span class="line">slave1</span><br><span class="line">slave2</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-5-2-分发程序"><a href="#2-5-2-分发程序" class="headerlink" title="2.5.2 分发程序"></a>2.5.2 分发程序</h3><p>将 Hadoop 安装包分发到其他两台服务器，分发后建议在这两台服务器上也配置一下 Hadoop 的环境变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 将安装包分发到hadoop002</span><br><span class="line">scp -r /usr/home/hadoop-2.8.5-cdh5.15.2/  root@slave1:/usr/home/</span><br><span class="line"># 将安装包分发到hadoop003</span><br><span class="line">scp -r /usr/home/hadoop-2.8.5-cdh5.15.2/  root@slave2:/usr/home/</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-初始化"><a href="#2-6-初始化" class="headerlink" title="2.6 初始化"></a>2.6 初始化</h2><p>在 <code>master</code> 上执行 namenode 初始化命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-7-启动集群"><a href="#2-7-启动集群" class="headerlink" title="2.7 启动集群"></a>2.7 启动集群</h2><p>在<code>master</code>主机中进入${HADOOP_HOME}/sbin 目录下，启动 Hadoop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动dfs服务</span><br><span class="line">start-dfs.sh</span><br><span class="line"># 启动yarn服务</span><br><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-7-查看集群"><a href="#3-7-查看集群" class="headerlink" title="3.7 查看集群"></a>3.7 查看集群</h2><p>在每台服务器上使用 jps 命令查看服务进程，或直接进入 Web-UI 界面进行查看，端口为 50070。</p>
+<h1 id="4-提交服务到集群"><a href="#4-提交服务到集群" class="headerlink" title="4 提交服务到集群"></a>4 提交服务到集群</h1><p>提交作业到集群的方式和单机环境完全一致，这里以提交 Hadoop 内置的计算 Pi 的示例程序为例，在任何一个节点上执行都可以，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop jar /usr/app/hadoop-2.6.0-cdh5.15.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.0-cdh5.15.2.jar  pi  3  3</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-05-08T13:43:57.652Z" itemprop="dateUpdated">2020-05-08 21:43:57</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/imgs/重庆森林.png" alt="Enoch_oahz">
+            Enoch_oahz
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/08/hadoop集群搭建/&title=《hadoop集群搭建》 — null&pic=http://yoursite.com/imgs/重庆森林.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/08/hadoop集群搭建/&title=《hadoop集群搭建》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/08/hadoop集群搭建/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《hadoop集群搭建》 — null&url=http://yoursite.com/2020/05/08/hadoop集群搭建/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/08/hadoop集群搭建/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/12/13/THOUGHT/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">THOUGHT</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'true' == 'true',
+            appId: "2sqSsypMYEeX4rH0gQ784JnR-gzGzoHsz",
+            appKey: "LQ9eqgWma2qsvbk3s59Wc58f",
+            avatar: "monsterid",
+            placeholder: "填写你的邮箱可以收到我的回信",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        thanks~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/imgs/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/imgs/wechat.png" data-alipay="/imgs/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Enoch_oahz &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/08/hadoop集群搭建/&title=《hadoop集群搭建》 — null&pic=http://yoursite.com/imgs/重庆森林.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/08/hadoop集群搭建/&title=《hadoop集群搭建》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/08/hadoop集群搭建/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《hadoop集群搭建》 — null&url=http://yoursite.com/2020/05/08/hadoop集群搭建/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/08/hadoop集群搭建/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/05/08/hadoop集群搭建/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
