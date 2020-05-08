@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-08T13:43:57.652Z</updated>
+  <updated>2020-05-08T14:07:57.634Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,85 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>随笔05/08/20</title>
+    <link href="http://yoursite.com/2020/05/08/%E9%9A%8F%E7%AC%9405-08-20/"/>
+    <id>http://yoursite.com/2020/05/08/随笔05-08-20/</id>
+    <published>2020-05-08T13:58:25.000Z</published>
+    <updated>2020-05-08T14:07:57.634Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>已经五月过几天了.前两天才过完自己22岁(虽然自己身份证上也才21岁 哈哈哈). </p><p>一直决定以来的考研也面临着被课程时间所占用时间.感觉自己时间虽然不算特别满满当当但也不太想挤出时间去复习(也就是那种知道自己不能这样但又不想改变就只能这样).</p><p>内心的想法一直在动摇 一直在思考着以后能不能考上研(照理说按现在这样去复习注定是考不上的 哎) 记录下此时的心境吧</p><p>不过还是希望能够赶紧完成课程作业然后专心踏实的复习考研~~</p><p>[<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://imgchr.com/i/YK5Fbj" alt="](https://s1.ax1x.com/2020/05/08/YK5Fbj.md.jpg)" title>                </div>                <div class="image-caption">](https://s1.ax1x.com/2020/05/08/YK5Fbj.md.jpg)</div>            </figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="杂七杂八" scheme="http://yoursite.com/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
+    
+    
+      <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HBase集群配置搭建</title>
+    <link href="http://yoursite.com/2020/05/08/HBase%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA/"/>
+    <id>http://yoursite.com/2020/05/08/HBase集群配置搭建/</id>
+    <published>2020-05-08T13:53:16.000Z</published>
+    <updated>2020-05-08T13:55:44.615Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="1-集群分配"><a href="#1-集群分配" class="headerlink" title="1.集群分配"></a>1.集群分配</h1><p>这里搭建一个 3 节点的 HBase 集群，其中三台主机上均为 <code>Regin Server</code>。同时为了保证高可用，除了在 master 上部署主 <code>Master</code> 服务外，还在 slave1 上部署备用的 <code>Master</code> 服务。<code>Master</code> 服务由 Zookeeper 集群进行协调管理，如果主 <code>Master</code> 不可用，则备用 <code>Master</code> 会成为新的主 <code>Master</code>。</p><h1 id="2-前置条件"><a href="#2-前置条件" class="headerlink" title="2.前置条件"></a>2.前置条件</h1><p>HBase 的运行需要依赖 Hadoop 和 JDK(HBase 2.0+ 对应 JDK 1.8+) 。同时为了保证高可用，这里我们不采用 HBase 内置的 Zookeeper 服务，而采用外置的 Zookeeper 集群。相关搭建步骤可以参阅</p><h1 id="3-集群搭建"><a href="#3-集群搭建" class="headerlink" title="3.集群搭建"></a>3.集群搭建</h1><h2 id="3-1-下载并解压"><a href="#3-1-下载并解压" class="headerlink" title="3.1 下载并解压"></a>3.1 下载并解压</h2><p>讲下载好的HBase可以通过WinScp上传到服务器上.然后进行解压:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar -zxvf hbase-1.2.0-cdh5.15.2.tar.gz</span><br></pre></td></tr></table></figure><h2 id="3-2-配置环境变量"><a href="#3-2-配置环境变量" class="headerlink" title="3.2 配置环境变量"></a>3.2 配置环境变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/profile</span><br></pre></td></tr></table></figure><p>添加环境变量:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HBASE_HOME=usr/app/hbase-1.2.0-cdh5.15.2</span><br><span class="line">export PATH=$HBASE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure><p>使得配置生效:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HBASE_HOME=usr/app/hbase-1.2.0-cdh5.15.2</span><br><span class="line">export PATH=$HBASE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure><h2 id="3-3-集群配置"><a href="#3-3-集群配置" class="headerlink" title="3.3 集群配置"></a>3.3 集群配置</h2><p>进入<code>${HBASE_HOME}/conf</code>目录下,修改配置:</p><ol><li><p>hbase-env.sh</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 配置JDK安装位置</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_231</span><br><span class="line"># 不使用内置的zookeeper服务</span><br><span class="line">export HBASE_MANAGES_ZK=false</span><br></pre></td></tr></table></figure></li><li><p>hbase-site.xml</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!-- 指定 hbase 以分布式集群的方式运行 --&gt;</span><br><span class="line">        &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!-- 指定 hbase 在 HDFS 上的存储位置 --&gt;</span><br><span class="line">        &lt;name&gt;hbase.rootdir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdfs://hadoop001:8020/hbase&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;!-- 指定 zookeeper 的地址--&gt;</span><br><span class="line">        &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hadoop001:2181,hadoop002:2181,hadoop003:2181&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure></li><li><p>regionservers</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">master</span><br><span class="line">slave1</span><br><span class="line">slave2</span><br></pre></td></tr></table></figure></li><li><p>backup-masters</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slave1</span><br></pre></td></tr></table></figure></li></ol><p><strong>注:<code>backup-masters</code> 这个文件是不存在的，需要新建，主要用来指明备用的 master 节点，可以是多个，这里我们以 1 个为例。</strong></p><h2 id="3-4-安装包分发"><a href="#3-4-安装包分发" class="headerlink" title="3.4 安装包分发"></a>3.4 安装包分发</h2><p>将 HBase 的安装包分发到其他服务器，分发后建议在这两台服务器上也配置一下 HBase 的环境变量。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /usr/local/hbase-2.0.0/  slave1:usr/local/</span><br><span class="line">scp -r /usr/local/hbase-2.0.0/  slave2:usr/local/</span><br></pre></td></tr></table></figure><h1 id="4-启动集群"><a href="#4-启动集群" class="headerlink" title="4 启动集群"></a>4 启动集群</h1><h2 id="4-1-启动ZooKeeper集群"><a href="#4-1-启动ZooKeeper集群" class="headerlink" title="4.1 启动ZooKeeper集群"></a>4.1 启动ZooKeeper集群</h2><p>分别到三台服务器上启动 ZooKeeper 服务：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure><h2 id="4-2-启动Hadoop集群"><a href="#4-2-启动Hadoop集群" class="headerlink" title="4.2 启动Hadoop集群"></a>4.2 启动Hadoop集群</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动dfs服务</span><br><span class="line">start-dfs.sh</span><br><span class="line"># 启动yarn服务</span><br><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure><h2 id="4-3-启动HBase集群"><a href="#4-3-启动HBase集群" class="headerlink" title="4.3 启动HBase集群"></a>4.3 启动HBase集群</h2><p>进入 master 的 <code>${HBASE_HOME}/bin</code>，使用以下命令启动 HBase 集群。执行此命令后，会在 master 上启动 Master 服务，在 slave1 上启动备用 <code>Master</code> 服务，在 <code>regionservers</code> 文件中配置的所有节点启动 <code>region server</code> 服务。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-hbase.sh</span><br></pre></td></tr></table></figure><h2 id="4-4-查看服务"><a href="#4-4-查看服务" class="headerlink" title="4.4 查看服务"></a>4.4 查看服务</h2><p>访问 HBase 的 Web-UI 界面，这里我安装的 HBase 版本为 2.0.0，访问端口为 16010，如果你安装的是 2.0 以下的版本，则访问端口号为 60010。可以看到 <code>Master</code> 在 master 上，三个 Regin Servers 分别在 master，slave1，和 slave2 上，并且还有一个 <code>Backup Matser</code> 服务在 slave1 上。</p><h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>至此,已经在三台虚拟机上将<code>Hadoop2.8.5</code>,<code>Zookeeper3.4.14</code>以及<code>Hbase2.0.0</code>搭建全部结束</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="HBase" scheme="http://yoursite.com/tags/HBase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zookeeper集群配置搭建</title>
+    <link href="http://yoursite.com/2020/05/08/Zookeeper%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA/"/>
+    <id>http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/</id>
+    <published>2020-05-08T13:53:05.000Z</published>
+    <updated>2020-05-08T13:55:34.754Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="1-Zookeeper集群环境搭建"><a href="#1-Zookeeper集群环境搭建" class="headerlink" title="1.Zookeeper集群环境搭建"></a>1.Zookeeper集群环境搭建</h1><h2 id="1-1下载"><a href="#1-1下载" class="headerlink" title="1.1下载"></a>1.1下载</h2><p>下载对应版本 Zookeeper，这里我下载的版本 3.4.14。官方下载地址：<a href="https://archive.apache.org/dist/zookeeper/" target="_blank" rel="noopener">https://archive.apache.org/dist/zookeeper/</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz</span><br></pre></td></tr></table></figure><h2 id="1-2解压"><a href="#1-2解压" class="headerlink" title="1.2解压"></a>1.2解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar -zxvf zookeeper-3.4.14.tar.gz</span><br></pre></td></tr></table></figure><h2 id="1-3配置环境解压"><a href="#1-3配置环境解压" class="headerlink" title="1.3配置环境解压"></a>1.3配置环境解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/profile</span><br></pre></td></tr></table></figure><p>添加环境变量:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ZOOKEEPER_HOME=/usr/app/zookeeper-3.4.14</span><br><span class="line">export PATH=$ZOOKEEPER_HOME/bin:$PATH</span><br></pre></td></tr></table></figure><p>使得配置生效:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure><h2 id="1-4修改配置"><a href="#1-4修改配置" class="headerlink" title="1.4修改配置"></a>1.4修改配置</h2><p>进入安装目录的 conf/ 目录下，拷贝配置样本并进行修改：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cp zoo_sample.cfg  zoo.cfg</span><br></pre></td></tr></table></figure><p>指定数据存储目录和日志文件目录（目录不用预先创建，程序会自动创建），修改后完整配置如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/usr/local/zookeeper-cluster/data/</span><br><span class="line">dataLogDir=/usr/local/zookeeper-cluster/log/</span><br><span class="line">clientPort=2181</span><br><span class="line"></span><br><span class="line"># server.1 这个1是服务器的标识，可以是任意有效数字，标识这是第几个服务器节点，这个标识要写到dataDir目录下面myid文件里</span><br><span class="line"># 指名集群间通讯端口和选举端口</span><br><span class="line">server.1=master:2287:3387</span><br><span class="line">server.2=slave1:2287:3387</span><br><span class="line">server.3=slave2:2287:3387</span><br></pre></td></tr></table></figure><p>配置说明:</p><ul><li>tickTime：用于计算的基础时间单元。比如 session 超时：N*tickTime；</li><li>initLimit：用于集群，允许从节点连接并同步到 master 节点的初始化连接时间，以 tickTime 的倍数来表示；</li><li>syncLimit：用于集群， master 主节点与从节点之间发送消息，请求和应答时间长度（心跳机制）；</li><li>dataDir：数据存储位置；</li><li>dataLogDir：日志目录；</li><li>clientPort：用于客户端连接的端口，默认 2181</li></ul><h2 id="1-5-标识节点"><a href="#1-5-标识节点" class="headerlink" title="1.5 标识节点"></a>1.5 标识节点</h2><p>分别在三台主机的 dataDir 目录下新建 myid 文件,并写入对应的节点标识。Zookeeper 集群通过 myid 文件识别集群节点，并通过上文配置的节点通信端口和选举端口来进行节点通信，选举出 Leader 节点。<br>创建存储目录：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 三台主机均执行该命令</span><br><span class="line">mkdir -vp  /usr/local/zookeeper-cluster/data/</span><br></pre></td></tr></table></figure><p>创建并写入节点标识到 myid 文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># master主机</span><br><span class="line">echo &quot;1&quot; &gt; /usr/local/zookeeper-cluster/data/myid</span><br><span class="line"># slave1主机</span><br><span class="line">echo &quot;2&quot; &gt; /usr/local/zookeeper-cluster/data/myid</span><br><span class="line"># slave2主机</span><br><span class="line">echo &quot;3&quot; &gt; /usr/local/zookeeper-cluster/data/myid</span><br></pre></td></tr></table></figure><h2 id="1-5-启动"><a href="#1-5-启动" class="headerlink" title="1.5 启动"></a>1.5 启动</h2><p>分别在三台主机运行以下命令</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure><h2 id="1-6-验证"><a href="#1-6-验证" class="headerlink" title="1.6 验证"></a>1.6 验证</h2><p>启动后使用 zkServer.sh status 查看集群各个节点状态。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="Zookeeper" scheme="http://yoursite.com/tags/Zookeeper/"/>
+    
+  </entry>
   
   <entry>
     <title>hadoop集群搭建</title>
@@ -48,9 +127,9 @@
     <link href="http://yoursite.com/2019/12/13/THOUGHT/"/>
     <id>http://yoursite.com/2019/12/13/THOUGHT/</id>
     <published>2019-12-13T03:04:20.000Z</published>
-    <updated>2019-12-16T01:46:03.871Z</updated>
+    <updated>2020-05-08T14:08:05.019Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>不知不觉已经很久没有打开过自己的博客去更新自己的博客,很多时候自己其实也在学习新的技术新的东西,但是就是没有心思去记录下来去写博客.  说到底还是自己太懒了. </p><p>在这学期中自己制定过一个目标—101计划,也从国庆收假后慢慢被自己遗忘了.可能真的是自己懒得去更新自己的博客,懒得去整理知识点.这可能也是我和我姐之间的差距吧.优秀的人无论何时都会想起完成自己的事.而我的事呢对于我最重要可能就是打游戏吧.哈哈</p><p>不知不觉已经快结束大三上的学习.快要到是考研还是本科毕业就工作的分岔路口了.我姐也给我打过电话,总而来说就是劝我考研希望我通过读研出身社会后能够更好的找工作,能够找更好的工作.我也理解她也能理解我的父母,他们都是想让我以后过的很好.但是自己呢,我对我自己的感觉就是属于那种喜欢贪玩,集中不了注意力,我不想拿最近失恋作为借口,因为在谈恋爱的时候我也是这种.我容易随着别人的脚步,我没有自己的主见.我也不知道自己以后该怎么办.</p><p>鸡汤我也喝过不少,但是付出的行动永远最少.<br>就这样吧[<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://imgse.com/i/Qh2XqS" alt="](https://s2.ax1x.com/2019/12/16/Qh2XqS.jpg)" title>                </div>                <div class="image-caption">](https://s2.ax1x.com/2019/12/16/Qh2XqS.jpg)</div>            </figure></p>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>不知不觉已经很久没有打开过自己的博客去更新自己的博客,很多时候自己其实也在学习新的技术新的东西,但是就是没有心思去记录下来去写博客.  说到底还是自己太懒了. </p><p>在这学期中自己制定过一个目标—101计划,也从国庆收假后慢慢被自己遗忘了.可能真的是自己懒得去更新自己的博客,懒得去整理知识点.这可能也是我和我姐之间的差距吧.优秀的人无论何时都会想起完成自己的事.而我的事呢对于我最重要可能就是打游戏吧.哈哈</p><p>不知不觉已经快结束大三上的学习.快要到是考研还是本科毕业就工作的分岔路口了.我姐也给我打过电话,总而来说就是劝我考研希望我通过读研出身社会后能够更好的找工作,能够找更好的工作.我也理解她也能理解我的父母,他们都是想让我以后过的很好.但是自己呢,我对我自己的感觉就是属于那种喜欢贪玩,集中不了注意力,我不想拿最近失恋作为借口,因为在谈恋爱的时候我也是这种.我容易随着别人的脚步,我没有自己的主见.我也不知道自己以后该怎么办.</p><p>鸡汤我也喝过不少,但是付出的行动永远最少.<br>就这样吧</p>]]></content>
     
     <summary type="html">
     
@@ -226,9 +305,9 @@
       <category term="study" scheme="http://yoursite.com/categories/study/"/>
     
     
-      <category term="git" scheme="http://yoursite.com/tags/git/"/>
-    
       <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
     
   </entry>
   

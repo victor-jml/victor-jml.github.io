@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Zookeeper集群配置搭建 |  | 保持独立 适当拥有</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Zookeeper">
+    <meta name="description" content="1.Zookeeper集群环境搭建1.1下载下载对应版本 Zookeeper，这里我下载的版本 3.4.14。官方下载地址：https://archive.apache.org/dist/zookeeper/ 1# wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz  1.2">
+<meta name="keywords" content="Linux,Zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper集群配置搭建">
+<meta property="og:url" content="http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="1.Zookeeper集群环境搭建1.1下载下载对应版本 Zookeeper，这里我下载的版本 3.4.14。官方下载地址：https://archive.apache.org/dist/zookeeper/ 1# wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz  1.2">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-08T13:55:34.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper集群配置搭建">
+<meta name="twitter:description" content="1.Zookeeper集群环境搭建1.1下载下载对应版本 Zookeeper，这里我下载的版本 3.4.14。官方下载地址：https://archive.apache.org/dist/zookeeper/ 1# wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz  1.2">
+    
+        <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/imgs/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/imgs/重庆森林.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Enoch_oahz</h5>
+          <a href="mailto:972193026zy@gmail.com" title="972193026zy@gmail.com" class="mail">972193026zy@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Homepage
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/victor-jml" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/6348371389?topnav=1&wvr=6&topsug=1" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Zookeeper集群配置搭建</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Zookeeper集群配置搭建</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-05-08T13:53:05.000Z" itemprop="datePublished" class="page-time">
+  2020-05-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#1-Zookeeper集群环境搭建"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.Zookeeper集群环境搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-1下载"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1下载</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-2解压"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.2解压</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-3配置环境解压"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">1.3配置环境解压</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-4修改配置"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">1.4修改配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-5-标识节点"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">1.5 标识节点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-5-启动"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">1.5 启动</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-6-验证"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">1.6 验证</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Zookeeper集群配置搭建"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Zookeeper集群配置搭建</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-05-08 21:53:05" datetime="2020-05-08T13:53:05.000Z"  itemprop="datePublished">2020-05-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="1-Zookeeper集群环境搭建"><a href="#1-Zookeeper集群环境搭建" class="headerlink" title="1.Zookeeper集群环境搭建"></a>1.Zookeeper集群环境搭建</h1><h2 id="1-1下载"><a href="#1-1下载" class="headerlink" title="1.1下载"></a>1.1下载</h2><p>下载对应版本 Zookeeper，这里我下载的版本 3.4.14。官方下载地址：<a href="https://archive.apache.org/dist/zookeeper/" target="_blank" rel="noopener">https://archive.apache.org/dist/zookeeper/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2解压"><a href="#1-2解压" class="headerlink" title="1.2解压"></a>1.2解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar -zxvf zookeeper-3.4.14.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3配置环境解压"><a href="#1-3配置环境解压" class="headerlink" title="1.3配置环境解压"></a>1.3配置环境解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>添加环境变量:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export ZOOKEEPER_HOME=/usr/app/zookeeper-3.4.14</span><br><span class="line">export PATH=$ZOOKEEPER_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>使得配置生效:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4修改配置"><a href="#1-4修改配置" class="headerlink" title="1.4修改配置"></a>1.4修改配置</h2><p>进入安装目录的 conf/ 目录下，拷贝配置样本并进行修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cp zoo_sample.cfg  zoo.cfg</span><br></pre></td></tr></table></figure>
+
+<p>指定数据存储目录和日志文件目录（目录不用预先创建，程序会自动创建），修改后完整配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/usr/local/zookeeper-cluster/data/</span><br><span class="line">dataLogDir=/usr/local/zookeeper-cluster/log/</span><br><span class="line">clientPort=2181</span><br><span class="line"></span><br><span class="line"># server.1 这个1是服务器的标识，可以是任意有效数字，标识这是第几个服务器节点，这个标识要写到dataDir目录下面myid文件里</span><br><span class="line"># 指名集群间通讯端口和选举端口</span><br><span class="line">server.1=master:2287:3387</span><br><span class="line">server.2=slave1:2287:3387</span><br><span class="line">server.3=slave2:2287:3387</span><br></pre></td></tr></table></figure>
+
+<p>配置说明:</p>
+<ul>
+<li>tickTime：用于计算的基础时间单元。比如 session 超时：N*tickTime；</li>
+<li>initLimit：用于集群，允许从节点连接并同步到 master 节点的初始化连接时间，以 tickTime 的倍数来表示；</li>
+<li>syncLimit：用于集群， master 主节点与从节点之间发送消息，请求和应答时间长度（心跳机制）；</li>
+<li>dataDir：数据存储位置；</li>
+<li>dataLogDir：日志目录；</li>
+<li>clientPort：用于客户端连接的端口，默认 2181</li>
+</ul>
+<h2 id="1-5-标识节点"><a href="#1-5-标识节点" class="headerlink" title="1.5 标识节点"></a>1.5 标识节点</h2><p>分别在三台主机的 dataDir 目录下新建 myid 文件,并写入对应的节点标识。Zookeeper 集群通过 myid 文件识别集群节点，并通过上文配置的节点通信端口和选举端口来进行节点通信，选举出 Leader 节点。<br>创建存储目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 三台主机均执行该命令</span><br><span class="line">mkdir -vp  /usr/local/zookeeper-cluster/data/</span><br></pre></td></tr></table></figure>
+
+<p>创建并写入节点标识到 myid 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># master主机</span><br><span class="line">echo &quot;1&quot; &gt; /usr/local/zookeeper-cluster/data/myid</span><br><span class="line"># slave1主机</span><br><span class="line">echo &quot;2&quot; &gt; /usr/local/zookeeper-cluster/data/myid</span><br><span class="line"># slave2主机</span><br><span class="line">echo &quot;3&quot; &gt; /usr/local/zookeeper-cluster/data/myid</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-启动"><a href="#1-5-启动" class="headerlink" title="1.5 启动"></a>1.5 启动</h2><p>分别在三台主机运行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-6-验证"><a href="#1-6-验证" class="headerlink" title="1.6 验证"></a>1.6 验证</h2><p>启动后使用 zkServer.sh status 查看集群各个节点状态。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-05-08T13:55:34.754Z" itemprop="dateUpdated">2020-05-08 21:55:34</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/imgs/重庆森林.png" alt="Enoch_oahz">
+            Enoch_oahz
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/&title=《Zookeeper集群配置搭建》 — null&pic=http://yoursite.com/imgs/重庆森林.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/&title=《Zookeeper集群配置搭建》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Zookeeper集群配置搭建》 — null&url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/05/08/HBase集群配置搭建/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">HBase集群配置搭建</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/05/08/hadoop集群搭建/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">hadoop集群搭建</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'true' == 'true',
+            appId: "2sqSsypMYEeX4rH0gQ784JnR-gzGzoHsz",
+            appKey: "LQ9eqgWma2qsvbk3s59Wc58f",
+            avatar: "monsterid",
+            placeholder: "填写你的邮箱可以收到我的回信",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        thanks~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/imgs/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/imgs/wechat.png" data-alipay="/imgs/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Enoch_oahz &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/&title=《Zookeeper集群配置搭建》 — null&pic=http://yoursite.com/imgs/重庆森林.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/&title=《Zookeeper集群配置搭建》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Zookeeper集群配置搭建》 — null&url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/05/08/Zookeeper集群配置搭建/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
