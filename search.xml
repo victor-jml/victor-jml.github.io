@@ -48,17 +48,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[THOUGHT]]></title>
-    <url>%2F2019%2F12%2F13%2FTHOUGHT%2F</url>
-    <content type="text"><![CDATA[不知不觉已经很久没有打开过自己的博客去更新自己的博客,很多时候自己其实也在学习新的技术新的东西,但是就是没有心思去记录下来去写博客. 说到底还是自己太懒了. 在这学期中自己制定过一个目标—101计划,也从国庆收假后慢慢被自己遗忘了.可能真的是自己懒得去更新自己的博客,懒得去整理知识点.这可能也是我和我姐之间的差距吧.优秀的人无论何时都会想起完成自己的事.而我的事呢对于我最重要可能就是打游戏吧.哈哈 不知不觉已经快结束大三上的学习.快要到是考研还是本科毕业就工作的分岔路口了.我姐也给我打过电话,总而来说就是劝我考研希望我通过读研出身社会后能够更好的找工作,能够找更好的工作.我也理解她也能理解我的父母,他们都是想让我以后过的很好.但是自己呢,我对我自己的感觉就是属于那种喜欢贪玩,集中不了注意力,我不想拿最近失恋作为借口,因为在谈恋爱的时候我也是这种.我容易随着别人的脚步,我没有自己的主见.我也不知道自己以后该怎么办. 鸡汤我也喝过不少,但是付出的行动永远最少.就这样吧]]></content>
-      <categories>
-        <category>杂七杂八</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Springboot整合Thymeleaf]]></title>
     <url>%2F2019%2F09%2F03%2FSpringboot%E6%95%B4%E5%90%88Thymeleaf%2F</url>
     <content type="text"><![CDATA[thymeleaf的介绍Thymeleaf 介绍Thymeleaf 是一款用于渲染 XML/XHTML/HTML5 内容的模板引擎。类似 JSP，Velocity，FreeMaker 等，它也可以轻易的与 Spring MVC 等 Web 框架进行集成作为 Web 应用的模板引擎。与其它模板引擎相比，Thymeleaf 最大的特点是能够直接在浏览器中打开并正确显示模板页面，而不需要启动整个 Web 应用。 好了，你们说了我们已经习惯使用了什么 Velocity,FreMaker，beetle之类的模版，那么到底好在哪里呢？ 比一比吧 Thymeleaf 是与众不同的，因为它使用了自然的模板技术。这意味着 Thymeleaf 的模板语法并不会破坏文档的结构，模板依旧是有效的XML文档。模板还可以用作工作原型，Thymeleaf 会在运行期替换掉静态值。Velocity 与 FreeMarke r则是连续的文本处理器。 下面的代码示例分别使用 Velocity、FreeMarker 与 Thymeleaf 打印出一条消息： 123Velocity: &lt;p&gt;$message&lt;/p&gt;FreeMarker: &lt;p&gt;$&#123;message&#125;&lt;/p&gt;Thymeleaf: &lt;p th:text=&quot;$&#123;message&#125;&quot;&gt;Hello World!&lt;/p&gt; 注意，由于 Thymeleaf 使用了 XML DOM 解析器，因此它并不适合于处理大规模的 XML 文件。 添加Jar包12345&lt;!-- thymelaef模板 --&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt; &lt;/dependency&gt; 添加配置文件123456789101112#Thymeleaf配置#开发时关闭缓存,不然没法看到实时页面spring.thymeleaf.cache=falsespring.thymeleaf.check-template=true# 模板模式设置，默认为HTML5spring.thymeleaf.mode=HTML5spring.thymeleaf.check-template-location=truespring.thymeleaf.encoding=UTF-8spring.thymeleaf.prefix=classpath:/templates/spring.thymeleaf.servlet.content-type=text/htmlspring.thymeleaf.suffix=.html 模板中引入thymeleaf1&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt; thymeleaf部分语法URLURL 在 Web 应用模板中占据着十分重要的地位，需要特别注意的是 Thymeleaf 对于 URL 的处理是通过语法 @{…} 来处理的。Thymeleaf 支持绝对路径 URL： 1&lt;a th:href=&quot;@&#123;http://www.thymeleaf.org&#125;&quot;&gt;Thymeleaf&lt;/a&gt; 条件求值 1&lt;a th:href=&quot;@&#123;/login&#125;&quot; th:unless=$&#123;session.user != null&#125;&gt;Login&lt;/a&gt; for循环 12345&lt;tr th:each=&quot;prod : $&#123;prods&#125;&quot;&gt; &lt;td th:text=&quot;$&#123;prod.name&#125;&quot;&gt;Onions&lt;/td&gt; &lt;td th:text=&quot;$&#123;prod.price&#125;&quot;&gt;2.41&lt;/td&gt; &lt;td th:text=&quot;$&#123;prod.inStock&#125;? #&#123;true&#125; : #&#123;false&#125;&quot;&gt;yes&lt;/td&gt;&lt;/tr&gt; thymeleaf中文文档Thymeleaf中文文档]]></content>
