@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-08T13:55:44.615Z</updated>
+  <updated>2020-06-24T02:37:33.134Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode_1486</title>
+    <link href="http://yoursite.com/2020/06/24/leetcode-1486/"/>
+    <id>http://yoursite.com/2020/06/24/leetcode-1486/</id>
+    <published>2020-06-24T02:36:39.000Z</published>
+    <updated>2020-06-24T02:37:33.134Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="题目"><a href="#题目" class="headerlink" title="题目:"></a>题目:</h3><p>给你两个整数，<code>n</code> 和 <code>start</code> 。</p><p>数组 <code>nums</code> 定义为：<code>nums[i]</code> = <code>start</code> + <code>2*i</code>（下标从 0 开始）且 <code>n</code> == <code>nums.length</code> 。</p><p>请返回 <code>nums</code> 中所有元素按位异或（XOR）后得到的结果。</p><h3 id="示例"><a href="#示例" class="headerlink" title="示例:"></a>示例:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：n = 5, start = 0</span><br><span class="line">输出：8</span><br><span class="line">解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8 。</span><br><span class="line">     &quot;^&quot; 为按位异或 XOR 运算符。</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：n = 4, start = 3</span><br><span class="line">输出：8</span><br><span class="line">解释：数组 nums 为 [3, 5, 7, 9]，其中 (3 ^ 5 ^ 7 ^ 9) = 8.</span><br></pre></td></tr></table></figure><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>首先得明白按位异或(XOR)是什么:</p><p>参与运算的两个值，==如果两个相应位相同，则结果为0==，否则为1。即：0^0=0， 1^0=1， 0^1=1， 1^1=0 例如:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">5: 00000101</span><br><span class="line">3: 00000100</span><br><span class="line">5^3 = 00000001 -&gt; 1</span><br></pre></td></tr></table></figure><p>我们这里只需要在一个for循环里面进行对每个数累计求异或运算 <strong>^=</strong>即可</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>代码很简单</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int xorOperation(int n, int start) &#123;</span><br><span class="line">        int result = 0;</span><br><span class="line">        for(int i=0; i&lt;n; i++)&#123;</span><br><span class="line">            result ^= start + 2*i;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这道题是很简单的一道题.做这个题解的目的呢主要是记录一下</p><p>希望自己能慢慢在leetcode上刷题来提升自己去解决更复杂的问题.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+    
+      <category term="Leetcode" scheme="http://yoursite.com/tags/Leetcode/"/>
+    
+      <category term="数组" scheme="http://yoursite.com/tags/%E6%95%B0%E7%BB%84/"/>
+    
+  </entry>
   
   <entry>
     <title>HBase集群配置搭建</title>

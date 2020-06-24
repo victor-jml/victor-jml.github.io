@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode_1486]]></title>
+    <url>%2F2020%2F06%2F24%2Fleetcode-1486%2F</url>
+    <content type="text"><![CDATA[题目:给你两个整数，n 和 start 。 数组 nums 定义为：nums[i] = start + 2*i（下标从 0 开始）且 n == nums.length 。 请返回 nums 中所有元素按位异或（XOR）后得到的结果。 示例:1234输入：n = 5, start = 0输出：8解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8 。 &quot;^&quot; 为按位异或 XOR 运算符。 123输入：n = 4, start = 3输出：8解释：数组 nums 为 [3, 5, 7, 9]，其中 (3 ^ 5 ^ 7 ^ 9) = 8. 解题思路首先得明白按位异或(XOR)是什么: 参与运算的两个值，==如果两个相应位相同，则结果为0==，否则为1。即：0^0=0， 1^0=1， 0^1=1， 1^1=0 例如: 1235: 000001013: 000001005^3 = 00000001 -&gt; 1 我们这里只需要在一个for循环里面进行对每个数累计求异或运算 ^=即可 代码代码很简单 12345678910class Solution &#123;public: int xorOperation(int n, int start) &#123; int result = 0; for(int i=0; i&lt;n; i++)&#123; result ^= start + 2*i; &#125; return result; &#125;&#125;; 总结这道题是很简单的一道题.做这个题解的目的呢主要是记录一下 希望自己能慢慢在leetcode上刷题来提升自己去解决更复杂的问题.]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[HBase集群配置搭建]]></title>
     <url>%2F2020%2F05%2F08%2FHBase%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%2F</url>
     <content type="text"><![CDATA[1.集群分配这里搭建一个 3 节点的 HBase 集群，其中三台主机上均为 Regin Server。同时为了保证高可用，除了在 master 上部署主 Master 服务外，还在 slave1 上部署备用的 Master 服务。Master 服务由 Zookeeper 集群进行协调管理，如果主 Master 不可用，则备用 Master 会成为新的主 Master。 2.前置条件HBase 的运行需要依赖 Hadoop 和 JDK(HBase 2.0+ 对应 JDK 1.8+) 。同时为了保证高可用，这里我们不采用 HBase 内置的 Zookeeper 服务，而采用外置的 Zookeeper 集群。相关搭建步骤可以参阅 3.集群搭建3.1 下载并解压讲下载好的HBase可以通过WinScp上传到服务器上.然后进行解压: 1# tar -zxvf hbase-1.2.0-cdh5.15.2.tar.gz 3.2 配置环境变量1# vim /etc/profile 添加环境变量: 12export HBASE_HOME=usr/app/hbase-1.2.0-cdh5.15.2export PATH=$HBASE_HOME/bin:$PATH 使得配置生效: 12export HBASE_HOME=usr/app/hbase-1.2.0-cdh5.15.2export PATH=$HBASE_HOME/bin:$PATH 3.3 集群配置进入${HBASE_HOME}/conf目录下,修改配置: hbase-env.sh 1234# 配置JDK安装位置export JAVA_HOME=/usr/java/jdk1.8.0_231# 不使用内置的zookeeper服务export HBASE_MANAGES_ZK=false hbase-site.xml 1234567891011121314151617&lt;configuration&gt; &lt;property&gt; &lt;!-- 指定 hbase 以分布式集群的方式运行 --&gt; &lt;name&gt;hbase.cluster.distributed&lt;/name&gt; &lt;value&gt;true&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;!-- 指定 hbase 在 HDFS 上的存储位置 --&gt; &lt;name&gt;hbase.rootdir&lt;/name&gt; &lt;value&gt;hdfs://hadoop001:8020/hbase&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;!-- 指定 zookeeper 的地址--&gt; &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt; &lt;value&gt;hadoop001:2181,hadoop002:2181,hadoop003:2181&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; regionservers 123masterslave1slave2 backup-masters 1slave1 注:backup-masters 这个文件是不存在的，需要新建，主要用来指明备用的 master 节点，可以是多个，这里我们以 1 个为例。 3.4 安装包分发将 HBase 的安装包分发到其他服务器，分发后建议在这两台服务器上也配置一下 HBase 的环境变量。 12scp -r /usr/local/hbase-2.0.0/ slave1:usr/local/scp -r /usr/local/hbase-2.0.0/ slave2:usr/local/ 4 启动集群4.1 启动ZooKeeper集群分别到三台服务器上启动 ZooKeeper 服务： 1zkServer.sh start 4.2 启动Hadoop集群1234# 启动dfs服务start-dfs.sh# 启动yarn服务start-yarn.sh 4.3 启动HBase集群进入 master 的 ${HBASE_HOME}/bin，使用以下命令启动 HBase 集群。执行此命令后，会在 master 上启动 Master 服务，在 slave1 上启动备用 Master 服务，在 regionservers 文件中配置的所有节点启动 region server 服务。 1start-hbase.sh 4.4 查看服务访问 HBase 的 Web-UI 界面，这里我安装的 HBase 版本为 2.0.0，访问端口为 16010，如果你安装的是 2.0 以下的版本，则访问端口号为 60010。可以看到 Master 在 master 上，三个 Regin Servers 分别在 master，slave1，和 slave2 上，并且还有一个 Backup Matser 服务在 slave1 上。 结束至此,已经在三台虚拟机上将Hadoop2.8.5,Zookeeper3.4.14以及Hbase2.0.0搭建全部结束]]></content>
