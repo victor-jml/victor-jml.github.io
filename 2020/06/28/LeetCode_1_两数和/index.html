@@ -29,7 +29,7 @@
 <meta property="og:site_name">
 <meta property="og:description" content="题目给定一个整数数组 nums和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。 示例:1234给定 nums = [2, 7, 11, 15], target = 9因为 nums[0] + nums[1] = 2 + 7 = 9所以返回 [0, 1]  解题思路解法1: 一开始我">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-06-29T06:35:46.706Z">
+<meta property="og:updated_time" content="2020-06-29T09:21:18.341Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1. TwoSum (Easy)">
 <meta name="twitter:description" content="题目给定一个整数数组 nums和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。 示例:1234给定 nums = [2, 7, 11, 15], target = 9因为 nums[0] + nums[1] = 2 + 7 = 9所以返回 [0, 1]  解题思路解法1: 一开始我">
@@ -126,7 +126,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -198,7 +198,8 @@
 <p>这样虽然节省空间,但是<strong>时间复杂度</strong>:<code>O(n²)</code></p>
 <p>解法2:</p>
 <p>随后想到用<code>unordered_map</code>进行一次遍历将数组里面的值与下标以<code>key:value</code>保存在<code>unordered_map</code>里面,然后再通过一次循环查看<code>target-nums.at(i)</code>的差值是否在hash_map里面存在,如果存在还要进行判断下标是否为i(是否已遍历),如果都满足<code>break</code>跳出循环,则将两个数的下标<code>index</code> <code>push_back</code>进<code>res</code>数组里.</p>
-<p>这样使用到了<code>unordered_map</code>, <code>unordered_map</code>相当于<code>HashMap</code>。无论从查找、插入上来说，<code>unordered_map</code>的效率都优于<code>hash_map</code>，更优于<code>map</code><br><strong>时间复杂度</strong>:<code>O(n)</code></p>
+<p>这样使用到了<code>unordered_map</code>, <code>unordered_map</code>相当于<code>HashMap</code>。无论从查找、插入上来说，<code>unordered_map</code>的效率都优于<code>hash_map</code>，更优于<code>map</code></p>
+<p><strong>Time complexity</strong> <code>O(n)</code></p>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>解法1: (暴力法)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="comment">//暴力法</span></span><br><span class="line">        <span class="keyword">int</span> leftNum = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.size();i++)&#123;</span><br><span class="line">            leftNum = nums.at(i);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;nums.size();j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(leftNum + nums.at(j) == target)&#123;</span><br><span class="line">                    res.push_back(i);</span><br><span class="line">                    res.push_back(j);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -211,7 +212,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-06-29T06:35:46.706Z" itemprop="dateUpdated">2020-06-29 14:35:46</time>
+    Last updated: <time datetime="2020-06-29T09:21:18.341Z" itemprop="dateUpdated">2020-06-29 17:21:18</time>
 </span><br>
 
 
@@ -397,7 +398,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
