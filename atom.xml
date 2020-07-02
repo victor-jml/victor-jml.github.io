@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-01T14:33:19.451Z</updated>
+  <updated>2020-07-02T03:47:47.948Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>07/02/2020</title>
+    <link href="http://yoursite.com/2020/07/02/07-02-2020/"/>
+    <id>http://yoursite.com/2020/07/02/07-02-2020/</id>
+    <published>2020-07-02T03:45:33.000Z</published>
+    <updated>2020-07-02T03:47:47.948Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>今天是7月的第二天也是2020年下半年的第二天.<br>原本计划的考研数学复习也拖到了现在还没有动工,最主要的是自己积极性不高加上课程作业的压力太大.</p><p>不得不先去完成课程作业.现在课程作业差不多都结束了.剩下了下周的多元统计以及毛概考试.现在该定下目标在暑假期间好好复习考研数学.每天的计划不能落下.也只能导致之前每天LeetCode一刷也只能放一放.等考研结束再好好专心去刷题去总结.</p><p>估计到12月考完研自己白嫖的阿里服务器也到期了(<strong>这里我表示阿里最吊哈哈哈</strong>),自己去年买的域名也到期了.所以估计中途还要去注销自己域名备案信息然后把博客部署到github上.然后就等到明年再来打理自己的博客了.</p><p>自己的暑假提升目标大致是这样:</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/07/02/NbmqdU.md.jpg" alt title>                </div>                <div class="image-caption"></div>            </figure><p>送给自己的一句话:</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://s1.ax1x.com/2020/07/02/NbmbZT.md.jpg" alt="image" title>                </div>                <div class="image-caption">image</div>            </figure><p>甚至对于考研这一年或许半年的努力 我也不清楚自己能否考上HDU,但还是要努力奋斗.如果不经历这一次自己的人生或许就是所谓的”不健全”吧</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="life" scheme="http://yoursite.com/categories/life/"/>
+    
+    
+      <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>26. RemoveDuplicates (Easy)</title>
