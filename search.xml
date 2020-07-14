@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[07/02/2020]]></title>
-    <url>%2F2020%2F07%2F02%2F07-02-2020%2F</url>
-    <content type="text"><![CDATA[今天是7月的第二天也是2020年下半年的第二天.原本计划的考研数学复习也拖到了现在还没有动工,最主要的是自己积极性不高加上课程作业的压力太大. 不得不先去完成课程作业.现在课程作业差不多都结束了.剩下了下周的多元统计以及毛概考试.现在该定下目标在暑假期间好好复习考研数学.每天的计划不能落下.也只能导致之前每天LeetCode一刷也只能放一放.等考研结束再好好专心去刷题去总结. 估计到12月考完研自己白嫖的阿里服务器也到期了(这里我表示阿里最吊哈哈哈),自己去年买的域名也到期了.所以估计中途还要去注销自己域名备案信息然后把博客部署到github上.然后就等到明年再来打理自己的博客了. 自己的暑假提升目标大致是这样: 送给自己的一句话: image 甚至对于考研这一年或许半年的努力 我也不清楚自己能否考上HDU,但还是要努力奋斗.如果不经历这一次自己的人生或许就是所谓的”不健全”吧]]></content>
+    <title><![CDATA[LeetCode 206. ReverseList (Easy)]]></title>
+    <url>%2F2020%2F07%2F14%2FLeetCode-206-ReverseList%2F</url>
+    <content type="text"><![CDATA[题目反转一个单链表。 示例示例: 12输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL 解题思路迭代法 + 双指针 在循环中需要做的事是要将当前节点指向前一个节点,所以就需要定义两个指针cur pre分别表示当前节点和前继节点.与此同时我们还需要在循环中用一个next来保存cur的后继节点避免出现节点丢失 Time complexity O(n)Space complexity O(1) 递归法 递归反转链表相比迭代是有一定的难度的我们需要明确这个函数的作用是什么:参数为头指针,反转链表后返回翻转后的链表 最难理解的是比如:4和5需要反转, 4-&gt;5 此时的cur是4,需要将cur.next.next = cur 将5的next指向4 图下是我在LeetCode讨论区找到一个gif方便理解: Time complexity O(n)Space complexity O(n) 代码迭代法 + 双指针 12345678910111213class Solution &#123; public static ListNode reverseListIterate(ListNode head) &#123; ListNode cur = head; ListNode pre = null; while(cur != null)&#123; ListNode next = cur.next; cur.next = pre; pre = cur; cur = next; &#125; return pre; &#125;&#125; 递归法 123456789class Solution &#123; public static ListNode reverseListRecursion(ListNode head)&#123; if(head == null || head.next == null) return head; ListNode temp = reverseListRecursion(head.next); head.next.next = head; head.next = null; return temp; &#125;&#125; 总结反转链表这个题最主要的还是递归方法的难以理解, 这也是递归经典题.在以后还是需要多加练习多总结才能帮助理解. 后面还要反转链表前n项 以及 反转链表部分项 等类似的题就更新到下一篇文章]]></content>
       <categories>
-        <category>life</category>
+        <category>study</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
+        <tag>LinkedList</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[26. RemoveDuplicates (Easy)]]></title>
+    <title><![CDATA[LeetCode 26. RemoveDuplicates (Easy)]]></title>
     <url>%2F2020%2F06%2F30%2FLeetCode_26_%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9%2F</url>
-    <content type="text"><![CDATA[前言考虑到自己用到Java语言比较多,所以在之后的刷题会考虑用Java语言来进行刷LC上的题.首先还是从数组的问题来慢慢熟悉 题目给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。 示例示例一: 12345给定数组 nums = [1,1,2], 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 你不需要考虑数组中超出新长度后面的元素。 示例二: 12345给定 nums = [0,0,1,1,1,2,2,3,3,4],函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。你不需要考虑数组中超出新长度后面的元素。 解题思路双指针法定义慢指针i初始化为0 , 快指针j初始化为1.每一次遍历的时候,判断nums[i]与nums[j]是否相等,如果相等则j++.若不等则先i++然后将nums[j]赋值给nums[i] Time complexity O(n)Space complexity O(1) 代码1234567891011class Solution &#123; public int removeDuplicates(int[] nums) &#123; int i = 0; for(int j = 1;j &lt; nums.length;j++)&#123; if(nums[i] != nums[j])&#123; nums[++i] = nums[j]; &#125; &#125; return i+1; &#125;&#125;]]></content>
+    <content type="text"><![CDATA[题目给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。 示例示例一: 12345给定数组 nums = [1,1,2], 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 你不需要考虑数组中超出新长度后面的元素。 示例二: 12345给定 nums = [0,0,1,1,1,2,2,3,3,4],函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。你不需要考虑数组中超出新长度后面的元素。 解题思路双指针法定义慢指针i初始化为0 , 快指针j初始化为1.每一次遍历的时候,判断nums[i]与nums[j]是否相等,如果相等则j++.若不等则先i++然后将nums[j]赋值给nums[i] Time complexity O(n)Space complexity O(1) 代码1234567891011class Solution &#123; public int removeDuplicates(int[] nums) &#123; int i = 0; for(int j = 1;j &lt; nums.length;j++)&#123; if(nums[i] != nums[j])&#123; nums[++i] = nums[j]; &#125; &#125; return i+1; &#125;&#125;]]></content>
       <categories>
         <category>study</category>
         <category>LeetCode</category>
@@ -24,7 +25,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[2. Add Two Numbers (Medium)]]></title>
+    <title><![CDATA[LeetCode 2. Add Two Numbers (Medium)]]></title>
     <url>%2F2020%2F06%2F29%2FLeetCode_2_%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0%2F</url>
     <content type="text"><![CDATA[题目给出两个非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照逆序的方式存储的，并且它们的每个节点只能存储一位数字。 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。 您可以假设除了数字 0 之外，这两个数都不会以 0开头。 示例123输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)输出：7 -&gt; 0 -&gt; 8原因：342 + 465 = 807 解题思路因为我们之后需要输出的是头节点,所以这里创建了虚拟头节点res用来最后输出,和当前节点cur用来进行两数相加操作 定义carry表示相加是否有进位,初始为0 while,判断的条件是两个链表的-&gt;next指针域是否为空 在循环体中,首先用了一个三元运算符 如果l1,l2不为空则将各自的val赋值给n1 n2,否则赋值0; 同时要判断是否有进位 在循环体结束后,判断最后一位是否有进位,如果有则在链表的最后加上值为1的结点. Time complexity O(max(n,m))Space complexity O(max(n,m)) 代码12345678910111213141516171819202122232425262728/** * Definition for singly-linked list. * struct ListNode &#123; * int val; * ListNode *next; * ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */class Solution &#123;public: ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) &#123; ListNode* res = new ListNode(-1); //定义虚拟头节点 ListNode* cur = res; int carry = 0; while(l1||l2)&#123; int n1 = l1? l1-&gt;val : 0; int n2 = l2? l2-&gt;val : 0; int sum = n1 + n2 + carry; carry = sum/10; cur-&gt;next = new ListNode(sum%10); cur = cur-&gt;next; if(l1) l1 = l1-&gt;next; if(l2) l2 = l2-&gt;next; &#125; if(carry) cur-&gt;next = new ListNode(1); //在循环结束后如果有进位,则在最前面添加一个值为1的节点 return res-&gt;next; &#125;&#125;;]]></content>
       <categories>
@@ -32,11 +33,11 @@
         <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>List</tag>
+        <tag>LinkedList</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[1. TwoSum (Easy)]]></title>
+    <title><![CDATA[LeetCode 1. TwoSum (Easy)]]></title>
     <url>%2F2020%2F06%2F28%2FLeetCode_1_%E4%B8%A4%E6%95%B0%E5%92%8C%2F</url>
     <content type="text"><![CDATA[题目给定一个整数数组 nums和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。 示例:1234给定 nums = [2, 7, 11, 15], target = 9因为 nums[0] + nums[1] = 2 + 7 = 9所以返回 [0, 1] 解题思路解法1: 一开始我脑海里能想到的就是暴力求解: 求和为target的两个整数,那么两次for循环 先在第一个循环里找第一个数然后在第二个循环数不断进行判断两个数之和是否等于target因为这里进行了嵌套使用了两个for循环 这样虽然节省空间,但是时间复杂度:O(n²) 解法2: 随后想到用unordered_map进行一次遍历将数组里面的值与下标以key:value保存在unordered_map里面,然后再通过一次循环查看target-nums.at(i)的差值是否在hash_map里面存在,如果存在还要进行判断下标是否为i(是否已遍历),如果都满足break跳出循环,则将两个数的下标index push_back进res数组里. 这样使用到了unordered_map, unordered_map相当于HashMap。无论从查找、插入上来说，unordered_map的效率都优于hash_map，更优于map Time complexity O(n) 代码解法1: (暴力法) 12345678910111213141516171819class Solution &#123;public: vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123; //暴力法 int leftNum = 0; vector&lt;int&gt; res; for(int i=0;i&lt;nums.size();i++)&#123; leftNum = nums.at(i); for(int j=i+1;j&lt;nums.size();j++)&#123; if(leftNum + nums.at(j) == target)&#123; res.push_back(i); res.push_back(j); break; &#125; &#125; &#125; return res; &#125;&#125;; 解法2: (unordered_map) 1234567891011121314151617181920class Solution &#123;public: vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123; //unordered_map unordered_map &lt;int,int&gt; numsMap; vector&lt;int&gt; res; for(int i=0;i&lt;nums.size();i++)&#123; numsMap[nums.at(i)] = i; &#125; for(int i=0;i&lt;nums.size();i++)&#123; int k = target-nums.at(i); if(numsMap.count(k) &amp;&amp; numsMap[k] != i)&#123; res.push_back(i); res.push_back(numsMap[k]); break; &#125; &#125; return res; &#125;&#125;;]]></content>
       <categories>
@@ -44,7 +45,7 @@
         <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>Array</tag>
+        <tag>LinkedList</tag>
       </tags>
   </entry>
   <entry>
