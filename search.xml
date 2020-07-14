@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[LeetCode 206. ReverseList (Easy)]]></title>
+    <title><![CDATA[LeetCode 206. ReverseList (Medium)]]></title>
     <url>%2F2020%2F07%2F14%2FLeetCode-206-ReverseList%2F</url>
     <content type="text"><![CDATA[题目反转一个单链表。 示例示例: 12输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL 解题思路迭代法 + 双指针 在循环中需要做的事是要将当前节点指向前一个节点,所以就需要定义两个指针cur pre分别表示当前节点和前继节点.与此同时我们还需要在循环中用一个next来保存cur的后继节点避免出现节点丢失 Time complexity O(n)Space complexity O(1) 递归法 递归反转链表相比迭代是有一定的难度的我们需要明确这个函数的作用是什么:参数为头指针,反转链表后返回翻转后的链表 最难理解的是比如:4和5需要反转, 4-&gt;5 此时的cur是4,需要将cur.next.next = cur 将5的next指向4 图下是我在LeetCode讨论区找到一个gif方便理解: Time complexity O(n)Space complexity O(n) 代码迭代法 + 双指针 12345678910111213class Solution &#123; public static ListNode reverseListIterate(ListNode head) &#123; ListNode cur = head; ListNode pre = null; while(cur != null)&#123; ListNode next = cur.next; cur.next = pre; pre = cur; cur = next; &#125; return pre; &#125;&#125; 递归法 123456789class Solution &#123; public static ListNode reverseListRecursion(ListNode head)&#123; if(head == null || head.next == null) return head; ListNode temp = reverseListRecursion(head.next); head.next.next = head; head.next = null; return temp; &#125;&#125; 总结反转链表这个题最主要的还是递归方法的难以理解, 这也是递归经典题.在以后还是需要多加练习多总结才能帮助理解. 后面还要反转链表前n项 以及 反转链表部分项 等类似的题就更新到下一篇文章]]></content>
       <categories>
@@ -33,7 +33,7 @@
         <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>LinkedList</tag>
+        <tag>Array</tag>
       </tags>
   </entry>
   <entry>
@@ -45,11 +45,11 @@
         <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>LinkedList</tag>
+        <tag>Array</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[566. Reshape the Matrix (Easy)]]></title>
+    <title><![CDATA[LeetCode 566. Reshape the Matrix (Easy)]]></title>
     <url>%2F2020%2F06%2F27%2FLeetCode_566_%E9%87%8D%E5%A1%91%E7%9F%A9%E9%98%B5%2F</url>
     <content type="text"><![CDATA[题目:在MATLAB中，有一个非常有用的函数 reshape，它可以将一个矩阵重塑为另一个大小不同的新矩阵，但保留其原始数据。 给出一个由二维数组表示的矩阵，以及两个正整数r和c，分别表示想要的重构的矩阵的行数和列数。 重构后的矩阵需要将原始矩阵的所有元素以相同的行遍历顺序填充。 如果具有给定参数的reshape操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。 解题思路:获取nums的大小分别为:nums.size()以及nums[0].size() 然后进行判断是否能够重塑另一个rc的矩阵:`nums.size() * nums[0].size() ==? rc如果不相等则返回之前的矩阵nums`. 如果相等则初始化一个矩阵res,然后通过行遍历顺序进行重新赋值 示例:123456789输入: nums = [[1,2], [3,4]]r = 1, c = 4输出: [[1,2,3,4]]解释:行遍历nums的结果是 [1,2,3,4]。新的矩阵是 1 * 4 矩阵, 用之前的元素值一行一行填充新矩阵。 12345678910输入: nums = [[1,2], [3,4]]r = 2, c = 4输出: [[1,2], [3,4]]解释:没有办法将 2 * 2 矩阵转化为 2 * 4 矩阵。 所以输出原矩阵。 说明: 给定矩阵的宽和高范围在 [1, 100]。 给定的 r 和 c 都是正数。 代码1234567891011121314151617181920212223class Solution &#123;public: vector&lt;vector&lt;int&gt;&gt; matrixReshape(vector&lt;vector&lt;int&gt;&gt;&amp; nums, int r, int c) &#123; int m = nums[0].size(); int n = nums.size(); if(m*n != r*c) return nums; int x = 0; int y = 0; vector&lt;vector&lt;int&gt;&gt; res(r,vector&lt;int&gt;(c)); for(int i=0;i&lt;r;i++)&#123; for(int j=0;j&lt;c;j++)&#123; res[i][j] = nums[x][y]; y++; if(y == m)&#123; x++; y=0; &#125; &#125; &#125; return res; &#125;&#125;;]]></content>
       <categories>
@@ -73,7 +73,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[724. Find Pivol Index (Easy)]]></title>
+    <title><![CDATA[LeetCode 724. Find Pivol Index (Easy)]]></title>
     <url>%2F2020%2F06%2F26%2FLeetCode_724_%E5%AF%BB%E6%89%BE%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E5%BF%83%E7%B4%A2%E5%BC%95%2F</url>
     <content type="text"><![CDATA[题目:给定一个整数类型的数组nums，请编写一个能够返回数组 “中心索引” 的方法。 我们是这样定义数组 中心索引 的：数组中心索引的左侧所有元素相加的和等于右侧所有元素相加的和。 如果数组不存在中心索引，那么我们应该返回 -1。如果数组有多个中心索引，那么我们应该返回最靠近左边的那一个。 示例:123456输入：nums = [1, 7, 3, 6, 5, 6]输出：3解释：索引 3 (nums[3] = 6) 的左侧数之和 (1 + 7 + 3 = 11)，与右侧数之和 (5 + 6 = 11) 相等。同时, 3 也是第一个符合要求的中心索引。 12345输入：nums = [1, 2, 3]输出：-1解释：数组中不存在满足此条件的中心索引。 解题思路这里我们需要求的左边和以及右边的和进行比较,在进行遍历的时候对左边和进行求解是比较方便的.直接初始化leftSum=0,然后每次遍历之后可以+=进行累加求的leftSum. 最主要的还是通过leftSum求的rightSum(rightSum = sum(数组的和) - num.at(i) - leftSum) 每次循环先进行求的rightSum 然后与leftSum进行比较,如果相等则return 当前的次序i.直到数组遍历结束未找到左右和相等则返回-1. 代码1234567891011121314151617class Solution &#123;public: int pivotIndex(vector&lt;int&gt;&amp; nums) &#123; int sum = 0; int leftSum = 0; int rightSum = 0; for(int i=0;i&lt;nums.size();i++)&#123; sum += nums.at(i); &#125; for(int i=0;i&lt;nums.size();i++)&#123; rightSum = sum-nums.at(i)-leftSum; if(rightSum == leftSum) return i; leftSum += nums.at(i); &#125; return -1; &#125;&#125;;]]></content>
       <categories>
@@ -85,7 +85,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[1470. Shuffle the Array (Easy)]]></title>
+    <title><![CDATA[LeetCode 1470. Shuffle the Array (Easy)]]></title>
     <url>%2F2020%2F06%2F25%2FLeetCode_1470_%E9%87%8D%E6%96%B0%E6%8E%92%E5%88%97%E6%95%B0%E7%BB%84%2F</url>
     <content type="text"><![CDATA[题目给你一个数组 nums ，数组中有 2n 个元素，按 [x1,x2,...,xn,y1,y2,...,yn] 的格式排列。 请你将数组按 [x1,y1,x2,y2,...,xn,yn] 格式重新排列，返回重排后的数组。 示例示例 1： 123输入：nums = [2,5,1,3,4,7], n = 3输出：[2,3,5,4,1,7] 解释：由于 x1=2, x2=5, x3=1, y1=3, y2=4, y3=7 ，所以答案为 [2,3,5,4,1,7] 示例 2： 12输入：nums = [1,2,3,4,4,3,2,1], n = 4输出：[1,4,2,3,3,2,4,1] 示例 3： 12输入：nums = [1,1,2,2], n = 2输出：[1,2,1,2] 解题思路这里新建一个vector res,然后通过一次循环i-&gt;[0,n)将num[i]以及num[i+n]插入到新建的res中 (这里num[i]与num[i+n]分别代表题干表示的x1,y1)这样res中就保存了x1,y1,x2,y2等等..然后return 就完事儿了 代码1234567891011121314class Solution &#123;public: vector&lt;int&gt; shuffle(vector&lt;int&gt;&amp; nums, int n) &#123; vector&lt;int&gt; res; for(int i=0;i&lt;n;i++)&#123; res.push_back(nums[i]); res.push_back(nums[i+n]); &#125; return res; &#125;&#125;;]]></content>
       <categories>
@@ -97,7 +97,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[1486. XOR Operation in an Array (Easy)]]></title>
+    <title><![CDATA[LeetCode 1486. XOR Operation in an Array (Easy)]]></title>
     <url>%2F2020%2F06%2F24%2FLeetCode_1486_%E6%95%B0%E7%BB%84%E5%BC%82%E6%88%96%E8%BF%90%E7%AE%97%2F</url>
     <content type="text"><![CDATA[题目:给你两个整数，n 和 start 。 数组 nums 定义为：nums[i] = start + 2*i（下标从 0 开始）且 n == nums.length 。 请返回 nums 中所有元素按位异或（XOR）后得到的结果。 示例:1234输入：n = 5, start = 0输出：8解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8 。 &quot;^&quot; 为按位异或 XOR 运算符。 123输入：n = 4, start = 3输出：8解释：数组 nums 为 [3, 5, 7, 9]，其中 (3 ^ 5 ^ 7 ^ 9) = 8. 解题思路首先得明白按位异或(XOR)是什么: 参与运算的两个值，==如果两个相应位相同，则结果为0==，否则为1。即：0^0=0， 1^0=1， 0^1=1， 1^1=0 例如: 1235: 000001013: 000001005^3 = 00000001 -&gt; 1 我们这里只需要在一个for循环里面进行对每个数累计求异或运算 ^=即可 代码代码很简单 12345678910class Solution &#123;public: int xorOperation(int n, int start) &#123; int result = 0; for(int i=0; i&lt;n; i++)&#123; result ^= start + 2*i; &#125; return result; &#125;&#125;; 总结这道题是很简单的一道题.做这个题解的目的呢主要是记录一下 希望自己能慢慢在leetcode上刷题来提升自己去解决更复杂的问题.]]></content>
       <categories>
