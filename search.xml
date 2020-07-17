@@ -12,21 +12,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[LeetCode-145-postorderTraversal]]></title>
-    <url>%2F2020%2F07%2F14%2FLeetCode-145-postorderTraversal%2F</url>
-    <content type="text"><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[LeetCode-94-inorderTraversal]]></title>
-    <url>%2F2020%2F07%2F14%2FLeetCode-94-inorderTraversal%2F</url>
-    <content type="text"><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[LeetCode-144-preorderTraversal]]></title>
-    <url>%2F2020%2F07%2F14%2FLeetCode-144-preorderTraversal%2F</url>
-    <content type="text"><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[LeetCode 206. ReverseList (Medium)]]></title>
     <url>%2F2020%2F07%2F14%2FLeetCode-206-ReverseList%2F</url>
     <content type="text"><![CDATA[题目反转一个单链表。 示例示例: 12输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL 解题思路迭代法 + 双指针 在循环中需要做的事是要将当前节点指向前一个节点,所以就需要定义两个指针cur pre分别表示当前节点和前继节点.与此同时我们还需要在循环中用一个next来保存cur的后继节点避免出现节点丢失 Time complexity O(n)Space complexity O(1) 递归法 递归反转链表相比迭代是有一定的难度的我们需要明确这个函数的作用是什么:参数为头指针,反转链表后返回翻转后的链表 最难理解的是比如:4和5需要反转, 4-&gt;5 此时的cur是4,需要将cur.next.next = cur 将5的next指向4 图下是我在LeetCode讨论区找到一个gif方便理解: Time complexity O(n)Space complexity O(n) 代码迭代法 + 双指针 12345678910111213class Solution &#123; public static ListNode reverseListIterate(ListNode head) &#123; ListNode cur = head; ListNode pre = null; while(cur != null)&#123; ListNode next = cur.next; cur.next = pre; pre = cur; cur = next; &#125; return pre; &#125;&#125; 递归法 123456789class Solution &#123; public static ListNode reverseListRecursion(ListNode head)&#123; if(head == null || head.next == null) return head; ListNode temp = reverseListRecursion(head.next); head.next.next = head; head.next = null; return temp; &#125;&#125; 总结反转链表这个题最主要的还是递归方法的难以理解, 这也是递归经典题.在以后还是需要多加练习多总结才能帮助理解. 后面还要反转链表前n项 以及 反转链表部分项 等类似的题就更新到下一篇文章]]></content>
