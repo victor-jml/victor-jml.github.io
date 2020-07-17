@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Java关键字(final和static)]]></title>
+    <url>%2F2020%2F07%2F17%2FJava%E5%85%B3%E9%94%AE%E5%AD%97-final%E5%92%8Cstatic%2F</url>
+    <content type="text"><![CDATA[一. final1. 数据声明数据为常量，可以是编译时常量，也可以是在运行时被初始化后不能被改变的常量。 对于基本类型，final 使数值不变； 对于引用类型，final使引用不变，也就不能引用其它对象，但是被引用的对象本身是可以修改的。1234final int x = 1;// x = 2; // cannot assign value to final variable &apos;x&apos;final A y = new A();y.a = 1; 2. 方法声明方法不能被子类重写。 private 方法隐式地被指定为 final，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。 3. 类声明类不允许被继承。 二. static1. 静态变量 静态变量: 又称类变量,意思是这个变量是属于类的,类所有的实例都共享静态变量，可以直接通过类名来访问它.静态变量在内存中只存在一份. 实例变量: 每创建一个实例就会产生一个实例变量.123456789101112public class A &#123; private int x; // 实例变量 private static int y; // 静态变量 public static void main(String[] args) &#123; // int x = A.x; // Non-static field &apos;x&apos; cannot be referenced from a static context A a = new A(); int x = a.x; int y = A.y; &#125;&#125; 2. 静态方法静态方法在类加载的时候就存在了，它不依赖于任何实例.所以静态方法必须有实现，也就是说它不能是抽象方法. 12345public abstract class A &#123; public static void func1()&#123; &#125; // public abstract static void func2(); // Illegal combination of modifiers: &apos;abstract&apos; and &apos;static&apos;&#125; 只能访问所属类的静态字段和静态方法，方法中不能有 this 和 super 关键字，因此这两个关键字与具体对象关联。 Q:为什么静态方法不能调用非静态变量，非静态方法可以引用静态变量? A:理由很简单，静态方法不属于对象，是属于类的，是不需要实例化的，而非静态变量是属于对象的，需要先实例化。在一个类的静态成员中去访问其非静态成员之所以会出错是因为在类的非静态成员不存在的时候类的静态成员就已经存在了，访问一个内存中不存在的东西当然会出错. 抽象类,抽象方法(关于抽象类,抽象方法: 当父类的某些方法不确定时，可以用abstract关键字来修饰该方法[抽象方法]，用abstract来修饰该类[抽象类]. 父类是将子类所共同拥有的属性和方法进行抽取，这些属性和方法中，有的是已经明确实现了的，有的还无法确定，那么我们就可以将其定义成抽象，在后日子类进行重用，进行具体化. 12345678910111213141516// 这就是一个抽象类abstract class Animal &#123; String name; int age; // 动物会叫 public abstract void cry(); // 不确定动物怎么叫的。定义成抽象方法，来解决父类方法的不确定性。抽象方法在父类中不能实现，所以没有函数体。但在后续在继承时，要具体实现此方法。&#125;// 抽象类可以被继承// 当继承的父类是抽象类时，需要将抽象类中的所有抽象方法全部实现。class cat extends Animal &#123; // 实现父类的cry抽象方法 public void cry() &#123; System.out.println(&quot;猫叫:&quot;);&#125; 值得注意的是: 必须是抽象类才能拥有抽象方法 抽象方法在被子类继承的时候必须要实现(全部抽象方法) 抽象类不能被实例化 ) 3. 静态语句块静态语句块只在类初始化的时候运行一次 12345678910111213public class A &#123; static &#123; System.out.println(&quot;123&quot;); &#125; public static void main(String[] args) &#123; A a1 = new A(); A a2 = new A(); &#125;&#125;only print 1 time123 4. 静态内部类非静态内部类依赖于外部类的实例，也就是说需要先创建外部类实例，才能用这个实例去创建非静态内部类。而静态内部类不需要. 123456789101112131415public class OuterClass &#123; class InnerClass &#123; &#125; static class StaticInnerClass &#123; &#125; public static void main(String[] args) &#123; // InnerClass innerClass = new InnerClass(); // &apos;OuterClass.this&apos; cannot be referenced from a static context OuterClass outerClass = new OuterClass(); InnerClass innerClass = outerClass.new InnerClass(); StaticInnerClass staticInnerClass = new StaticInnerClass(); &#125;&#125; 静态内部类不能访问外部类的非静态的变量和方法 5. 初始化顺序静态变量和静态语句块优先于实例变量和普通语句块，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序 1public static String staticField = &quot;静态变量&quot;; 123static &#123; System.out.println(&quot;静态语句块&quot;);&#125; 1public String field = &quot;实例变量&quot;; 123public InitialOrderTest() &#123; System.out.println(&quot;构造函数&quot;);&#125; 如果存在继承关系的时候,初始化顺序为: 123456父类（静态变量、静态语句块）子类（静态变量、静态语句块）父类（实例变量、普通语句块）父类（构造函数）子类（实例变量、普通语句块）子类（构造函数）]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[LeetCode-145-postorderTraversal]]></title>
+    <url>%2F2020%2F07%2F14%2FLeetCode-145-postorderTraversal%2F</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[LeetCode-94-inorderTraversal]]></title>
+    <url>%2F2020%2F07%2F14%2FLeetCode-94-inorderTraversal%2F</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[LeetCode-144-preorderTraversal]]></title>
+    <url>%2F2020%2F07%2F14%2FLeetCode-144-preorderTraversal%2F</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[LeetCode 206. ReverseList (Medium)]]></title>
     <url>%2F2020%2F07%2F14%2FLeetCode-206-ReverseList%2F</url>
     <content type="text"><![CDATA[题目反转一个单链表。 示例示例: 12输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL 解题思路迭代法 + 双指针 在循环中需要做的事是要将当前节点指向前一个节点,所以就需要定义两个指针cur pre分别表示当前节点和前继节点.与此同时我们还需要在循环中用一个next来保存cur的后继节点避免出现节点丢失 Time complexity O(n)Space complexity O(1) 递归法 递归反转链表相比迭代是有一定的难度的我们需要明确这个函数的作用是什么:参数为头指针,反转链表后返回翻转后的链表 最难理解的是比如:4和5需要反转, 4-&gt;5 此时的cur是4,需要将cur.next.next = cur 将5的next指向4 图下是我在LeetCode讨论区找到一个gif方便理解: Time complexity O(n)Space complexity O(n) 代码迭代法 + 双指针 12345678910111213class Solution &#123; public static ListNode reverseListIterate(ListNode head) &#123; ListNode cur = head; ListNode pre = null; while(cur != null)&#123; ListNode next = cur.next; cur.next = pre; pre = cur; cur = next; &#125; return pre; &#125;&#125; 递归法 123456789class Solution &#123; public static ListNode reverseListRecursion(ListNode head)&#123; if(head == null || head.next == null) return head; ListNode temp = reverseListRecursion(head.next); head.next.next = head; head.next = null; return temp; &#125;&#125; 总结反转链表这个题最主要的还是递归方法的难以理解, 这也是递归经典题.在以后还是需要多加练习多总结才能帮助理解. 后面还要反转链表前n项 以及 反转链表部分项 等类似的题就更新到下一篇文章]]></content>

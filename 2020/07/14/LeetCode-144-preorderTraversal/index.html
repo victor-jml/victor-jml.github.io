@@ -14,25 +14,21 @@
     
     
     
-    <title>LeetCode 1470. Shuffle the Array (Easy) |  | 保持独立 适当拥有</title>
+    <title>LeetCode-144-preorderTraversal |  | 保持独立 适当拥有</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Array">
-    <meta name="description" content="题目给你一个数组 nums ，数组中有 2n 个元素，按 [x1,x2,...,xn,y1,y2,...,yn] 的格式排列。 请你将数组按 [x1,y1,x2,y2,...,xn,yn] 格式重新排列，返回重排后的数组。 示例示例 1： 123输入：nums = [2,5,1,3,4,7], n = 3输出：[2,3,5,4,1,7] 解释：由于 x1=2, x2=5, x3=1, y1=3,">
-<meta name="keywords" content="Array">
-<meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode 1470. Shuffle the Array (Easy)">
-<meta property="og:url" content="http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/index.html">
+    <meta name="keywords" content>
+    <meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode-144-preorderTraversal">
+<meta property="og:url" content="http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="题目给你一个数组 nums ，数组中有 2n 个元素，按 [x1,x2,...,xn,y1,y2,...,yn] 的格式排列。 请你将数组按 [x1,y1,x2,y2,...,xn,yn] 格式重新排列，返回重排后的数组。 示例示例 1： 123输入：nums = [2,5,1,3,4,7], n = 3输出：[2,3,5,4,1,7] 解释：由于 x1=2, x2=5, x3=1, y1=3,">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-07-14T13:50:56.998Z">
+<meta property="og:updated_time" content="2020-07-14T13:52:38.820Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LeetCode 1470. Shuffle the Array (Easy)">
-<meta name="twitter:description" content="题目给你一个数组 nums ，数组中有 2n 个元素，按 [x1,x2,...,xn,y1,y2,...,yn] 的格式排列。 请你将数组按 [x1,y1,x2,y2,...,xn,yn] 格式重新排列，返回重排后的数组。 示例示例 1： 123输入：nums = [2,5,1,3,4,7], n = 3输出：[2,3,5,4,1,7] 解释：由于 x1=2, x2=5, x3=1, y1=3,">
+<meta name="twitter:title" content="LeetCode-144-preorderTraversal">
     
         <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
     
@@ -120,7 +116,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">LeetCode 1470. Shuffle the Array (Easy)</div>
+        <div class="flex-col header-title ellipsis">LeetCode-144-preorderTraversal</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -142,15 +138,13 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">LeetCode 1470. Shuffle the Array (Easy)</h1>
+        <h1 class="title">LeetCode-144-preorderTraversal</h1>
         <h5 class="subtitle">
             
-                <time datetime="2020-06-25T03:28:14.000Z" itemprop="datePublished" class="page-time">
-  2020-06-25
+                <time datetime="2020-07-14T13:52:38.000Z" itemprop="datePublished" class="page-time">
+  2020-07-14
 </time>
 
-
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/LeetCode/">LeetCode</a></li></ul></li></ul>
 
             
         </h5>
@@ -164,44 +158,23 @@
 
 <div class="container body-wrap">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题目"><span class="post-toc-number">1.</span> <span class="post-toc-text">题目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#示例"><span class="post-toc-number">2.</span> <span class="post-toc-text">示例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解题思路"><span class="post-toc-number">3.</span> <span class="post-toc-text">解题思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">代码</span></a></li></ol>
-        </nav>
-    </aside>
 
-
-<article id="post-LeetCode_1470_重新排列数组"
+<article id="post-LeetCode-144-preorderTraversal"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">LeetCode 1470. Shuffle the Array (Easy)</h1>
+        <h1 class="post-card-title">LeetCode-144-preorderTraversal</h1>
         <div class="post-meta">
-            <time class="post-time" title="2020-06-25 11:28:14" datetime="2020-06-25T03:28:14.000Z"  itemprop="datePublished">2020-06-25</time>
+            <time class="post-time" title="2020-07-14 21:52:38" datetime="2020-07-14T13:52:38.000Z"  itemprop="datePublished">2020-07-14</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/LeetCode/">LeetCode</a></li></ul></li></ul>
-
 
 
             
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>给你一个数组 <code>nums</code> ，数组中有 <code>2n</code> 个元素，按 <code>[x1,x2,...,xn,y1,y2,...,yn]</code> 的格式排列。</p>
-<p>请你将数组按 <code>[x1,y1,x2,y2,...,xn,yn]</code> 格式重新排列，返回重排后的数组。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [2,5,1,3,4,7], n = 3</span><br><span class="line">输出：[2,3,5,4,1,7] </span><br><span class="line">解释：由于 x1=2, x2=5, x3=1, y1=3, y2=4, y3=7 ，所以答案为 [2,3,5,4,1,7]</span><br></pre></td></tr></table></figure>
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,2,3,4,4,3,2,1], n = 4</span><br><span class="line">输出：[1,4,2,3,3,2,4,1]</span><br></pre></td></tr></table></figure>
-
-<p>示例 3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,1,2,2], n = 2</span><br><span class="line">输出：[1,2,1,2]</span><br></pre></td></tr></table></figure>
-
-<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>这里新建一个<code>vector</code> <code>res</code>,然后通过一次循环i-&gt;<code>[0,n)</code><br>将<code>num[i]</code>以及<code>num[i+n]</code>插入到新建的res中 (这里<code>num[i]</code>与<code>num[i+n]</code>分别代表题干表示的x1,y1)<br>这样<code>res</code>中就保存了<code>x1,y1,x2,y2</code>等等..<br>然后<code>return</code> 就完事儿了</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; shuffle(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> n) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            res.push_back(nums[i]);</span><br><span class="line">            res.push_back(nums[i+n]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+            
         </div>
 
         <blockquote class="post-copyright">
@@ -209,7 +182,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-07-14T13:50:56.998Z" itemprop="dateUpdated">2020-07-14 21:50:56</time>
+    Last updated: <time datetime="2020-07-14T13:52:38.820Z" itemprop="dateUpdated">2020-07-14 21:52:38</time>
 </span><br>
 
 
@@ -233,8 +206,6 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Array/">Array</a></li></ul>
-
 
             
 <div class="page-share-wrap">
@@ -243,7 +214,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/&title=《LeetCode 1470. Shuffle the Array (Easy)》 — null&pic=http://yoursite.com/imgs/头像.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/&title=《LeetCode-144-preorderTraversal》 — null&pic=http://yoursite.com/imgs/头像.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -253,22 +224,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/&title=《LeetCode 1470. Shuffle the Array (Easy)》 — null&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/&title=《LeetCode-144-preorderTraversal》 — null&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode 1470. Shuffle the Array (Easy)》 — null&url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode-144-preorderTraversal》 — null&url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -291,18 +262,18 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2020/06/26/LeetCode_724_寻找数组的中心索引/" id="post-prev" class="post-nav-link">
+      <a href="/2020/07/14/LeetCode-94-inorderTraversal/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">LeetCode 724. Find Pivol Index (Easy)</h4>
+        <h4 class="title">LeetCode-94-inorderTraversal</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2020/06/24/LeetCode_1486_数组异或运算/" id="post-next" class="post-nav-link">
+      <a href="/2020/07/14/LeetCode-206-ReverseList/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">LeetCode 1486. XOR Operation in an Array (Easy)</h4>
+        <h4 class="title">LeetCode 206. ReverseList (Medium)</h4>
       </a>
     </div>
   
@@ -417,7 +388,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/&title=《LeetCode 1470. Shuffle the Array (Easy)》 — null&pic=http://yoursite.com/imgs/头像.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/&title=《LeetCode-144-preorderTraversal》 — null&pic=http://yoursite.com/imgs/头像.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -427,22 +398,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/&title=《LeetCode 1470. Shuffle the Array (Easy)》 — null&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/&title=《LeetCode-144-preorderTraversal》 — null&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode 1470. Shuffle the Array (Easy)》 — null&url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode-144-preorderTraversal》 — null&url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -453,7 +424,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/06/25/LeetCode_1470_重新排列数组/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/07/14/LeetCode-144-preorderTraversal/" alt="微信分享二维码">
 </div>
 
 
