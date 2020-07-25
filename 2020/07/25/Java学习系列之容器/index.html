@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Java学习系列之容器 |  | 保持独立 适当拥有</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,Container">
+    <meta name="description" content="一.概览容器主要包括Collection和Map两种,Collection存储着对象集合而Map存储着键值对(两个对象)的映射表                                                                                                             1.Set TreeSet:基于红黑树实现，支持有序性">
+<meta name="keywords" content="Java,Container">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习系列之容器">
+<meta property="og:url" content="http://yoursite.com/2020/07/25/Java学习系列之容器/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="一.概览容器主要包括Collection和Map两种,Collection存储着对象集合而Map存储着键值对(两个对象)的映射表                                                                                                             1.Set TreeSet:基于红黑树实现，支持有序性">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/549734/201609/549734-20160920135339059-1268675998.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/25/aSrm8O.jpg">
+<meta property="og:updated_time" content="2020-07-25T13:02:13.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java学习系列之容器">
+<meta name="twitter:description" content="一.概览容器主要包括Collection和Map两种,Collection存储着对象集合而Map存储着键值对(两个对象)的映射表                                                                                                             1.Set TreeSet:基于红黑树实现，支持有序性">
+<meta name="twitter:image" content="https://images2015.cnblogs.com/blog/549734/201609/549734-20160920135339059-1268675998.png">
+    
+        <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/imgs/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/imgs/头像.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Enoch_oahz</h5>
+          <a href="mailto:972193026zy@gmail.com" title="972193026zy@gmail.com" class="mail">972193026zy@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Homepage
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/victor-jml" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/6348371389?topnav=1&wvr=6&topsug=1" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java学习系列之容器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java学习系列之容器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-07-25T12:59:12.000Z" itemprop="datePublished" class="page-time">
+  2020-07-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一-概览"><span class="post-toc-number">1.</span> <span class="post-toc-text">一.概览</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Set"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.Set</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-List"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.List</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-Queue"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3.Queue</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Map"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">4.Map</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二-源码分析"><span class="post-toc-number">2.</span> <span class="post-toc-text">二.源码分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArrayList"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">ArrayList</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-概览"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">1.概览</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-扩容"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">2.扩容</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-删除"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">3.删除</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-序列化"><span class="post-toc-number">2.1.4.</span> <span class="post-toc-text">4.序列化</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#后续待更新"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">后续待更新</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Java学习系列之容器"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java学习系列之容器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-07-25 20:59:12" datetime="2020-07-25T12:59:12.000Z"  itemprop="datePublished">2020-07-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="一-概览"><a href="#一-概览" class="headerlink" title="一.概览"></a>一.概览</h2><p>容器主要包括<code>Collection</code>和<code>Map</code>两种,<code>Collection</code>存储着对象集合而<code>Map</code>存储着键值对(两个对象)的映射表</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://images2015.cnblogs.com/blog/549734/201609/549734-20160920135339059-1268675998.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<h3 id="1-Set"><a href="#1-Set" class="headerlink" title="1.Set"></a>1.Set</h3><ul>
+<li><p><code>TreeSet</code>:基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 <code>O(1)</code>，<code>TreeSet</code> 则为 <code>O(logN)</code></p>
+</li>
+<li><p><code>HashSet</code>:基于哈希表实现,支持快速查找,但不支持有序性操作.并且失去了元素的插入顺序信息,也就是说使用 <code>Iterator</code> 遍历 <code>HashSet</code> 得到的结果是不确定的</p>
+</li>
+<li><p><code>LinkedHashSet</code>:具有 <code>HashSet</code> 的查找效率,并且内部使用双向链表维护元素的插入顺序</p>
+</li>
+</ul>
+<h3 id="2-List"><a href="#2-List" class="headerlink" title="2.List"></a>2.List</h3><ul>
+<li><code>ArrayList</code>: 基于动态数组实现,支持随机访问</li>
+<li><code>Vector</code>: 和ArrayList类似,是线程安全的</li>
+<li><code>LinkedList</code>: 基于双向链表实现的,只能顺序访问,但是可以快速地在链表中间插入和删除元素.LinkedList 还可以用作栈、队列和双向队列.</li>
+</ul>
+<h3 id="3-Queue"><a href="#3-Queue" class="headerlink" title="3.Queue"></a>3.Queue</h3><ul>
+<li><code>LinkedList</code>：可以用它来实现双向队列.</li>
+<li><code>PriorityQueue</code>：基于堆结构实现，可以用它来实现优先队列.</li>
+</ul>
+<h3 id="4-Map"><a href="#4-Map" class="headerlink" title="4.Map"></a>4.Map</h3><ul>
+<li><p><code>TreeMap</code>：基于红黑树实现.</p>
+</li>
+<li><p><code>HashMap</code>：基于哈希表实现.</p>
+</li>
+<li><p><code>HashTable</code>：和 <code>HashMap</code> 类似,但它是线程安全的,这意味着同一时刻多个线程同时写入 <code>HashTable</code> 不会导致数据不一致.它是遗留类,不应该去使用它,而是使用 <code>ConcurrentHashMap</code> 来支持线程安全，<code>ConcurrentHashMap</code> 的效率会更高，因为 <code>ConcurrentHashMap</code> 引入了分段锁。</p>
+</li>
+<li><p>LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序.</p>
+</li>
+</ul>
+<h2 id="二-源码分析"><a href="#二-源码分析" class="headerlink" title="二.源码分析"></a>二.源码分析</h2><p>以下源码分析基于 JDK 1.8</p>
+<h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><h4 id="1-概览"><a href="#1-概览" class="headerlink" title="1.概览"></a>1.概览</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E e) &#123;</span><br><span class="line">    ensureCapacityInternal(size + 1);  // Increments modCount!!</span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void ensureCapacityInternal(int minCapacity) &#123;</span><br><span class="line">    if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">    ensureExplicitCapacity(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void ensureExplicitCapacity(int minCapacity) &#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    // overflow-conscious code</span><br><span class="line">    if (minCapacity - elementData.length &gt; 0)</span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private void grow(int minCapacity) &#123;</span><br><span class="line">    // overflow-conscious code</span><br><span class="line">    int oldCapacity = elementData.length;</span><br><span class="line">    int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br><span class="line">    if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    // minCapacity is usually close to size, so this is a win:</span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-扩容"><a href="#2-扩容" class="headerlink" title="2.扩容"></a>2.扩容</h4><p>添加元素时使用 <code>ensureCapacityInternal()</code> 方法来保证容量足够,如果不够时,需要使用 <code>grow()</code> 方法进行扩容,新容量的大小为 <code>oldCapacity + (oldCapacity &gt;&gt; 1)</code> 也就是旧容量的 1.5 倍.</p>
+<p><strong>分析</strong>:</p>
+<ol>
+<li><p>把数组的长度赋给oldCapacity</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int oldCapacity = elementData.length;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新的数组容量=老的数组长度的1.5倍.<code>oldCapacity &gt;&gt; 1</code> 相当于除以2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>(这里补一下位运算的知识)</p>
+<p><strong>位运算</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/07/25/aSrm8O.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<ol start="3">
+<li>如果新的数组容量<code>newCapacity</code>小于传入的参数要求的最小容量<code>minCapacity</code>,那么新的数组容量以传入的容量参数为准<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">newCapacity = minCapacity;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>4.如果新的数组容量<code>newCapacity</code>大于数组能容纳的最大元素个数 <code>MAX_ARRAY_SIZE</code> (2^{31}-1-8)<br>那么再判断传入的参数<code>minCapacity</code>是否大于<code>MAX_ARRAY_SIZE</code>,如果<code>minCapacity</code>大于<code>MAX_ARRAY_SIZE</code>,那么<code>newCapacity</code>等于<code>Integer.MAX_VALUE</code>,否者<code>newCapacity</code>等于<code>MAX_ARRAY_SIZE</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">newCapacity = hugeCapacity(minCapacity);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-删除"><a href="#3-删除" class="headerlink" title="3.删除"></a>3.删除</h4><p>需要调用 <code>System.arraycopy()</code> 将 <code>index+1</code> 后面的元素都复制到 <code>index</code> 位置上，该操作的时间复杂度为 O(N)，可以看到 <code>ArrayList</code> 删除元素的代价是非常高的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public E remove(int index) &#123;</span><br><span class="line">    rangeCheck(index);</span><br><span class="line">    modCount++;</span><br><span class="line">    E oldValue = elementData(index);</span><br><span class="line">    int numMoved = size - index - 1;</span><br><span class="line">    if (numMoved &gt; 0)</span><br><span class="line">        System.arraycopy(elementData, index+1, elementData, index, numMoved);</span><br><span class="line">    elementData[--size] = null; // clear to let GC do its work</span><br><span class="line">    return oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-序列化"><a href="#4-序列化" class="headerlink" title="4.序列化"></a>4.序列化</h4><p>ArrayList 基于数组实现,并且具有动态扩容特性,因此保存元素的数组不一定都会被使用,那么就没必要全部进行序列化</p>
+<p>保存元素的数组 <code>elementData</code> 使用 <code>transient</code> 修饰,该关键字声明数组默认不会被序列化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transient Object[] elementData; // non-private to simplify nested class access</span><br></pre></td></tr></table></figure>
+
+<p>ArrayList 实现了<code>writeObject()</code> 和 <code>readObject()</code> 来控制只序列化数组中有元素填充那部分内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private void readObject(java.io.ObjectInputStream s)</span><br><span class="line">    throws java.io.IOException, ClassNotFoundException &#123;</span><br><span class="line">    elementData = EMPTY_ELEMENTDATA;</span><br><span class="line"></span><br><span class="line">    // Read in size, and any hidden stuff</span><br><span class="line">    s.defaultReadObject();</span><br><span class="line"></span><br><span class="line">    // Read in capacity</span><br><span class="line">    s.readInt(); // ignored</span><br><span class="line"></span><br><span class="line">    if (size &gt; 0) &#123;</span><br><span class="line">        // be like clone(), allocate array based upon size not capacity</span><br><span class="line">        ensureCapacityInternal(size);</span><br><span class="line"></span><br><span class="line">        Object[] a = elementData;</span><br><span class="line">        // Read in all elements in the proper order.</span><br><span class="line">        for (int i=0; i&lt;size; i++) &#123;</span><br><span class="line">            a[i] = s.readObject();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">private void writeObject(java.io.ObjectOutputStream s)</span><br><span class="line">    throws java.io.IOException&#123;</span><br><span class="line">    // Write out element count, and any hidden stuff</span><br><span class="line">    int expectedModCount = modCount;</span><br><span class="line">    s.defaultWriteObject();</span><br><span class="line"></span><br><span class="line">    // Write out size as capacity for behavioural compatibility with clone()</span><br><span class="line">    s.writeInt(size);</span><br><span class="line"></span><br><span class="line">    // Write out all elements in the proper order.</span><br><span class="line">    for (int i=0; i&lt;size; i++) &#123;</span><br><span class="line">        s.writeObject(elementData[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (modCount != expectedModCount) &#123;</span><br><span class="line">        throw new ConcurrentModificationException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>序列化时需要使用 <code>ObjectOutputStream</code> 的 <code>writeObject()</code> 将对象转换为字节流并输出.而 <code>writeObject()</code> 方法在传入的对象存在 <code>writeObject()</code> 的时候会去反射调用该对象的 <code>writeObject()</code> 来实现序列化.反序列化使用的是 <code>ObjectInputStream</code> 的 <code>readObject()</code> 方法，原理类似.</p>
+<h3 id="后续待更新"><a href="#后续待更新" class="headerlink" title="后续待更新"></a>后续待更新</h3>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-07-25T13:02:13.596Z" itemprop="dateUpdated">2020-07-25 21:02:13</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/imgs/头像.jpg" alt="Enoch_oahz">
+            Enoch_oahz
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Container/">Container</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/07/25/Java学习系列之容器/&title=《Java学习系列之容器》 — null&pic=http://yoursite.com/imgs/头像.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/07/25/Java学习系列之容器/&title=《Java学习系列之容器》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/25/Java学习系列之容器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java学习系列之容器》 — null&url=http://yoursite.com/2020/07/25/Java学习系列之容器/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/07/25/Java学习系列之容器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/07/24/Java学习系列之Obejct通用方法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java学习系列之Obejct通用方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'true' == 'true',
+            appId: "QOhHE7vik6EDBujmNQzI4KDH-gzGzoHsz",
+            appKey: "YGS4Tvy323QSQs4DFzGVCKH9",
+            avatar: "monsterid",
+            placeholder: "填写你的邮箱可以收到我的回信",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        thanks~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/imgs/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/imgs/wechat.png" data-alipay="/imgs/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Enoch_oahz &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/07/25/Java学习系列之容器/&title=《Java学习系列之容器》 — null&pic=http://yoursite.com/imgs/头像.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/07/25/Java学习系列之容器/&title=《Java学习系列之容器》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/25/Java学习系列之容器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java学习系列之容器》 — null&url=http://yoursite.com/2020/07/25/Java学习系列之容器/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/07/25/Java学习系列之容器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/07/25/Java学习系列之容器/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
