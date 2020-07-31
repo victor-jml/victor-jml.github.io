@@ -29,7 +29,7 @@
 <meta property="og:site_name">
 <meta property="og:description" content="题目给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。 相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。 示例例如，给定三角形： 123456[     [2],    [3,4],   [6,5,7],  [4,1,8,3]]  自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11） 解题思路D">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-07-26T15:59:35.824Z">
+<meta property="og:updated_time" content="2020-07-27T03:22:26.039Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 120. MinimunTotal(Medium)">
 <meta name="twitter:description" content="题目给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。 相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。 示例例如，给定三角形： 123456[     [2],    [3,4],   [6,5,7],  [4,1,8,3]]  自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11） 解题思路D">
@@ -196,7 +196,7 @@
 
 <p>自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p><strong>DP(自底向上)</strong></p>
-<p>DP数组,我们需要开辟<code>n+1</code>x<code>m+1</code>的大小.此时的<code>m</code>和<code>n</code>分别为给定List数组的大小即:</p>
+<p>DP数组,我们需要开辟<code>n+1</code>x<code>m+1</code>的大小.此时的<code>m</code>和<code>n</code>分别为给定List的大小即:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int m = triangle.size();</span><br><span class="line">        int n = triangle.get(m-1).size();</span><br><span class="line">        int[][] dp = new int[n+1][m+1];</span><br></pre></td></tr></table></figure>
 
 <p>然后并初始化最下层为0 也就是<code>dp[n][i]</code> (<code>i</code> : <code>0-m</code>) 即:</p>
@@ -219,7 +219,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-07-26T15:59:35.824Z" itemprop="dateUpdated">2020-07-26 23:59:35</time>
+    Last updated: <time datetime="2020-07-27T03:22:26.039Z" itemprop="dateUpdated">2020-07-27 11:22:26</time>
 </span><br>
 
 
