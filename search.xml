@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[LeetCode 240. FindNumberIn2DArray(Easy)(剑指Offer 04)]]></title>
+    <url>%2F2020%2F08%2F03%2FLeetCode-240-FindNumberIn2DArray-%E5%89%91%E6%8C%87Offer-04%2F</url>
+    <content type="text"><![CDATA[题目:在一个 n * m的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 示例现有矩阵 matrix 如下： 1234567[ [1, 4, 7, 11, 15], [2, 5, 8, 12, 19], [3, 6, 9, 16, 22], [10, 13, 14, 17, 24], [18, 21, 23, 26, 30]] 给定 target = 5，返回 true。 给定 target = 20，返回 false。 限制0 &lt;= n &lt;= 1000 0 &lt;= m &lt;= 1000 解题思路我们要从一个二维数组的里面找是否存在某一特定值target, 因为该二维数组存在一个规律: 每一行从左到右递增的顺序排序 每一列从上到下递增的顺序排列 从这个规律中我们可以得出几个结论: 左上角的值是每一行最小同时也是每一列最小的 右上角的值是每一行最大的同时是每一列最小的 左下角的值是每一行最小同时也是每一列最大的 右下角的值是每一行最大的同时是每一列最大的 我们比较值可以从这四个角度去当作入口进入数组进行比较.但是其中左上和右下的值都是同为最小或者最大,导致我们进行判定matrix[i][j]与target大小关系时. 例如: matrix[i][j] &gt; target我们就可以判断该target 不在该二维数组中 而当matrix[i][j] &lt; target时 就剩下右边和下方以及重叠区域需要进行判断会很复杂 所以我们选择右上或者左下的值当作入口进行判断.当matrix[i][j] &gt; target 时,我们就可以排除当前列(因为该值为当前列的最小值). 当matrix[i][j] &lt; target时,我们就可以排除当前行(因为该值为当前值的最大值) 这样一来我们每一次进行比较就可以排除一行或者一列直到找到是否存在. 代码12345678910111213141516class Solution &#123; public boolean findNumberIn2DArray(int[][] matrix, int target) &#123; if(matrix.length == 0 || matrix[0].length == 0) return false; int m = matrix.length; int n = matrix[0].length; for(int i = 0; i &lt; m; i++)&#123; int[] col = matrix[i]; for(int j = n-1; j &gt;= 0; j--)&#123; if(matrix[i][j] == target) return true; else if(matrix[i][j] &gt; target) n--; else break; &#125; &#125; return false; &#125;&#125;]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>Array</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[LeetCode 120. MinimunTotal(Medium)]]></title>
     <url>%2F2020%2F07%2F26%2FLeetCode-120-MinimunTotal%2F</url>
     <content type="text"><![CDATA[题目给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。 相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。 示例例如，给定三角形： 123456[ [2], [3,4], [6,5,7], [4,1,8,3]] 自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11） 解题思路DP(自底向上) DP数组,我们需要开辟n+1xm+1的大小.此时的m和n分别为给定List的大小即: 123int m = triangle.size(); int n = triangle.get(m-1).size(); int[][] dp = new int[n+1][m+1]; 然后并初始化最下层为0 也就是dp[n][i] (i : 0-m) 即: 1234//初始化第n层均为0 for(int i = 0;i &lt;= n;i++)&#123; dp[m][i] = 0; &#125; 因为我们是从顶向上进行求解的.我们在得出dp状态转换方程为: 1dp[i][j] = min(dp[i+1][j],dp[i+1][j+1]) + nums[i][j] dp[i][j] 表示从点 (i, j)(i,j) 到底边的最小路径和 这种解法相比自顶向下的递归有一个好处就是不需要在最后的时候查找最小值而是直接返回dp[0][0]就可以了 代码DP(自底向上) 123456789101112131415161718class Solution &#123; public int minimumTotal(List&lt;List&lt;Integer&gt;&gt; triangle) &#123; if(triangle == null || triangle.size() == 0) return 0; int m = triangle.size(); int n = triangle.get(m-1).size(); int[][] dp = new int[n+1][m+1]; //初始化第m层均为0 for(int i = 0;i &lt;= n;i++)&#123; dp[m][i] = 0; &#125; for(int i = m-1;i &gt;= 0;i--)&#123; for(int j = 0;j &lt;= i;j++)&#123; dp[i][j] = Math.min(dp[i+1][j],dp[i+1][j+1]) + triangle.get(i).get(j); &#125; &#125; return dp[0][0]; &#125;&#125; 总结目前只把自己懂的一种解法写出来了,还在研究其他大佬的解法.在后面会更新.]]></content>

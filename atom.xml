@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-27T03:22:26.039Z</updated>
+  <updated>2020-08-03T11:18:15.756Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode 240. FindNumberIn2DArray(Easy)(剑指Offer 04)</title>
+    <link href="http://yoursite.com/2020/08/03/LeetCode-240-FindNumberIn2DArray-%E5%89%91%E6%8C%87Offer-04/"/>
+    <id>http://yoursite.com/2020/08/03/LeetCode-240-FindNumberIn2DArray-剑指Offer-04/</id>
+    <published>2020-08-03T11:17:07.000Z</published>
+    <updated>2020-08-03T11:18:15.756Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="题目"><a href="#题目" class="headerlink" title="题目:"></a>题目:</h3><p>在一个 <code>n</code> * <code>m</code>的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p><h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>现有矩阵 matrix 如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [1,   4,  7, 11, 15],</span><br><span class="line">  [2,   5,  8, 12, 19],</span><br><span class="line">  [3,   6,  9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><p>给定 target = <code>5</code>，返回 <code>true</code>。</p><p>给定 target = <code>20</code>，返回 <code>false</code>。</p><h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><p>0 &lt;= n &lt;= 1000</p><p>0 &lt;= m &lt;= 1000</p><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>我们要从一个二维数组的里面找是否存在某一特定值<code>target</code>, 因为该二维数组存在一个规律:</p><ul><li>每一行从左到右递增的顺序排序</li><li>每一列从上到下递增的顺序排列</li></ul><p>从这个规律中我们可以得出几个结论:</p><ol><li>左上角的值是每一行<strong>最小</strong>同时也是每一列<strong>最小</strong>的</li><li>右上角的值是每一行<strong>最大</strong>的同时是每一列<strong>最小</strong>的</li><li>左下角的值是每一行<strong>最小</strong>同时也是每一列<strong>最大</strong>的</li><li>右下角的值是每一行<strong>最大</strong>的同时是每一列<strong>最大</strong>的</li></ol><p>我们比较值可以从这四个角度去当作入口进入数组进行比较.但是其中<strong>左上</strong>和<strong>右下</strong>的值都是同为最小或者最大,导致我们进行判定<code>matrix[i][j]</code>与<code>target</code>大小关系<br>时. 例如:</p><p><code>matrix[i][j] &gt; target</code><br>我们就可以判断该target 不在该二维数组中</p><p>而当<code>matrix[i][j] &lt; target</code>时就剩下右边和下方以及重叠区域需要进行判断会很复杂</p><p>所以我们选择<strong>右上或者左下的值当作入口</strong>进行判断.<br>当<code>matrix[i][j] &gt; target</code> 时,我们就可以排除当前列(因为该值为当前列的最小值).</p><p>当<code>matrix[i][j] &lt; target</code>时,我们就可以排除当前行(因为该值为当前值的最大值)</p><p>这样一来我们每一次进行比较就可以排除一行或者一列直到找到是否存在.</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">int</span> m = matrix.length;</span><br><span class="line">        <span class="keyword">int</span> n = matrix[<span class="number">0</span>].length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)&#123;</span><br><span class="line">            <span class="keyword">int</span>[] col = matrix[i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = n-<span class="number">1</span>; j &gt;= <span class="number">0</span>; j--)&#123;</span><br><span class="line">                <span class="keyword">if</span>(matrix[i][j] == target) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(matrix[i][j] &gt; target) n--;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+      <category term="LeetCode" scheme="http://yoursite.com/categories/study/LeetCode/"/>
+    
+    
+      <category term="Array" scheme="http://yoursite.com/tags/Array/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode 120. MinimunTotal(Medium)</title>
