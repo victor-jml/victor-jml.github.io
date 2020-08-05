@@ -87,9 +87,16 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[LeetCode-145-postorderTraversal]]></title>
+    <title><![CDATA[LeetCode 145. postorderTraversal(Hard)]]></title>
     <url>%2F2020%2F07%2F14%2FLeetCode-145-postorderTraversal%2F</url>
-    <content type="text"><![CDATA[]]></content>
+    <content type="text"><![CDATA[题目给定一个二叉树，返回它的 后序 遍历。 示例12345678输入: [1,null,2,3] 1 \ 2 / 3 输出: [3,2,1] 进阶:递归算法很简单，你可以通过迭代算法完成吗？ 解题思路常规思路 递归 迭代 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849/** * Definition for a binary tree node. * public class TreeNode &#123; * int val; * TreeNode left; * TreeNode right; * TreeNode(int x) &#123; val = x; &#125; * &#125; */class Solution &#123; // 1. Recursion // public List&lt;Integer&gt; postorderTraversal(TreeNode root) &#123; // List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;(); // if(root == null) return res; // Recursion(root,res); // return res; // &#125; // public void Recursion(TreeNode root,List&lt;Integer&gt; res)&#123; // if(root.left != null) Recursion(root.left,res); // if(root.right != null) Recursion(root.right,res); // res.add(root.val); // &#125; // 2. Iteration public List&lt;Integer&gt; postorderTraversal(TreeNode root) &#123; List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;(); if(root == null) return res; Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;(); TreeNode target = null; while(root != null || !stack.isEmpty())&#123; while(root != null)&#123; stack.push(root); root = root.left; &#125; root = stack.peek(); if(root.right == null || target == root.right)&#123; root = stack.pop(); res.add(root.val); target = root; root = null; &#125;else&#123; root = root.right; &#125; &#125; return res; &#125; &#125;]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>BinaryTree</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[LeetCode 94. inorderTraversal(Medium)]]></title>
