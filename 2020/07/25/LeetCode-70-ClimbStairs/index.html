@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="Array,DP">
-    <meta name="description" content="题目假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。 示例示例1: 12345输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶2.  2 阶  示例2: 123456输入： 3输出： 3解释： 有三种方法可以爬到楼顶。1.  1 阶 + 1 阶 + 1 阶2.  1">
+    <meta name="description" content="题目假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。 在线练习LeetCode: https://leetcode-cn.com/problems/climbing-stairs/ 示例示例1: 12345输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶2.  2 阶">
 <meta name="keywords" content="Array,DP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 70. ClimbStairs(Easy)">
 <meta property="og:url" content="http://yoursite.com/2020/07/25/LeetCode-70-ClimbStairs/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="题目假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。 示例示例1: 12345输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶2.  2 阶  示例2: 123456输入： 3输出： 3解释： 有三种方法可以爬到楼顶。1.  1 阶 + 1 阶 + 1 阶2.  1">
+<meta property="og:description" content="题目假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。 在线练习LeetCode: https://leetcode-cn.com/problems/climbing-stairs/ 示例示例1: 12345输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶2.  2 阶">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-07-26T15:59:38.232Z">
+<meta property="og:updated_time" content="2020-08-13T10:17:01.553Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 70. ClimbStairs(Easy)">
-<meta name="twitter:description" content="题目假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。 示例示例1: 12345输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶2.  2 阶  示例2: 123456输入： 3输出： 3解释： 有三种方法可以爬到楼顶。1.  1 阶 + 1 阶 + 1 阶2.  1">
+<meta name="twitter:description" content="题目假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 注意：给定 n 是一个正整数。 在线练习LeetCode: https://leetcode-cn.com/problems/climbing-stairs/ 示例示例1: 12345输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶2.  2 阶">
     
         <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
     
@@ -167,7 +167,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题目"><span class="post-toc-number">1.</span> <span class="post-toc-text">题目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#示例"><span class="post-toc-number">2.</span> <span class="post-toc-text">示例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解题思路"><span class="post-toc-number">3.</span> <span class="post-toc-text">解题思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题目"><span class="post-toc-number">1.</span> <span class="post-toc-text">题目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在线练习"><span class="post-toc-number">2.</span> <span class="post-toc-text">在线练习</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#示例"><span class="post-toc-number">3.</span> <span class="post-toc-text">示例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解题思路"><span class="post-toc-number">4.</span> <span class="post-toc-text">解题思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#代码"><span class="post-toc-number">5.</span> <span class="post-toc-text">代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">总结</span></a></li></ol>
         </nav>
     </aside>
 
@@ -192,6 +192,7 @@
             <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</p>
 <p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
 <p>注意：给定 n 是一个正整数。</p>
+<h3 id="在线练习"><a href="#在线练习" class="headerlink" title="在线练习"></a>在线练习</h3><p>LeetCode: <a href="https://leetcode-cn.com/problems/climbing-stairs/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/climbing-stairs/</a></p>
 <h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>示例1:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入： 2</span><br><span class="line">输出： 2</span><br><span class="line">解释： 有两种方法可以爬到楼顶。</span><br><span class="line">1.  1 阶 + 1 阶</span><br><span class="line">2.  2 阶</span><br></pre></td></tr></table></figure>
 
@@ -236,7 +237,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-07-26T15:59:38.232Z" itemprop="dateUpdated">2020-07-26 23:59:38</time>
+    Last updated: <time datetime="2020-08-13T10:17:01.553Z" itemprop="dateUpdated">2020-08-13 18:17:01</time>
 </span><br>
 
 
