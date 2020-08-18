@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-15T10:47:00.651Z</updated>
+  <updated>2020-08-18T07:25:31.526Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode 154. MinArray(Easy)</title>
+    <link href="http://yoursite.com/2020/08/18/LeetCode-154-MinArray/"/>
+    <id>http://yoursite.com/2020/08/18/LeetCode-154-MinArray/</id>
+    <published>2020-08-18T07:19:49.000Z</published>
+    <updated>2020-08-18T07:25:31.526Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  </p><h3 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h3><p><a href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/" target="_blank" rel="noopener">LeetCode练习</a></p><h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><strong>示例 1：</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[3,4,5,1,2]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure><p><strong>示例 2：</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[2,2,2,0,1]</span><br><span class="line">输出：0</span><br></pre></td></tr></table></figure><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>根据题意我们可以得知在进行数组的旋转之前这是一个<strong>递增数组</strong>并且<strong>可能含有重复数字</strong>.</p><p>最容易想到的方法:</p><h4 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1. 暴力法"></a>1. 暴力法</h4><p>我们从数组的第一个元素开始进行遍历将前后进行对比,如果<code>numbers[left]</code> &gt; <code>numbers[right]</code>则已经出现转折(前后分别是两个不同的<strong>可能</strong>递增的数组).此时right就是我们要找的最小的元素下标.返回<code>numbers[right]</code>即可.也有可能全部数组都是重复的一个数字,我们在进行遍历结束后都没有找到符合条件的<code>numbers[left]</code>&gt;<code>numbers[right]</code>我们就直接返回数组的一个数(默认下标为0的数)</p><h4 id="2-二分法"><a href="#2-二分法" class="headerlink" title="2. 二分法"></a>2. 二分法</h4><p>我们在进行传统的二分查找时候,数组必须是要<strong>有序</strong>的,因为此时我们才能对于一个数进行对比后判断要找的数在它的左区间或者右区间.以便减少查找的次数.</p><p>而在本题中其实是满足的二分法的(因为在分界处两边都是单调的数组),我们需要找的就是找到这个分界处.</p><p>例如示例1中:</p><p>​    我们取2个下标<code>left</code>,<code>right</code>(默认为第一个和最后一个),然后得到中间下标<code>mid</code>(<code>mid = left + (right - left)/2</code>)—这里有个小细节:我们得到中间的数不是用的(left + right)/2 因为这样当<code>left</code>和<code>right</code>很大的时候相加会出现溢出. 其实后面除以2 我更愿意改成 &gt;&gt; 1 因为位运算更快.)所以进行一个循环条件是(left &lt; right)</p><ol><li>当<code>number[mid]</code> &gt;<code>number[right]</code>的时候说明<code>mid</code>前面是一个递增的,临界处在<code>mid</code>的右边,将<code>left</code>指针移动到<code>mid+1</code>处</li><li>当<code>number[mid]</code> &lt; <code>number[right]</code>的时候说明<code>mid</code>右边是一个递增的,临界处在<code>mid</code>的左边,所以将<code>right</code>指针指向<code>mid</code>处即可</li><li>当<code>number[mid]</code> = <code>number[right]</code> 的时候说明数组里面有重复的数字,我们不清楚临界处是在<code>mid</code>的左边还是右边,我们需要做的是将<code>right--</code>即可.</li></ol><p>最后返回<code>number[right]</code></p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="1-暴力法-1"><a href="#1-暴力法-1" class="headerlink" title="1. 暴力法"></a>1. 暴力法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minArray</span><span class="params">(<span class="keyword">int</span>[] numbers)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(numbers.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numbers.length; i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> left = i;</span><br><span class="line">            <span class="keyword">int</span> right = left + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(right == numbers.length) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span>(numbers[left] &gt; numbers[right])&#123;</span><br><span class="line">                res = right;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numbers[res];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="2-二分法-1"><a href="#2-二分法-1" class="headerlink" title="2. 二分法"></a>2. 二分法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">minArray</span><span class="params">(<span class="keyword">int</span>[] numbers)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = numbers.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(numbers[i] &lt; numbers[j] || numbers.length == <span class="number">1</span>) <span class="keyword">return</span> numbers[i];</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = i + (j - i)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(numbers[mid] &lt;= numbers[j])&#123;</span><br><span class="line">                j = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(numbers[mid] &gt; numbers[j])&#123;</span><br><span class="line">                i = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numbers[j];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/categories/study/Java/"/>
+    
+    
+      <category term="Array" scheme="http://yoursite.com/tags/Array/"/>
+    
+  </entry>
   
   <entry>
     <title>数据结构之图(Graph)</title>
@@ -907,9 +934,9 @@
       <category term="study" scheme="http://yoursite.com/categories/study/"/>
     
     
-      <category term="git" scheme="http://yoursite.com/tags/git/"/>
-    
       <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
     
   </entry>
   
