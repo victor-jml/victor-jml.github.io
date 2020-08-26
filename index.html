@@ -155,6 +155,117 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-MySQL学习-二-索引"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-08-26 16:48:58" datetime="2020-08-26T08:48:58.000Z"  itemprop="datePublished">2020-08-26</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/MySQL/">MySQL</a></li></ul></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/08/26/MySQL学习-二-索引/">MySQL学习(二)--索引</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        索引索引是什么索引是一种用来查询有序数据的数据结构
+索引分类在我们MySQL中用的最多的就是两种:BTree索引和Hash索引
+
+对于Hash索引,它用于查询单条数据效率非常高,因为其底层结构是Hash表,查询的时间复杂度基本是O(1).但是其用于查询范围查找就效率极低.
+
+对于BTree,MySQL中是用的是B+Tree,首先我们了解B-Tree以及B+Tree:
+
+B-Tree: 
+
+叶...
+    
+
+        <a href="/2020/08/26/MySQL学习-二-索引/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Index/">Index</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-MySQL学习-一-事务"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-08-26 16:48:21" datetime="2020-08-26T08:48:21.000Z"  itemprop="datePublished">2020-08-26</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/MySQL/">MySQL</a></li></ul></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/08/26/MySQL学习-一-事务/">MySQL学习(一)--事务</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        事务​    事务指满足ACID特性的一组操作,可以通过commit提交一个事务也可以通过rollback来回滚一个事务,事务操作要么都执行要么都不执行.
+ACID
+原子性(Atomicity)
+
+​    事务被视为不可再分的原子,即事务的所有操作 要么全部成功要么全部失败.
+
+一致性(Consistency)
+
+数据库在事务执行前后是保持数据一致性,在一致性的状态下,所有事务访问数据库的...
+    
+
+        <a href="/2020/08/26/MySQL学习-一-事务/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Transacation/">Transacation</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-剑指Offer-18-删除链表节点"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -570,107 +681,6 @@ practice online
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Thread/">Thread</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-手撕归并排序-MERGE-SORT"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2020-08-05 16:28:44" datetime="2020-08-05T08:28:44.000Z"  itemprop="datePublished">2020-08-05</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/Java/">Java</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2020/08/05/手撕归并排序-MERGE-SORT/">手撕归并排序(MERGE-SORT)</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        基本思想归并排序(MERGE-SORT) 该算法运用到 分治思想
-所谓分治:
-分 就是将问题分成一系列小的问题然后递归求解
-治 就是将各阶段的答案进行修补在一起
-分(divide)分阶段可以理解为就是递归拆分子序列的过程，递归深度为log2n.
-我们对于一个数组例如{3,1,4,5,2,7,8,1},我们先进行分操作:将长度为n的数组分成两个长度为n/2的数组(假设start和end分别代表...
-    
-
-        <a href="/2020/08/05/手撕归并排序-MERGE-SORT/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sort/">Sort</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-LeetCode-240-FindNumberIn2DArray-剑指Offer-04"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2020-08-03 19:17:07" datetime="2020-08-03T11:17:07.000Z"  itemprop="datePublished">2020-08-03</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/LeetCode/">LeetCode</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2020/08/03/LeetCode-240-FindNumberIn2DArray-剑指Offer-04/">LeetCode 240. FindNumberIn2DArray(Easy)(剑指Offer 04)</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        题目:在一个 n * m的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
-示例现有矩阵 matrix 如下：
-1234567[  [1,   4,  7, 11, 15],  [2,   5,  8, 12, 19],  [3,   6,  9, 16, 22],  [10, 1...
-    
-
-        <a href="/2020/08/03/LeetCode-240-FindNumberIn2DArray-剑指Offer-04/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Array/">Array</a></li></ul>
 
     </div>
     
