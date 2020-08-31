@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[剑指Offer 06. ReservePrint (Easy)]]></title>
+    <url>%2F2020%2F08%2F31%2F%E5%89%91%E6%8C%87Offer-06-ReservePrint%2F</url>
+    <content type="text"><![CDATA[题目输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。 示例12输入：head = [1,3,2]输出：[2,3,1] 在线练习you can practice online: LeetCode 解题思路 我们先进行对链表的逆置(双指针) ,然后我们对链表进行遍历的同时向数组中添加元素 Timecomplexity: O(N) – N为链表长度 SpaceComplexity: O(N) 我们进行第一次遍历获取到链表的长度n,然后再进行一次遍历向数组中添加元素 Timecomplexity: O(N) – N为链表长度 SpaceComplexity: O(N) 可以采用辅助栈的做法(栈: 先进后出)直接每一次弹出元素就加入数组中 Timecomplexity: O(N) – N为链表长度 SpaceComplexity: O(N)– 额外使用一个栈存储链表中的每个节点 可以采用递归的手段,我们递归的最后一个节点然后回溯时添加元素向数组中 Timecomplexity: O(N) – N为链表长度 SpaceComplexity: O(N)– N为栈深度 代码这里我采用前两种方法进行解决 Method 1: 12345678910111213141516171819public int[] reversePrint(ListNode head) &#123; if(head == null) return new int[]&#123;&#125;; int n = 0; ListNode pre = null; ListNode cur = head; while(cur != null)&#123; ListNode next = cur.next; cur.next = pre; pre = cur; cur = next; n++; &#125; int[] arr = new int[n]; for(int i = 0 ; i &lt; n; i++)&#123; arr[i] = pre.val; pre = pre.next; &#125; return arr;&#125; Method 2: 1234567891011121314public int[] reversePrint(ListNode head) &#123; if(head == null) return new int[]&#123;0&#125;; int n = 0; ListNode cur = head; while (cur != null)&#123; n++; cur = cur.next; &#125; int[] arr = new int[n]; for(int i = n - 1; i &gt;= 0; i--)&#123; arr[i] = head.val; head = head.next; &#125; return arr;]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[MySQL学习(二)--索引]]></title>
     <url>%2F2020%2F08%2F26%2FMySQL%E5%AD%A6%E4%B9%A0-%E4%BA%8C-%E7%B4%A2%E5%BC%95%2F</url>
     <content type="text"><![CDATA[索引索引是什么索引是一种用来查询有序数据的数据结构 索引分类在我们MySQL中用的最多的就是两种:BTree索引和Hash索引 对于Hash索引,它用于查询单条数据效率非常高,因为其底层结构是Hash表,查询的时间复杂度基本是O(1).但是其用于查询范围查找就效率极低. 对于BTree,MySQL中是用的是B+Tree,首先我们了解B-Tree以及B+Tree: B-Tree: 叶节点具有相同的深度,且叶节点的指针为空 非叶节点可以包含data 数据索引从左到右是递增的 B+Tree: 非叶节点不存储data,只存储索引 叶节点用指针连接 叶节点包含所有的索引字段 不同引擎索引MySQL中最主要的两个引擎:MyISAM和InnoDB,我们最主要使用的是InnoDB. MyISAMMyISAM : B+Tree叶节点的data域存放的是数据记录的地址。在索引检索的时候，⾸先按照B+Tree 搜索算法搜索索引，如果指定的Key存在，则取出其 data 域的值，然后以 data 域的值为地址 读取相应的数据记录。这被称为“⾮聚簇索引”。 InnoDB其数据⽂件本身就是索引⽂件。相⽐MyISAM，索引⽂件和数据⽂件是分离的，其表数据 ⽂件本身就是按B+Tree组织的⼀个索引结构，树的叶节点data域保存了完整的数据记录。这个索 引的key是数据表的主键，因此InnoDB表数据⽂件本身就是主索引。这被称为“聚簇索引（或聚集索引）”。⽽其余的索引都作为辅助索引，辅助索引的data域存储相应记录主键的值⽽不是地址，这也是和MyISAM不同的地⽅。在根据主索引搜索时，直接找到key所在的节点即可取出数据；在根据辅助索引查找时，则需要先取出主键的值，再⾛⼀遍主索引。 因此，在设计表的时候，不建议使⽤过⻓的字段作为主键,因为当数据量上去之后会导致占用内存过多，也不建议使⽤⾮单调的字段作为主键，这样会造成主索引频繁分裂。 联合索引索引分为:单值索引和联合(组合)索引,我们在高并发环境下采用联合索引,且把过滤性最好的字段放在定义索引的前面(满足最佳左前缀原则) 我们在创建索引时候哪些需要创建索引哪些不需要: 需要创建索引 主键会自动创建 频繁作为查询条件的字段 查询与其他表相关联的字段 需要进行排序的字段 需要进行分组和统计的字段 不需要创建索引 频繁更新的字段 表记录少 数据库重复且平均分布的字段 索引的优化 最佳左前缀原则 我们在创建多列索引的时候,查询从索引的最左列开始查询且不能跳过索引的列,否则会使索引失效(俗称: 头不能掉,中间不能断) 不要在索引中做任何操作 在索引列上做任何操作(例如: 计算,函数,类型转换等)都会使索引失效而采用全表扫描 范围右边全失效 存储引擎不能使用索引右边范围的列,否则会使索引失效 尽量使用覆盖索引 当我们对A,B列创建了索引然后查询中也用到了A,B.我们就应该将查询列和条件列同步而不是使用select * 使用不等于(!= &lt; &gt;)会使得索引失效 使用is null和is not null也会使得索引失效 like通配符中(前模糊)会使得索引失效 字符串不加单引号也会使得索引失效 少用or,使用or会使得索引失效]]></content>
@@ -303,7 +315,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[283. Move Zeroes (Easy)]]></title>
+    <title><![CDATA[LeetCode 283. Move Zeroes (Easy)]]></title>
     <url>%2F2020%2F06%2F26%2FLeetCode_283_%E7%A7%BB%E5%8A%A8%E9%9B%B6%2F</url>
     <content type="text"><![CDATA[题目:给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。 示例:12输入: [0,1,0,3,12]输出: [1,3,12,0,0] 说明: 必须在原数组上操作，不能拷贝额外的数组。 尽量减少操作次数。 解题思路遍历nums的同时判断nums.at(i)是否为0,如果是那么就删除这个值然后在数组的末尾push_back0进去(tips:每进行删除然后push_back后不要将遍历变量i++,例如数组中0-0-1,第一项删除0后,变化后的nums为&#39;0-1-0&#39;,也就是第二次遍历后会判断为1而不是0,所以遍历变量不需要进行自增.而如果不为0,则进行i++) 代码12345678910111213141516class Solution &#123;public: void moveZeroes(vector&lt;int&gt;&amp; nums) &#123; int n = nums.size(); for(int i=0;i&lt;n;)&#123; if(nums.at(i)==0)&#123; nums.erase(nums.begin()+i); nums.push_back(0); n--; &#125;else i++; &#125; for(int i=0;i&lt;nums.size();i++)&#123; cout &lt;&lt; nums.at(i) ; &#125; &#125;&#125;;]]></content>
       <categories>
