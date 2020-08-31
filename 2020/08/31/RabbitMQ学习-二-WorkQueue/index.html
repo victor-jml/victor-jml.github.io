@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>RabbitMQ学习(二)(WorkQueue模型) |  | 一切近的东西都将远去 我想证明它不完全是个不幸</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RabbitMQ">
+    <meta name="description" content="Work Queues,也被称为Task queues, 任务模型,当消息处理比较耗时的时候,可能生产消息的速度就会远大于消费信息的速度.长此以往消息就会堆积越多,无法及时处理消息.  所以就可以使用work模型,让多个消费者绑定同一个队列.共同消费队列中的消息">
+<meta name="keywords" content="RabbitMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ学习(二)(WorkQueue模型)">
+<meta property="og:url" content="http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="Work Queues,也被称为Task queues, 任务模型,当消息处理比较耗时的时候,可能生产消息的速度就会远大于消费信息的速度.长此以往消息就会堆积越多,无法及时处理消息.  所以就可以使用work模型,让多个消费者绑定同一个队列.共同消费队列中的消息">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.rabbitmq.com/img/tutorials/python-two.png">
+<meta property="og:updated_time" content="2020-08-31T10:13:34.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMQ学习(二)(WorkQueue模型)">
+<meta name="twitter:description" content="Work Queues,也被称为Task queues, 任务模型,当消息处理比较耗时的时候,可能生产消息的速度就会远大于消费信息的速度.长此以往消息就会堆积越多,无法及时处理消息.  所以就可以使用work模型,让多个消费者绑定同一个队列.共同消费队列中的消息">
+<meta name="twitter:image" content="https://www.rabbitmq.com/img/tutorials/python-two.png">
+    
+        <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/imgs/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/imgs/icon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Enoch_oahz</h5>
+          <a href="mailto:972193026zy@gmail.com" title="972193026zy@gmail.com" class="mail">972193026zy@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Homepage
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/victor-jml" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/6348371389?topnav=1&wvr=6&topsug=1" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">RabbitMQ学习(二)(WorkQueue模型)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">RabbitMQ学习(二)(WorkQueue模型)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-08-31T10:12:39.000Z" itemprop="datePublished" class="page-time">
+  2020-08-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/middleWare/">middleWare</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-RabbitMQ学习-二-WorkQueue"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">RabbitMQ学习(二)(WorkQueue模型)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-08-31 18:12:39" datetime="2020-08-31T10:12:39.000Z"  itemprop="datePublished">2020-08-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/middleWare/">middleWare</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><code>Work Queues</code>,也被称为<code>Task queues</code>, 任务模型,当消息处理比较耗时的时候,可能生产消息的速度就会远大于消费信息的速度.长此以往消息就会堆积越多,无法及时处理消息.  所以就可以使用work模型,让多个消费者绑定同一个队列.共同消费队列中的消息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.rabbitmq.com/img/tutorials/python-two.png" alt="Work queues" title>
+                </div>
+                <div class="image-caption">Work queues</div>
+            </figure>
+
+<p>角色: </p>
+<ul>
+<li>P : 生产者 : 任务的发布者</li>
+<li>C1: 消费者-1 : 领取任务并完成(假设完成任务慢)</li>
+<li>C2: 消费者-2 : 领取任务并完成(假设完成任务快)</li>
+</ul>
+<ol>
+<li><p>开发生产者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Provider</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Connection connection = RabbitMQUtils.getConnection();</span><br><span class="line">        Channel channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">        channel.queueDeclare(<span class="string">"work"</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            channel.basicPublish(<span class="string">""</span>,<span class="string">"work"</span>,<span class="keyword">null</span>,(i + <span class="string">"hello work queue"</span>).getBytes());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        RabbitMQUtils.closeConnection(channel,connection);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>开发消费者-1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Connection connection = RabbitMQUtils.getConnection();</span><br><span class="line"></span><br><span class="line">        Channel channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">        channel.queueDeclare(<span class="string">"work"</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        channel.basicConsume(<span class="string">"work"</span>,<span class="keyword">true</span>,<span class="keyword">new</span> DefaultConsumer(channel)&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleDelivery</span><span class="params">(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, <span class="keyword">byte</span>[] body)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"消费者-1: "</span> + <span class="keyword">new</span> String(body));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开发消费者-2</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Connection connection = RabbitMQUtils.getConnection();</span><br><span class="line"></span><br><span class="line">        Channel channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">        channel.queueDeclare(<span class="string">"work"</span>,<span class="keyword">true</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        channel.basicConsume(<span class="string">"work"</span>,<span class="keyword">true</span>,<span class="keyword">new</span> DefaultConsumer(channel)&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleDelivery</span><span class="params">(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, <span class="keyword">byte</span>[] body)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"消费者-2: "</span> + <span class="keyword">new</span> String(body));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">消费者-1: 0hello work queue</span><br><span class="line">消费者-1: 2hello work queue</span><br><span class="line">消费者-1: 4hello work queue</span><br><span class="line">消费者-1: 6hello work queue</span><br><span class="line">消费者-1: 8hello work queue</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">消费者-2: 1hello work queue</span><br><span class="line">消费者-2: 3hello work queue</span><br><span class="line">消费者-2: 5hello work queue</span><br><span class="line">消费者-2: 7hello work queue</span><br><span class="line">消费者-2: 9hello work queue</span><br></pre></td></tr></table></figure>
+
+<p>总结:默认情况下,<code>RabbitMQ</code>会按照顺序把每个消息发送给下一个使用者.平均而言,每个消费者都会收到<strong>相同</strong>数量的消息.因此把这种分发消息的方式称为<strong>循环</strong></p>
+</li>
+<li><p>消息自动确认</p>
+<p>​    由于我们在该模型中演示了一个<code>work queues</code>,我们在该模型中默认了消息自动确认也就是说 : <strong>两个消费者在消费前都会将队列中的消息平均分配,并且将队列中的消息进行删除,然后在该机中进行消费</strong>,但是这会导致一个问题: <strong>当一个消费者接收消息后经过业务逻辑后消费消息,但是在中途服务器宕机后会导致消息的丢失</strong>. </p>
+<ul>
+<li>所以我们在平时的使用中并不会开启消息<strong>自动确认</strong>.而是会开启<strong>手动确认消息</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数二: 是否打开消息自动确认</span></span><br><span class="line">        channel.basicConsume(<span class="string">"work"</span>,<span class="keyword">false</span>,<span class="keyword">new</span> DefaultConsumer(channel)&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleDelivery</span><span class="params">(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, <span class="keyword">byte</span>[] body)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"消费者-2: "</span> + <span class="keyword">new</span> String(body));</span><br><span class="line">                <span class="comment">//手动确认消息</span></span><br><span class="line">                channel.basicAck(envelope.getDeliveryTag(),<span class="keyword">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>并且开始每一次只能消费一条消息</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.basicQos(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>结果(我们在消费者-1中每一次消费时都让线程sleep 1s,就会导致消费者-1 比 消费者-2 消费速度更慢)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">消费者-1: 0hello work queue</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">消费者-2: 1hello work queue</span><br><span class="line">消费者-2: 2hello work queue</span><br><span class="line">消费者-2: 3hello work queue</span><br><span class="line">消费者-2: 4hello work queue</span><br><span class="line">消费者-2: 5hello work queue</span><br><span class="line">消费者-2: 6hello work queue</span><br><span class="line">消费者-2: 7hello work queue</span><br><span class="line">消费者-2: 8hello work queue</span><br><span class="line">消费者-2: 9hello work queue</span><br></pre></td></tr></table></figure>
+
+<p>这种改动能够在原有的基础上(<strong>平均分发</strong>) 实现 <strong>能者多劳</strong>(消费速度快的消费者能够进行多消费)</p>
+</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-08-31T10:13:34.234Z" itemprop="dateUpdated">2020-08-31 18:13:34</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/imgs/icon.jpg" alt="Enoch_oahz">
+            Enoch_oahz
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/&title=《RabbitMQ学习(二)(WorkQueue模型)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/&title=《RabbitMQ学习(二)(WorkQueue模型)》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RabbitMQ学习(二)(WorkQueue模型)》 — null&url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/08/31/剑指Offer-06-ReservePrint/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">剑指Offer 06. ReservePrint (Easy)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'true' == 'true',
+            appId: "QOhHE7vik6EDBujmNQzI4KDH-gzGzoHsz",
+            appKey: "YGS4Tvy323QSQs4DFzGVCKH9",
+            avatar: "monsterid",
+            placeholder: "填写你的邮箱可以收到我的回信",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        thanks~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/imgs/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/imgs/wechat.png" data-alipay="/imgs/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Enoch_oahz &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/&title=《RabbitMQ学习(二)(WorkQueue模型)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/&title=《RabbitMQ学习(二)(WorkQueue模型)》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RabbitMQ学习(二)(WorkQueue模型)》 — null&url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/08/31/RabbitMQ学习-二-WorkQueue/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
