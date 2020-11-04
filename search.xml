@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[LeetCode 101 isSymmetria(Easy)]]></title>
+    <url>%2F2020%2F11%2F04%2FLeetCode-101-isSymmetria%2F</url>
+    <content type="text"><![CDATA[题目请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。 12345 1 / \ 2 2 / \ / \3 4 4 3 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的: 12345 1 / \ 2 2 / \ / \3 4 4 3 示例123456789示例 1：输入：root = [1,2,2,3,4,4,3]输出：true示例 2：输入：root = [1,2,2,null,3,null,3]输出：false 题解12345678910111213141516171819202122232425262728import binarytree.TreeNode;/** * @Author: zy * @Date: 2020/11/4 18:48 * @Description: */public class IsSymmetric101 &#123; public boolean isSymmetric(TreeNode root) &#123; // 若root为null 则直接返回true 因为空树满足对称 if(root == null)&#123; return true; &#125; return solution(root,root.left,root.right); &#125; public boolean solution(TreeNode root,TreeNode left,TreeNode right)&#123; if(root == null)&#123; return true; &#125; // 若left和right同时为null 才返回true if(left == null || right == null)&#123; return left == null &amp;&amp; right == null; &#125; //进行值比较以及进一步递归遍历left.right,right.left 和 left.left,right.right return left.val == right.val &amp;&amp; solution(root,left.right,right.left) &amp;&amp; solution(root,left.left,right.right); &#125;&#125;]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>BinaryTree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[LeetCode 234. isPalindrome(Easy)]]></title>
+    <url>%2F2020%2F11%2F04%2FLeetCode-234-isPalindrome%2F</url>
+    <content type="text"><![CDATA[题目请判断一个链表是否为回文链表。 示例12345678示例 1:输入: 1-&gt;2输出: false示例 2:输入: 1-&gt;2-&gt;2-&gt;1输出: true 题解1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556import LinkedList.ListNode;/** * @Author: zy * @Date: 2020/11/4 14:03 * @Description: */public class IsPalindrome234 &#123; public boolean isPalindrome(ListNode head) &#123; if(head == null)&#123; return true; &#125; //获取中间节点 ListNode mid = findMid(head); //反转后面部分的节点并且返回后半部的开始节点 ListNode secondStart = reserve(mid.next); //然后进行一一比较 while(secondStart != null)&#123; if(head.val != secondStart.val)&#123; return false; &#125; head = head.next; secondStart = secondStart.next; &#125; return true; &#125; public ListNode reserve(ListNode head)&#123; ListNode pre = null; // 用以连接反转后的节点 ListNode tail = head; while(head != null)&#123; ListNode next = head.next; head.next = pre; pre = head; head = next; &#125; tail = head; return pre; &#125; /** * 通过快慢指针返回中间节点(slow) **/ public ListNode findMid(ListNode head)&#123; ListNode slow = head; ListNode fast = head.next; while(fast != null &amp;&amp; fast.next != null)&#123; slow = slow.next; fast = fast.next.next; &#125; return slow; &#125;&#125;]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[LeetCode 146. LRUCache(Medium)]]></title>
     <url>%2F2020%2F09%2F01%2FLeetCode-146-LRUCache%2F</url>
     <content type="text"><![CDATA[题目运用你所掌握的数据结构，设计和实现一个 LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。 获取数据 get(key) - 如果关键字 (key) 存在于缓存中，则获取关键字的值（总是正数），否则返回 -1。写入数据 put(key, value) - 如果关键字已经存在，则变更其数据值；如果关键字不存在，则插入该组「关键字/值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。 练习地址LeetCode 示例1234567891011LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );cache.put(1, 1);cache.put(2, 2);cache.get(1); // 返回 1cache.put(3, 3); // 该操作会使得关键字 2 作废cache.get(2); // 返回 -1 (未找到)cache.put(4, 4); // 该操作会使得关键字 1 作废cache.get(1); // 返回 -1 (未找到)cache.get(3); // 返回 3cache.get(4); // 返回 4 解题思路所谓LRU 即 最近最少使用.我们需要的就是完成两个操作(get()以及put()). 这里我们采用HashMap和双向链表进行实现 在get()操作中: ​ 我们每一次进行get()操作,需要进行判断该元素是否存在,若不存在即返回-1. 若存在我们需要返回该值 并且我们需要将该值放置首位代表最近使用. 在put()操作中: ​ 根据不同的情况我们有三种不同的操作: 当前元素不存在,即正常插入 当前元素存在,我们需要对元素进行删除并且将该元素插入首位 容量满,我们需要删除最末尾的元素然后添加元素 代码Node.java 12345678910111213141516package LeetCode.LRU;/** * @Auther: zy * @Date: 2020/9/1 14:48 * @Description: */public class Node &#123; public int key, val; public Node next, prev; public Node(int k, int v)&#123; this.key = k; this.val = v; &#125;&#125; LRUCache.java 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101package LeetCode.LRU;import java.util.HashMap;import java.util.Map;/** * @Auther: zy * @Date: 2020/9/1 14:48 * @Description: */public class LRUCache &#123; //容量 private int capacity; Map&lt;Integer,Node&gt; map; Node head = new Node(0,0); Node tail = new Node(0,0); public LRUCache(int cap) &#123; this.capacity = cap; map = new HashMap&lt;&gt;(); head.next = tail; tail.prev = head; &#125; /** * 思路(先该存储后改映射关系) * &lt;p&gt; * 1. 未存在 * 2. 已存在 * * @param key * @return */ public int get(int key) &#123; if (!map.containsKey(key)) &#123; return -1; &#125; //获取值 int res = map.get(key).val; put(key, res); return res; &#125; /** * 1. 判断是否存在,若存在先找到该元素(通过hash映射找到对应位置然后在链表中进行删除),然后再头插法添加节点, 最后再添加映射关系 * 2. 若是容量已满,先对链表的最后一个元素进行删除(返回该删除的节点),通过返回的节点进行删除map中的映射关系 * * @param key * @param val */ public void put(int key, int val) &#123; Node node = new Node(key, val); // 已存在key if (map.containsKey(key)) &#123; // 找到该元素并删除 remove(map.get(key)); // 头插法添加节点 addFirst(node); // 添加映射关系 map.put(key, node); &#125; else &#123; // 未存在但容量满 if (capacity == map.size()) &#123; // 删除最后一个节点,并且返回该节点 Node last = removeLast(); // 删除map映射关系 map.remove(last.key); &#125; // 正常添加 addFirst(node); map.put(key, node); &#125; &#125; public void addFirst(Node node)&#123; Node next = head.next; node.next = next; node.prev = head; head.next = node; next.prev = node; &#125; public Node removeLast()&#123; Node last = tail.prev; last.prev.next = tail; tail.prev = last.prev; return last; &#125; public void remove(Node node)&#123; Node next = node.next; node.prev.next = next; next.prev = node.prev; &#125;&#125;]]></content>
@@ -292,8 +316,8 @@
   </entry>
   <entry>
     <title><![CDATA[LeetCode 26. RemoveDuplicates (Easy)]]></title>
-    <url>%2F2020%2F06%2F30%2FLeetCode_26_%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9%2F</url>
-    <content type="text"><![CDATA[题目给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。 示例示例一: 12345给定数组 nums = [1,1,2], 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 你不需要考虑数组中超出新长度后面的元素。 示例二: 12345给定 nums = [0,0,1,1,1,2,2,3,3,4],函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。你不需要考虑数组中超出新长度后面的元素。 解题思路双指针法定义慢指针i初始化为0 , 快指针j初始化为1.每一次遍历的时候,判断nums[i]与nums[j]是否相等,如果相等则j++.若不等则先i++然后将nums[j]赋值给nums[i] Time complexity O(n)Space complexity O(1) 代码1234567891011class Solution &#123; public int removeDuplicates(int[] nums) &#123; int i = 0; for(int j = 1;j &lt; nums.length;j++)&#123; if(nums[i] != nums[j])&#123; nums[++i] = nums[j]; &#125; &#125; return i+1; &#125;&#125;]]></content>
+    <url>%2F2020%2F06%2F30%2FLeetCode_26_removeDuplicates%2F</url>
+    <content type="text"><![CDATA[题目给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。 在线练习you can practice online:LeetCode 示例示例一: 12345给定数组 nums = [1,1,2], 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 你不需要考虑数组中超出新长度后面的元素。 示例二: 12345给定 nums = [0,0,1,1,1,2,2,3,3,4],函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。你不需要考虑数组中超出新长度后面的元素。 解题思路双指针法定义慢指针i初始化为0 , 快指针j初始化为1.每一次遍历的时候,判断nums[i]与nums[j]是否相等,如果相等则j++.若不等则先i++然后将nums[j]赋值给nums[i] Time complexity O(n)Space complexity O(1) 代码1234567891011class Solution &#123; public int removeDuplicates(int[] nums) &#123; int i = 0; for(int j = 1;j &lt; nums.length;j++)&#123; if(nums[i] != nums[j])&#123; nums[++i] = nums[j]; &#125; &#125; return i+1; &#125;&#125;]]></content>
       <categories>
         <category>study</category>
         <category>LeetCode</category>
@@ -340,7 +364,7 @@
   </entry>
   <entry>
     <title><![CDATA[LeetCode 283. Move Zeroes (Easy)]]></title>
-    <url>%2F2020%2F06%2F26%2FLeetCode_283_%E7%A7%BB%E5%8A%A8%E9%9B%B6%2F</url>
+    <url>%2F2020%2F06%2F26%2FLeetCode_283_moveZeroes%2F</url>
     <content type="text"><![CDATA[题目:给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。 示例:12输入: [0,1,0,3,12]输出: [1,3,12,0,0] 说明: 必须在原数组上操作，不能拷贝额外的数组。 尽量减少操作次数。 解题思路遍历nums的同时判断nums.at(i)是否为0,如果是那么就删除这个值然后在数组的末尾push_back0进去(tips:每进行删除然后push_back后不要将遍历变量i++,例如数组中0-0-1,第一项删除0后,变化后的nums为&#39;0-1-0&#39;,也就是第二次遍历后会判断为1而不是0,所以遍历变量不需要进行自增.而如果不为0,则进行i++) 代码12345678910111213141516class Solution &#123;public: void moveZeroes(vector&lt;int&gt;&amp; nums) &#123; int n = nums.size(); for(int i=0;i&lt;n;)&#123; if(nums.at(i)==0)&#123; nums.erase(nums.begin()+i); nums.push_back(0); n--; &#125;else i++; &#125; for(int i=0;i&lt;nums.size();i++)&#123; cout &lt;&lt; nums.at(i) ; &#125; &#125;&#125;;]]></content>
       <categories>
         <category>study</category>
