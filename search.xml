@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[LeetCode 88. Merge(Easy)]]></title>
     <url>%2F2020%2F11%2F05%2FLeetCode-88-Merge%2F</url>
-    <content type="text"><![CDATA[/** @Author: zy @Date: 2020/11/5 20:39 @Description: / public class Merge88 { public void merge(int[] nums1, int m, int[] nums2, int n) {int len = nums1.length - 1; while(m &gt; 0 &amp;&amp; n &gt; 0){ if(nums1[m - 1] &gt;= nums2[n - 1]){ nums1[len--] = nums1[m - 1]; m--; }else{ nums1[len--] = nums2[n- 1]; n--; } } while(m &gt; 0){ nums1[len--] = nums1[m - 1]; m--; } while(n &gt; 0){ nums1[len--] = nums2[n - 1]; n--; } }}]]></content>
+    <content type="text"><![CDATA[题目给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。 说明 初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。 示例12345输入：nums1 = [1,2,3,0,0,0], m = 3nums2 = [2,5,6], n = 3输出：[1,2,2,3,5,6] 题解123456789101112131415161718192021222324252627/** * @Author: zy * @Date: 2020/11/5 20:39 * @Description: */public class Merge88 &#123; public void merge(int[] nums1, int m, int[] nums2, int n) &#123; int len = nums1.length - 1; while(m &gt; 0 &amp;&amp; n &gt; 0)&#123; if(nums1[m - 1] &gt;= nums2[n - 1])&#123; nums1[len--] = nums1[m - 1]; m--; &#125;else&#123; nums1[len--] = nums2[n- 1]; n--; &#125; &#125; while(m &gt; 0)&#123; nums1[len--] = nums1[m - 1]; m--; &#125; while(n &gt; 0)&#123; nums1[len--] = nums2[n - 1]; n--; &#125; &#125;&#125;]]></content>
       <categories>
         <category>study</category>
         <category>LeetCode</category>
