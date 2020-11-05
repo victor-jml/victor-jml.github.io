@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[LeetCode 88. Merge(Easy)]]></title>
+    <url>%2F2020%2F11%2F05%2FLeetCode-88-Merge%2F</url>
+    <content type="text"><![CDATA[/** @Author: zy @Date: 2020/11/5 20:39 @Description: / public class Merge88 { public void merge(int[] nums1, int m, int[] nums2, int n) {int len = nums1.length - 1; while(m &gt; 0 &amp;&amp; n &gt; 0){ if(nums1[m - 1] &gt;= nums2[n - 1]){ nums1[len--] = nums1[m - 1]; m--; }else{ nums1[len--] = nums2[n- 1]; n--; } } while(m &gt; 0){ nums1[len--] = nums1[m - 1]; m--; } while(n &gt; 0){ nums1[len--] = nums2[n - 1]; n--; } }}]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>Array</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[LeetCode 101 isSymmetria(Easy)]]></title>
     <url>%2F2020%2F11%2F04%2FLeetCode-101-isSymmetria%2F</url>
     <content type="text"><![CDATA[题目请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。 12345 1 / \ 2 2 / \ / \3 4 4 3 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的: 12345 1 / \ 2 2 / \ / \3 4 4 3 示例123456789示例 1：输入：root = [1,2,2,3,4,4,3]输出：true示例 2：输入：root = [1,2,2,null,3,null,3]输出：false 题解12345678910111213141516171819202122232425262728import binarytree.TreeNode;/** * @Author: zy * @Date: 2020/11/4 18:48 * @Description: */public class IsSymmetric101 &#123; public boolean isSymmetric(TreeNode root) &#123; // 若root为null 则直接返回true 因为空树满足对称 if(root == null)&#123; return true; &#125; return solution(root,root.left,root.right); &#125; public boolean solution(TreeNode root,TreeNode left,TreeNode right)&#123; if(root == null)&#123; return true; &#125; // 若left和right同时为null 才返回true if(left == null || right == null)&#123; return left == null &amp;&amp; right == null; &#125; //进行值比较以及进一步递归遍历left.right,right.left 和 left.left,right.right return left.val == right.val &amp;&amp; solution(root,left.right,right.left) &amp;&amp; solution(root,left.left,right.right); &#125;&#125;]]></content>

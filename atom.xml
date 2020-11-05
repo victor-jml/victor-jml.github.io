@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-11-04T11:08:43.105Z</updated>
+  <updated>2020-11-05T13:40:15.438Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode 88. Merge(Easy)</title>
+    <link href="http://yoursite.com/2020/11/05/LeetCode-88-Merge/"/>
+    <id>http://yoursite.com/2020/11/05/LeetCode-88-Merge/</id>
+    <published>2020-11-05T13:37:53.000Z</published>
+    <updated>2020-11-05T13:40:15.438Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>/**</p><ul><li>@Author: zy</li><li>@Date: 2020/11/5 20:39</li><li>@Description:</li><li>/public class Merge88 {<br>  public void merge(int[] nums1, int m, int[] nums2, int n) {<pre><code>int len = nums1.length - 1;while(m &gt; 0 &amp;&amp; n &gt; 0){    if(nums1[m - 1] &gt;= nums2[n - 1]){        nums1[len--] = nums1[m - 1];        m--;    }else{        nums1[len--] = nums2[n- 1];        n--;    }}while(m &gt; 0){    nums1[len--] = nums1[m - 1];    m--;}while(n &gt; 0){    nums1[len--] = nums2[n - 1];    n--;}</code></pre>  }<br>}</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+      <category term="LeetCode" scheme="http://yoursite.com/categories/study/LeetCode/"/>
+    
+    
+      <category term="Array" scheme="http://yoursite.com/tags/Array/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode 101 isSymmetria(Easy)</title>
