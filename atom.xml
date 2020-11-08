@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-11-05T15:13:43.483Z</updated>
+  <updated>2020-11-08T16:10:52.753Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode 51.N-Queues</title>
+    <link href="http://yoursite.com/2020/11/09/LeetCode-51-N-Queues/"/>
+    <id>http://yoursite.com/2020/11/09/LeetCode-51-N-Queues/</id>
+    <published>2020-11-08T16:10:19.000Z</published>
+    <updated>2020-11-08T16:10:52.753Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>import java.util.ArrayList;<br>import java.util.List;</p><p>/**</p><ul><li><p>@Author: zy</p></li><li><p>@Date: 2020/11/7 21:31</p></li><li><p>@Description:</p></li><li><p>/public class SolveNQueens {<br>  private List&lt;List<string>&gt; res;<br>  private int[][] used;<br>  public List&lt;List<string>&gt; solveNQueens(int n) {</string></string></p><pre><code>if(n == 0) return res;used = new int[n][n];res = new ArrayList&lt;&gt;();DFS(0);return res;</code></pre><p>  }</p><p>  public void DFS(int index){</p><pre><code>if(index == used.length){    List&lt;String&gt; temp = new ArrayList&lt;&gt;();    for(int i = 0 ; i &lt; used.length ; i++){        StringBuilder sb = new StringBuilder();        for(int j = 0 ; j &lt; used.length ; j++){            if(used[i][j] == 0){                sb.append(&quot;.&quot;);            }else{                sb.append(&quot;Q&quot;);            }        }        temp.add(sb.toString());    }    res.add(temp);    return;}for(int i = 0 ; i &lt; used.length ; i++){    if(validUsed(i,index)){        used[i][index] = 1;        DFS(index + 1);        used[i][index] = 0;    }}</code></pre><p>  }</p><p>  public boolean validUsed(int x,int y){</p><pre><code>// 当前行是否可以放置(只考虑y左边的部分,因为我们是每一列来进行放置的,右边的肯定为0)for(int i = 0 ; i &lt; y ; i++){    if(used[x][i] == 1){        return false;    }}int x1 = x;int y1 = y;// 对角线是否可以放置,也只是考虑y左边的部分,道理同上while(x1 &gt; 0 &amp;&amp; y1 &gt; 0){    if(used[--x1][--y1] == 1){        return false;    }}x1 = x;y1 = y;while(x1 &lt; used.length &amp;&amp; y1 &gt;= 0){    if(used[x1++][y1--] == 1){        return false;    }}return true;</code></pre><p>  }<br>}</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+      <category term="LeetCode" scheme="http://yoursite.com/categories/study/LeetCode/"/>
+    
+    
+      <category term="Array" scheme="http://yoursite.com/tags/Array/"/>
+    
+      <category term="DFS" scheme="http://yoursite.com/tags/DFS/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode 88. Merge(Easy)</title>
