@@ -21,18 +21,20 @@
     
     
     <meta name="keywords" content="Array,DFS">
-    <meta name="description" content="import java.util.ArrayList;import java.util.List; /**  @Author: zy  @Date: 2020/11/7 21:31  @Description:  / public class SolveNQueens {  private List&amp;lt;List&amp;gt; res;  private int[][] used;  public L">
+    <meta name="description" content="题目n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。                                                                                              N-queues               上图为 8 皇后问题的一种解法。 给定一个整数 n，返回所有不同的">
 <meta name="keywords" content="Array,DFS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 51.N-Queues">
 <meta property="og:url" content="http://yoursite.com/2020/11/09/LeetCode-51-N-Queues/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="import java.util.ArrayList;import java.util.List; /**  @Author: zy  @Date: 2020/11/7 21:31  @Description:  / public class SolveNQueens {  private List&amp;lt;List&amp;gt; res;  private int[][] used;  public L">
+<meta property="og:description" content="题目n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。                                                                                              N-queues               上图为 8 皇后问题的一种解法。 给定一个整数 n，返回所有不同的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-11-08T16:10:52.753Z">
+<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/8-queens.png">
+<meta property="og:updated_time" content="2020-11-09T14:16:44.165Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 51.N-Queues">
-<meta name="twitter:description" content="import java.util.ArrayList;import java.util.List; /**  @Author: zy  @Date: 2020/11/7 21:31  @Description:  / public class SolveNQueens {  private List&amp;lt;List&amp;gt; res;  private int[][] used;  public L">
+<meta name="twitter:description" content="题目n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。                                                                                              N-queues               上图为 8 皇后问题的一种解法。 给定一个整数 n，返回所有不同的">
+<meta name="twitter:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/8-queens.png">
     
         <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
     
@@ -164,6 +166,13 @@
 
 <div class="container body-wrap">
     
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题目"><span class="post-toc-number">1.</span> <span class="post-toc-text">题目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#示例"><span class="post-toc-number">2.</span> <span class="post-toc-text">示例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题解"><span class="post-toc-number">3.</span> <span class="post-toc-text">题解</span></a></li></ol>
+        </nav>
+    </aside>
+
 
 <article id="post-LeetCode-51-N-Queues"
   class="post-article article-type-post fade" itemprop="blogPost">
@@ -182,71 +191,22 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>import java.util.ArrayList;<br>import java.util.List;</p>
-<p>/**</p>
-<ul>
-<li><p>@Author: zy</p>
-</li>
-<li><p>@Date: 2020/11/7 21:31</p>
-</li>
-<li><p>@Description:</p>
-</li>
-<li><p>/
-public class SolveNQueens {<br>  private List&lt;List<string>&gt; res;<br>  private int[][] used;<br>  public List&lt;List<string>&gt; solveNQueens(int n) {</string></string></p>
-<pre><code>if(n == 0) return res;
-used = new int[n][n];
-res = new ArrayList&lt;&gt;();
-DFS(0);
-return res;</code></pre><p>  }</p>
-<p>  public void DFS(int index){</p>
-<pre><code>if(index == used.length){
-    List&lt;String&gt; temp = new ArrayList&lt;&gt;();
-    for(int i = 0 ; i &lt; used.length ; i++){
-        StringBuilder sb = new StringBuilder();
-        for(int j = 0 ; j &lt; used.length ; j++){
-            if(used[i][j] == 0){
-                sb.append(&quot;.&quot;);
-            }else{
-                sb.append(&quot;Q&quot;);
-            }
-        }
-        temp.add(sb.toString());
-    }
-    res.add(temp);
-    return;
-}
-for(int i = 0 ; i &lt; used.length ; i++){
-    if(validUsed(i,index)){
-        used[i][index] = 1;
-        DFS(index + 1);
-        used[i][index] = 0;
-    }
-}</code></pre><p>  }</p>
-<p>  public boolean validUsed(int x,int y){</p>
-<pre><code>// 当前行是否可以放置(只考虑y左边的部分,因为我们是每一列来进行放置的,右边的肯定为0)
-for(int i = 0 ; i &lt; y ; i++){
-    if(used[x][i] == 1){
-        return false;
-    }
-}
-int x1 = x;
-int y1 = y;
-// 对角线是否可以放置,也只是考虑y左边的部分,道理同上
-while(x1 &gt; 0 &amp;&amp; y1 &gt; 0){
-    if(used[--x1][--y1] == 1){
-        return false;
-    }
-}
-x1 = x;
-y1 = y;
-while(x1 &lt; used.length &amp;&amp; y1 &gt;= 0){
-    if(used[x1++][y1--] == 1){
-        return false;
-    }
-}
-return true;</code></pre><p>  }<br>}</p>
-</li>
-</ul>
+            <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/8-queens.png" alt="N-queues" title>
+                </div>
+                <div class="image-caption">N-queues</div>
+            </figure>
+
+<p>上图为 8 皇后问题的一种解法。</p>
+<p>给定一个整数 n，返回所有不同的 n 皇后问题的解决方案。</p>
+<p>每一种解法包含一个明确的 n 皇后问题的棋子放置方案，该方案中 ‘Q’ 和 ‘.’ 分别代表了皇后和空位。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">输入：4</span><br><span class="line">输出：[</span><br><span class="line"> [&quot;.Q..&quot;,  // 解法 1</span><br><span class="line">  &quot;...Q&quot;,</span><br><span class="line">  &quot;Q...&quot;,</span><br><span class="line">  &quot;..Q.&quot;],</span><br><span class="line"></span><br><span class="line"> [&quot;..Q.&quot;,  // 解法 2</span><br><span class="line">  &quot;Q...&quot;,</span><br><span class="line">  &quot;...Q&quot;,</span><br><span class="line">  &quot;.Q..&quot;]</span><br><span class="line">]</span><br><span class="line">解释: 4 皇后问题存在两个不同的解法。</span><br></pre></td></tr></table></figure>
+
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: zy</span><br><span class="line"> * @Date: 2020/11/7 21:31</span><br><span class="line"> * @Description:</span><br><span class="line"> */</span><br><span class="line">public class SolveNQueens &#123;</span><br><span class="line">    private List&lt;List&lt;String&gt;&gt; res;</span><br><span class="line">    private int[][] used;</span><br><span class="line">    public List&lt;List&lt;String&gt;&gt; solveNQueens(int n) &#123;</span><br><span class="line">        if(n == 0) return res;</span><br><span class="line">        used = new int[n][n];</span><br><span class="line">        res = new ArrayList&lt;&gt;();</span><br><span class="line">        DFS(0);</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void DFS(int index)&#123;</span><br><span class="line">        if(index == used.length)&#123;</span><br><span class="line">            List&lt;String&gt; temp = new ArrayList&lt;&gt;();</span><br><span class="line">            for(int i = 0 ; i &lt; used.length ; i++)&#123;</span><br><span class="line">                StringBuilder sb = new StringBuilder();</span><br><span class="line">                for(int j = 0 ; j &lt; used.length ; j++)&#123;</span><br><span class="line">                    if(used[i][j] == 0)&#123;</span><br><span class="line">                        sb.append(&quot;.&quot;);</span><br><span class="line">                    &#125;else&#123;</span><br><span class="line">                        sb.append(&quot;Q&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                temp.add(sb.toString());</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(temp);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i = 0 ; i &lt; used.length ; i++)&#123;</span><br><span class="line">            if(validUsed(i,index))&#123;</span><br><span class="line">                used[i][index] = 1;</span><br><span class="line">                DFS(index + 1);</span><br><span class="line">                used[i][index] = 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean validUsed(int x,int y)&#123;</span><br><span class="line">        // 当前行是否可以放置(只考虑y左边的部分,因为我们是每一列来进行放置的,右边的肯定为0)</span><br><span class="line">        for(int i = 0 ; i &lt; y ; i++)&#123;</span><br><span class="line">            if(used[x][i] == 1)&#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int x1 = x;</span><br><span class="line">        int y1 = y;</span><br><span class="line">        // 对角线是否可以放置,也只是考虑y左边的部分,道理同上</span><br><span class="line">        while(x1 &gt; 0 &amp;&amp; y1 &gt; 0)&#123;</span><br><span class="line">            if(used[--x1][--y1] == 1)&#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        x1 = x;</span><br><span class="line">        y1 = y;</span><br><span class="line">        while(x1 &lt; used.length &amp;&amp; y1 &gt;= 0)&#123;</span><br><span class="line">            if(used[x1++][y1--] == 1)&#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
 
@@ -255,7 +215,7 @@ return true;</code></pre><p>  }<br>}</p>
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-11-08T16:10:52.753Z" itemprop="dateUpdated">2020-11-09 00:10:52</time>
+    Last updated: <time datetime="2020-11-09T14:16:44.165Z" itemprop="dateUpdated">2020-11-09 22:16:44</time>
 </span><br>
 
 
