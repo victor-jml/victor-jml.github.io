@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-11-09T14:16:44.165Z</updated>
+  <updated>2020-11-11T02:59:07.300Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker部署fastDFS</title>
+    <link href="http://yoursite.com/2020/11/11/docker%E9%83%A8%E7%BD%B2fastDFS/"/>
+    <id>http://yoursite.com/2020/11/11/docker部署fastDFS/</id>
+    <published>2020-11-11T02:58:28.000Z</published>
+    <updated>2020-11-11T02:59:07.300Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="FastDFS简介"><a href="#FastDFS简介" class="headerlink" title="FastDFS简介"></a>FastDFS简介</h3><ol><li>存储空间可扩展。</li><li>提供一个统一的访问方式。<br>使用FastDFS，分布式文件系统。存储空间可以横向扩展，可以实现服务器的高可用。支持每个节点有备份机。</li></ol><h4 id="FastDFS的系统架构"><a href="#FastDFS的系统架构" class="headerlink" title="FastDFS的系统架构"></a>FastDFS的系统架构</h4><p>FastDFS架构包括 Tracker server和Storage server。客户端请求Tracker server进行文件上传、下载，通过Tracker server调度最终由Storage server完成文件上传和下载。<br>Tracker server作用是负载均衡和调度，通过Tracker server在文件上传时可以根据一些策略找到Storage server提供文件上传服务。可以将tracker称为追踪服务器或调度服务器。<br>Storage server作用是文件存储，客户端上传的文件最终存储在Storage服务器上，Storage server没有实现自己的文件系统而是利用操作系统 的文件系统来管理文件。可以将storage称为存储服务器。</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://img-blog.csdnimg.cn/20190529152431882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNjUxNTM1,size_16,color_FFFFFF,t_70" alt="fastDFS" title>                </div>                <div class="image-caption">fastDFS</div>            </figure><p>服务端两个角色：<br>Tracker：管理集群，tracker也可以实现集群。每个tracker节点地位平等。<br>收集Storage集群的状态。<br>Storage：实际保存文件<br>Storage分为多个组，每个组之间保存的文件是不同的。每个组内部可以有多个成员，组成员内部保存的内容是一样的，组成员的地位是一致的，没有主从的概念。</p><h4 id="上传和下载流程"><a href="#上传和下载流程" class="headerlink" title="上传和下载流程"></a>上传和下载流程</h4><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://img-blog.csdnimg.cn/20190529152519154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNjUxNTM1,size_16,color_FFFFFF,t_70" alt="上传" title>                </div>                <div class="image-caption">上传</div>            </figure><ol><li><p>上传</p><p>客户端上传文件后存储服务器将文件ID返回给客户端，此文件ID用于以后访问该文件的索引信息。文件索引信息包括：组名，虚拟磁盘路径，数据两级目录，文件名。<br><img src="https://img-blog.csdnimg.cn/20190529152525696.png" alt><br>组名：文件上传后所在的storage组名称，在文件上传成功后有storage服务器返回，需要客户端自行保存。<br>虚拟磁盘路径：storage配置的虚拟路径，与磁盘选项store_path*对应。如果配置了store_path0则是M00，如果配置了store_path1则是M01，以此类推。<br>数据两级目录：storage服务器在每个虚拟磁盘路径下创建的两级目录，用于存储数据文件。<br>文件名：与文件上传时不同。是由存储服务器根据特定信息生成，文件名包含：源存储服务器IP地址、文件创建时间戳、文件大小、随机数和文件拓展名等信息。</p></li><li><p>下载</p></li></ol><p><img src="https://img-blog.csdnimg.cn/20190529152617560.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNjUxNTM1,size_16,color_FFFFFF,t_70" alt="下载"></p><h3 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h3><h4 id="docker安装fastDFS"><a href="#docker安装fastDFS" class="headerlink" title="docker安装fastDFS"></a>docker安装fastDFS</h4><h5 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1. 拉取镜像"></a>1. 拉取镜像</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image pull delron/fastdfs</span><br></pre></td></tr></table></figure><h5 id="2-运行tracker"><a href="#2-运行tracker" class="headerlink" title="2. 运行tracker"></a>2. 运行tracker</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -dti --network=host --name tracker -v /var/fdfs/tracker:/var/fdfs delron/fastdfs tracker</span><br></pre></td></tr></table></figure><h5 id="3-运行storage"><a href="#3-运行storage" class="headerlink" title="3.运行storage"></a>3.运行storage</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -dti --network=host --name storage -e TRACKER_SERVER=117.50.65.***:22122 -v /var/fdfs/storage:/var/fdfs delron/fastdfs storage</span><br></pre></td></tr></table></figure><p><strong>注意这里: 需要把TRACKER_SERVER 改成 本机的IP地址:22122</strong> (我的ip地址是117.50.65.***)</p><p><strong>后面的参数: 我们将<code>fastDFS storage</code>运行目录映射到本机的<code>/var/fdfs/storage</code>目录中</strong></p><h5 id="4-配置storage-默认不需要"><a href="#4-配置storage-默认不需要" class="headerlink" title="4. 配置storage(默认不需要)"></a>4. 配置storage(默认不需要)</h5><ol><li><p>进入storage容器</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it storage /bin/bash</span><br></pre></td></tr></table></figure></li><li><p>storage配置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure><p><img src="https://oscimg.oschina.net/oscnet/5b8b14efe5fc2d732f2420cab50bee030d0.png" alt></p></li><li><p>Nginx配置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi  /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure><p><img src="https://oscimg.oschina.net/oscnet/377982a89b37f209f70ce1a7c25aa821219.png" alt></p><p>​                                                                    端口号和storage对应相同即可</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+      <category term="study" scheme="http://yoursite.com/categories/study/"/>
+    
+    
+      <category term="fastDFS" scheme="http://yoursite.com/tags/fastDFS/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode 51.N-Queues</title>
