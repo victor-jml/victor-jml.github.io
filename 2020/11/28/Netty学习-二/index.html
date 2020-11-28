@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Netty学习(二) |  | 一切近的东西都将远去 我想证明它不完全是个不幸</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Netty">
+    <meta name="description" content="事件传播机制在Netty中采用的是事件驱动.当数据进入或者是传出的时候才会引发事件. 我们在编程中会定义多个handler去处理事件 ChannelHandler系列：包括ChannelOutboundHandler，ChannelInboundHandler等，还需要了解ChannelPipeline，ChannelHandlerContext系列。 ChannelHandlerChannelH">
+<meta name="keywords" content="Netty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty学习(二)">
+<meta property="og:url" content="http://yoursite.com/2020/11/28/Netty学习-二/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="事件传播机制在Netty中采用的是事件驱动.当数据进入或者是传出的时候才会引发事件. 我们在编程中会定义多个handler去处理事件 ChannelHandler系列：包括ChannelOutboundHandler，ChannelInboundHandler等，还需要了解ChannelPipeline，ChannelHandlerContext系列。 ChannelHandlerChannelH">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="c:/Users/zyvictor/AppData/Roaming/Typora/typora-user-images/image-20201128170836655.png">
+<meta property="og:image" content="c:/Users/zyvictor/AppData/Roaming/Typora/typora-user-images/image-20201128165912988.png">
+<meta property="og:image" content="c:/Users/zyvictor/AppData/Roaming/Typora/typora-user-images/image-20201128170349028.png">
+<meta property="og:updated_time" content="2020-11-28T09:20:00.474Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Netty学习(二)">
+<meta name="twitter:description" content="事件传播机制在Netty中采用的是事件驱动.当数据进入或者是传出的时候才会引发事件. 我们在编程中会定义多个handler去处理事件 ChannelHandler系列：包括ChannelOutboundHandler，ChannelInboundHandler等，还需要了解ChannelPipeline，ChannelHandlerContext系列。 ChannelHandlerChannelH">
+<meta name="twitter:image" content="c:/Users/zyvictor/AppData/Roaming/Typora/typora-user-images/image-20201128170836655.png">
+    
+        <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/imgs/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/imgs/icon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Enoch_oahz</h5>
+          <a href="mailto:972193026zy@gmail.com" title="972193026zy@gmail.com" class="mail">972193026zy@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Homepage
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/victor-jml" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/6348371389?topnav=1&wvr=6&topsug=1" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Netty学习(二)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Netty学习(二)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-11-28T09:15:48.000Z" itemprop="datePublished" class="page-time">
+  2020-11-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#事件传播机制"><span class="post-toc-number">1.</span> <span class="post-toc-text">事件传播机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ChannelHandler"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ChannelHandler</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ChannelOutboundHandler"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">ChannelOutboundHandler</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ChannelInboundHandler"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">ChannelInboundHandler</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ChannelPipeline"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">ChannelPipeline</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ChannelHandlerContext"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">ChannelHandlerContext</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#传播机制"><span class="post-toc-number"></span> <span class="post-toc-text">传播机制</span></a>
+        </nav>
+    </aside>
+
+
+<article id="post-Netty学习-二"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Netty学习(二)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-11-28 17:15:48" datetime="2020-11-28T09:15:48.000Z"  itemprop="datePublished">2020-11-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="事件传播机制"><a href="#事件传播机制" class="headerlink" title="事件传播机制"></a>事件传播机制</h3><p>在<code>Netty</code>中采用的是事件驱动.当数据进入或者是传出的时候才会引发事件.</p>
+<p>我们在编程中会定义多个<code>handler</code>去处理事件</p>
+<p><code>ChannelHandler</code>系列：包括<code>ChannelOutboundHandler</code>，<code>ChannelInboundHandler</code>等，还需要了解<code>ChannelPipeline</code>，<code>ChannelHandlerContext</code>系列。</p>
+<h4 id="ChannelHandler"><a href="#ChannelHandler" class="headerlink" title="ChannelHandler"></a>ChannelHandler</h4><p><code>ChannelHandler</code>用来处理IO事件(类似于Servlet中的拦截器),处理完事件后将该事件传入到<code>ChannelPipeline</code>的下一个<code>handler</code>中,对于每一个<code>ChannelHandler</code>都一个<code>ChannelContext</code>对象,<code>handler</code>与它所属的<code>ChannelPipeline</code>（管道）对象联系，可以向通道的上游或者下游传递事件，动态的改变管道，或者存储一些信息</p>
+<p><code>Channel</code>所提供的方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- handlerAdded(ChannelHandlerContext ctx)：</span><br><span class="line">- handlerRemoved(ChannelHandlerContext ctx)</span><br><span class="line">- Sharable注解</span><br></pre></td></tr></table></figure>
+
+<p>但是它有两个子接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- ChannelInboundHandler： to handle inbound I/O events</span><br><span class="line">- ChannelOutboundHandler： to handle outbound I/O operations.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- ChannelInboundHandlerAdapter to handle inbound I/O events,</span><br><span class="line">- ChannelOutboundHandlerAdapter to handle outbound I/O operations, and</span><br><span class="line">- ChannelDuplexHandler to handle both inbound and outbound events</span><br></pre></td></tr></table></figure>
+
+<h4 id="ChannelOutboundHandler"><a href="#ChannelOutboundHandler" class="headerlink" title="ChannelOutboundHandler"></a>ChannelOutboundHandler</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\zyvictor\AppData\Roaming\Typora\typora-user-images\image-20201128170836655.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+
+<p>包括bind、connect、disconnect、close、deregister、read、write、flush等方法<br>通常我们复写这些方法来处理自己事件的逻辑。</p>
+<p>outbound的时候可能会触发这些事件，如果我们没有复写这些方法，那么会调用默认的方法。</p>
+<h4 id="ChannelInboundHandler"><a href="#ChannelInboundHandler" class="headerlink" title="ChannelInboundHandler"></a>ChannelInboundHandler</h4><p><code>ChannelInboundHandler</code>用来处理出outbound事件，它提供了以下方法：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\zyvictor\AppData\Roaming\Typora\typora-user-images\image-20201128165912988.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+
+
+
+<p>提供了包括：通道激活，取消激活，可读，读完毕，通道注册到事件循环中，从事件循环中注销的事件，异常处理事件，用户的事件被触发的事件等。</p>
+<p>在inbound中可能会触发这些事件，然后执行这些方法。</p>
+<h4 id="ChannelPipeline"><a href="#ChannelPipeline" class="headerlink" title="ChannelPipeline"></a>ChannelPipeline</h4><p>之前总是提及<code>ChannelPipeline</code>，<code>ChannelPipeline</code>可以看做是一个容器，一个双向链表，节点就是<code>ChannelHandlerContext</code>对象(包含<code>ChannelHandler</code>)，它们有一定的顺序。当数据传出或者传出时会流经管道上的<code>ChannelHandlerContext</code>，处理事件。</p>
+<p><code>ChannelPipeline</code>实现了拦截过滤器模式的高级形式，让用户完全控制如何处理事件以及管道中的通道处理程序如何相互作用。</p>
+<p>注意：每个channel都有自己的<code>ChannelPipeline</code>，在创建新channel时会自动创建。</p>
+<p>那么事件如何在Pipe中流通呢？<br>下图描述了pipe中的 <code>ChannelHandlers</code>通常如何处理I/O事件。I/O事件由<code>ChannelInboundHandler</code>或者<code>ChannelOutboundHandler</code>处理，并通过调用 <code>ChannelHandlerContext</code> 中定义的事件传播方法，如 <code>ChannelHandlerContext.fireChannelRead(Object)</code> 和 <code>ChannelOutboundInvoker.write(Object)</code>来转发到最近的handler。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">                                           I/O Request</span><br><span class="line">                                          via Channel or</span><br><span class="line">                                      ChannelHandlerContext</span><br><span class="line">                                                    |</span><br><span class="line">+---------------------------------------------------+---------------+</span><br><span class="line">|                           ChannelPipeline         |               |</span><br><span class="line">|                                                  \|/              |</span><br><span class="line">|    +---------------------+            +-----------+----------+    |</span><br><span class="line">|    | Inbound Handler  N  |            | Outbound Handler  1  |    |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|              /|\                                  |               |</span><br><span class="line">|               |                                  \|/              |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|    | Inbound Handler N-1 |            | Outbound Handler  2  |    |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|              /|\                                  .               |</span><br><span class="line">|               .                                   .               |</span><br><span class="line">| ChannelHandlerContext.fireIN_EVT() ChannelHandlerContext.OUT_EVT()|</span><br><span class="line">|        [ method call]                       [method call]         |</span><br><span class="line">|               .                                   .               |</span><br><span class="line">|               .                                  \|/              |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|    | Inbound Handler  2  |            | Outbound Handler M-1 |    |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|              /|\                                  |               |</span><br><span class="line">|               |                                  \|/              |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|    | Inbound Handler  1  |            | Outbound Handler  M  |    |</span><br><span class="line">|    +----------+----------+            +-----------+----------+    |</span><br><span class="line">|              /|\                                  |               |</span><br><span class="line">+---------------+-----------------------------------+---------------+</span><br><span class="line">                |                                  \|/</span><br><span class="line">+---------------+-----------------------------------+---------------+</span><br><span class="line">|               |                                   |               |</span><br><span class="line">|       [ Socket.read() ]                    [ Socket.write() ]     |</span><br><span class="line">|                                                                   |</span><br><span class="line">|  Netty Internal I/O Threads (Transport Implementation)            |</span><br><span class="line">+-------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="C:\Users\zyvictor\AppData\Roaming\Typora\typora-user-images\image-20201128170349028.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>入站事件一般由I/O线程触发，出站事件一般由用户触发。</p>
+<p>一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ChannelPipeline p = ...;</span><br><span class="line"> p.addLast(&quot;1&quot;, new InboundHandlerA());</span><br><span class="line"> p.addLast(&quot;2&quot;, new InboundHandlerB());</span><br><span class="line"> p.addLast(&quot;3&quot;, new OutboundHandlerA());</span><br><span class="line"> p.addLast(&quot;4&quot;, new OutboundHandlerB());</span><br><span class="line"> p.addLast(&quot;5&quot;, new InboundOutboundHandlerX());</span><br></pre></td></tr></table></figure>
+
+<p>在给定的示例中，当事件进入时，处理程序的评估顺序是1、2、3、4、5。当事件出站时，顺序是5，4，3，2，1。除此之外，ChannelPipeline跳过对某些处理程序的评估，以缩短堆栈深度:<br>入站顺序是125，出站顺序是543.</p>
+<p>当然在上图中可以发现：handler必须调用ChannelHandlerContext中的事件传播方法，才能将事件转发给下一个处理程序。</p>
+<h4 id="ChannelHandlerContext"><a href="#ChannelHandlerContext" class="headerlink" title="ChannelHandlerContext"></a>ChannelHandlerContext</h4><p>ChannelHandler可以与pipe还有其他的ChannelHandler交互。在一个channel中一个handler对应着一个channelHandlerContext对应，当然一个pipe中可以有多个ChannelHandlerContext.</p>
+<p>注意：ChannelHandlerContext.wtite()和ChannelHandlerContext.channel.write()的区别：<br>ctx.channel().write()从tail节点开始传播，ctx.write()从当前节点开始传播。</p>
+<p>当调用ctx.channel().write()方法时：调用以下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public ChannelFuture write(Object msg) &#123;</span><br><span class="line">        return pipeline.write(msg);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">private void write(Object msg, boolean flush, ChannelPromise promise) &#123;</span><br><span class="line">    //获取下一个outBoundContext，然后执行事件方法</span><br><span class="line">        AbstractChannelHandlerContext next = findContextOutbound();</span><br><span class="line">        final Object m = pipeline.touch(msg, next);</span><br><span class="line">        EventExecutor executor = next.executor();</span><br><span class="line">        if (executor.inEventLoop()) &#123;</span><br><span class="line">            if (flush) &#123;</span><br><span class="line">                next.invokeWriteAndFlush(m, promise);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                next.invokeWrite(m, promise);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            final AbstractWriteTask task;</span><br><span class="line">            if (flush) &#123;</span><br><span class="line">                task = WriteAndFlushTask.newInstance(next, m, promise);</span><br><span class="line">            &#125;  else &#123;</span><br><span class="line">                task = WriteTask.newInstance(next, m, promise);</span><br><span class="line">            &#125;</span><br><span class="line">            if (!safeExecute(executor, task, promise, m)) &#123;</span><br><span class="line">                // We failed to submit the AbstractWriteTask. We need to cancel it so we decrement the pending bytes</span><br><span class="line">                // and put it back in the Recycler for re-use later.</span><br><span class="line">                //</span><br><span class="line">                // See https://github.com/netty/netty/issues/8343.</span><br><span class="line">                task.cancel();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="传播机制"><a href="#传播机制" class="headerlink" title="传播机制"></a>传播机制</h2><p>inbound会从head开始:head-&gt;1-&gt;2-&gt;5传播;而outbound是：tail-&gt;5-&gt;4-&gt;3传播。</p>
+<p>当我写了以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ch.pipeline().addLast(new In1Handler())</span><br><span class="line">                                    .addLast(new Out1Hadnler())</span><br><span class="line">                                    .addLast(new Out2Handler())</span><br><span class="line">                                    .addLast(new In2Handler());</span><br></pre></td></tr></table></figure>
+
+<p>那么此时的pine中的<code>ChannelHandlerContext</code>应该是：head-in1-out1-out2-in2-tail,入站和出站都是在这条链上进行。如果是出站，那么会依次寻找下一个<code>outContext</code>,直到结束；反之入站也一样。</p>
+<p>我认为：<strong>所谓的事件传播其实就是事件在这条链表上移动。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">转载自`gentlezuo`的博客！</span><br><span class="line">文章链接: http://gentlezuo.github.io/2019/05/18/netty事件传播机制/</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-11-28T09:20:00.474Z" itemprop="dateUpdated">2020-11-28 17:20:00</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/imgs/icon.jpg" alt="Enoch_oahz">
+            Enoch_oahz
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Netty/">Netty</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/11/28/Netty学习-二/&title=《Netty学习(二)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/11/28/Netty学习-二/&title=《Netty学习(二)》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/28/Netty学习-二/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Netty学习(二)》 — null&url=http://yoursite.com/2020/11/28/Netty学习-二/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/28/Netty学习-二/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/11/28/Netty学习-一/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Netty学习(一)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'true' == 'true',
+            appId: "QOhHE7vik6EDBujmNQzI4KDH-gzGzoHsz",
+            appKey: "YGS4Tvy323QSQs4DFzGVCKH9",
+            avatar: "monsterid",
+            placeholder: "填写你的邮箱可以收到我的回信",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        thanks~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/imgs/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/imgs/wechat.png" data-alipay="/imgs/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Enoch_oahz &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/11/28/Netty学习-二/&title=《Netty学习(二)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/11/28/Netty学习-二/&title=《Netty学习(二)》 — null&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/11/28/Netty学习-二/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Netty学习(二)》 — null&url=http://yoursite.com/2020/11/28/Netty学习-二/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/11/28/Netty学习-二/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/11/28/Netty学习-二/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
