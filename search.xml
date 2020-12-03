@@ -3,7 +3,13 @@
   <entry>
     <title><![CDATA[设计模式之单例模式(Singleton)]]></title>
     <url>%2F2020%2F12%2F03%2F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F-Singleton%2F</url>
-    <content type="text"><![CDATA[]]></content>
+    <content type="text"><![CDATA[定义在很多系统中，为了节省内存资源，保证数据内容的一致性，对于某些类只创建一个实例（有且只有一个）,即所谓的单例模式 （因为在我的毕设IM项目中写了很多单例模式，所以前来总结一下） 优缺点 优点： 正如定义中提到，为了保证内存中只有一个实例，减少内存的开销 避免对于资源的多重占用 保证每一次调用的数据内容一致性 缺点： 单例模式没有接口，拓展困难，如果要拓展功能则需要修改源代码，这违背了开闭原则 在并发测试中，单例模式不利于代码调试，在调试过程中，如果单例中的代码没有执行完，也不能模拟生成一个新的对象。 因为实现了单例模式的类通常需要完成多个功能，这很容易违背了单一职责原则 应用场景对于 Java 来说，单例模式可以保证在一个 JVM 中只存在单一实例。单例模式的应用场景主要有以下几个方面。 需要频繁创建的一些类，使用单例可以降低系统的内存压力，减少 GC。 某类只要求生成一个对象的时候，如一个班中的班长、每个人的身份证号等。 某些类创建实例时占用资源较多，或实例化耗时较长，且经常使用。 某类需要频繁实例化，而创建的对象又频繁被销毁的时候，如多线程的线程池、网络连接池等。 频繁访问数据库或文件的对象。 对于一些控制硬件级别的操作，或者从系统上来讲应当是单一控制逻辑的操作，如果有多个实例，则系统会完全乱套。 当对象需要被共享的场合。由于单例模式只允许创建一个对象，共享该对象可以节省内存，并加快对象访问速度。如 Web 中的配置对象、数据库的连接池等。 结构与模式结构单例模式的主要角色如下。 单例类：包含一个实例且能自行创建这个实例的类。 访问类：使用单例的类。 单例模式的结构图 实现单例模式的实现有两种： 懒汉式 饿汉式 针对懒汉和饿汉又有多种实现 懒汉 静态变量 1234567public class Singleton&#123; // 静态变量保存实例变量 public static final Singleton INSTANCE = new Singleton(); // 构造器私有化，防止new 创建实例 public Singleton()&#123; &#125;&#125; 优点 由于使用了static关键字，保证了在引用这个变量时，关于这个变量的所有写入操作都完成，所以保证了JVM层面的线程安全。 缺点 不能实现懒加载，造成空间浪费。如果一个类比较大，我们在初始化的时就加载了这个类，但是我们长时间没有使用这个类，这就导致了内存空间的浪费。 枚举 123public enum Singleton&#123; INSTANCE;&#125; 这种方式是最简洁的，不需要考虑构造方法私有化。值得注意的是枚举类不允许被继承，因为枚举类编译后默认为final class，可防止被子类修改。常量类可被继承修改、增加字段等，容易导致父类的不兼容。枚举类型是线程安全的，并且只会装载一次，设计者充分的利用了枚举的这个特性来实现单例模式，枚举的写法非常简单，而且枚举类型是所有单例实现中唯一一种不会被破坏的单例实现模式 静态代码块 12345678public class Singleton&#123; // 构造器私有化 private Singleton()&#123;&#125; public static final Singleton INSTANCE; static&#123; INSTANCE = new Singleton(); &#125;&#125; 这种方式和上面的静态常量/变量类似，只不过把new放到了静态代码块里，从简洁程度上比不过第一种。但是把new放在static代码块有别的好处，那就是可以做一些别的操作，如初始化一些变量，从配置文件读一些数据等。 饿汉 DCL 12345678910111213141516171819/** * 懒汉模式-线程安全，适用于多线程 */public class Singleton&#123; private static volatile Singleton INSTANCE;//防止指令重排 private LazySafeSingleton() &#123; &#125; public static Singleton getInstance()&#123; if(INSTANCE==null)&#123; synchronized (Singleton.class)&#123; if(INSTANCE==null)&#123;//双重检测 INSTANCE = new LazySafeSingleton(); &#125; &#125; &#125; return INSTANCE; &#125;&#125; 这里懒汉式创建单例采用了双重检查锁（DCL）,因为在多线程的环境下，当两个线程同时执行第一个判空时，都满足的情况下，都会进来，然后去争锁，假设线程1拿到了锁，执行同步代码块的内容，创建了实例并返回，此时线程2又获得锁，执行同步代码块内的代码，因为此时线程1已经创建了，所以线程2虽然拿到锁了，如果内部不加判空的话，线程2会再new一次，导致两个线程获得的不是同一个实例。 而对于volatile关键字主要是防止指令重排（可以去了解下JVM的指令重排） 内部类创建 12345678910public class Singleton&#123; private Singleton() &#123; &#125; private static class Inner&#123; private static final Singleton INSTANCE = new Singleton(); &#125; public static Singleton getInstance()&#123; return Inner.INSTANCE; &#125;&#125; 该方式天然线程安全，是否final根据自己需要 总结对于这几种实现方式，只有枚举类才能阻止反射方式破坏单例 如果单例类实现了序列化接口Serializable, 就可以通过反序列化破坏单例]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[设计模式之建造者模式]]></title>
@@ -224,8 +230,8 @@
         <category>study</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>Netty</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
