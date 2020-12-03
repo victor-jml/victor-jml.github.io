@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[设计模式之单例模式(Singleton)]]></title>
+    <url>%2F2020%2F12%2F03%2F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F-Singleton%2F</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[设计模式之建造者模式]]></title>
     <url>%2F2020%2F11%2F29%2F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F%2F</url>
     <content type="text"><![CDATA[1. 定义对于一个复杂对象，我们将其构造与其表示分离开，也就是说我们可以分阶段的去构造一个对象的属性。 它是将一个复杂的对象分解为多个简单的对象，然后一步一步构建而成。它将变与不变相分离，即产品的组成部分是不变的，但每一部分是可以灵活选择的。 2. 结构与实现2.1 结构建造者（Builder）模式由: 产品，抽象建造者，具体建造者，指挥者 产品（Product） 是包含许多组件的复杂对象，由具体建造者来创建其各个组件 抽象建造者（Builder）是包含创建产品各个组件的接口，通常还包含一个返回复杂产品的方法getProduct（） 具体建造者（Concrete Builder）是实现Builder接口，完成复杂产品的各个组件的具体创建方法 指挥者（Director）是调用建造者对象中的组件构造以及装配去完成复杂对象的建立 建造者模式的结构图 2.2 实现Product.java 123456789101112131415161718192021222324252627282930313233package com.enoch.designmode.builder;/** * @Author yang.zhao * @Date 2020/11/26 16:25 * @Version 1.0 * @Description 产品包含许多组建的复杂对象 **/public class Product &#123; private String partA; private String partB; private String partC; public void setPartA(String partA) &#123; this.partA = partA; &#125; public void setPartB(String partB) &#123; this.partB = partB; &#125; public void setPartC(String partC) &#123; this.partC = partC; &#125; public void show()&#123; System.out.println(this.toString()); &#125;&#125; Builder.java 123456789101112131415161718192021222324package com.enoch.designmode.builder;/** * @Author yang.zhao * @Date 2020/11/26 16:28 * @Version 1.0 * @Description 包含创建产品各个组件的抽象方法 **/public abstract class Builder &#123; //创建产品对象 protected Product product=new Product(); public abstract void buildPartA(); public abstract void buildPartB(); public abstract void buildPartC(); //返回产品对象 public Product getResult() &#123; return product; &#125;&#125; ConcreteBuilder.java 123456789101112131415161718192021222324package com.enoch.designmode.builder;/** * @Author yang.zhao * @Date 2020/11/26 16:28 * @Version 1.0 * @Description 实现建造者的抽象方法 **/public class ConcreteBuilder extends Builder&#123; @Override public void buildPartA() &#123; product.setPartA("建造 PartA"); &#125; @Override public void buildPartB() &#123; product.setPartA("建造 PartB"); &#125; @Override public void buildPartC() &#123; product.setPartA("建造 PartC"); &#125;&#125; Director.java 123456789101112131415161718192021222324252627package com.enoch.designmode.builder;/** * @Author yang.zhao * @Date 2020/11/26 16:30 * @Version 1.0 * @Description 调用建造者的方法完成复杂对象的创建 **/public class Director &#123; private Builder builder; public Director(Builder builder)&#123; this.builder = builder; &#125; /** * 构建产品 * @return */ public Product construct() &#123; builder.buildPartA(); builder.buildPartB(); builder.buildPartC(); return builder.getResult(); &#125;&#125; Main.java 12345678910111213141516package com.enoch.designmode.builder;/** * @Author yang.zhao * @Date 2020/11/26 16:33 * @Version 1.0 * @Description **/public class Main &#123; public static void main(String[] args) &#123; Builder builder = new ConcreteBuilder(); Director director = new Director(builder); Product product = director.construct(); product.show(); &#125;&#125;]]></content>
@@ -219,8 +224,8 @@
         <category>study</category>
       </categories>
       <tags>
-        <tag>Netty</tag>
         <tag>Java</tag>
+        <tag>Netty</tag>
       </tags>
   </entry>
   <entry>
