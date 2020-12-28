@@ -14,25 +14,25 @@
     
     
     
-    <title>LeetCode 1486. XOR Operation in an Array (Easy) |  | 一切近的东西都将远去 我想证明它不完全是个不幸</title>
+    <title>LeetCode 34. SearchRange(Medium) |  | 一切近的东西都将远去 我想证明它不完全是个不幸</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="Array">
-    <meta name="description" content="题目:给你两个整数，n 和 start 。 数组 nums 定义为：nums[i] = start + 2*i（下标从 0 开始）且 n == nums.length 。 请返回 nums 中所有元素按位异或（XOR）后得到的结果。 示例:1234输入：n = 5, start = 0输出：8解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) =">
+    <meta name="description" content="Title DescriptionGiven an array of integers nums sorted in ascending order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1]. Example">
 <meta name="keywords" content="Array">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode 1486. XOR Operation in an Array (Easy)">
-<meta property="og:url" content="http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/index.html">
+<meta property="og:title" content="LeetCode 34. SearchRange(Medium)">
+<meta property="og:url" content="http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="题目:给你两个整数，n 和 start 。 数组 nums 定义为：nums[i] = start + 2*i（下标从 0 开始）且 n == nums.length 。 请返回 nums 中所有元素按位异或（XOR）后得到的结果。 示例:1234输入：n = 5, start = 0输出：8解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) =">
+<meta property="og:description" content="Title DescriptionGiven an array of integers nums sorted in ascending order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1]. Example">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-07-14T13:50:55.882Z">
+<meta property="og:updated_time" content="2020-12-28T12:54:30.253Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LeetCode 1486. XOR Operation in an Array (Easy)">
-<meta name="twitter:description" content="题目:给你两个整数，n 和 start 。 数组 nums 定义为：nums[i] = start + 2*i（下标从 0 开始）且 n == nums.length 。 请返回 nums 中所有元素按位异或（XOR）后得到的结果。 示例:1234输入：n = 5, start = 0输出：8解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) =">
+<meta name="twitter:title" content="LeetCode 34. SearchRange(Medium)">
+<meta name="twitter:description" content="Title DescriptionGiven an array of integers nums sorted in ascending order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1]. Example">
     
         <link rel="alternate" type="application/atom+xml" title href="/atom.xml">
     
@@ -120,7 +120,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">LeetCode 1486. XOR Operation in an Array (Easy)</div>
+        <div class="flex-col header-title ellipsis">LeetCode 34. SearchRange(Medium)</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -142,11 +142,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">LeetCode 1486. XOR Operation in an Array (Easy)</h1>
+        <h1 class="title">LeetCode 34. SearchRange(Medium)</h1>
         <h5 class="subtitle">
             
-                <time datetime="2020-06-24T02:36:39.000Z" itemprop="datePublished" class="page-time">
-  2020-06-24
+                <time datetime="2020-12-28T12:53:54.000Z" itemprop="datePublished" class="page-time">
+  2020-12-28
 </time>
 
 
@@ -167,18 +167,18 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题目"><span class="post-toc-number">1.</span> <span class="post-toc-text">题目:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#示例"><span class="post-toc-number">2.</span> <span class="post-toc-text">示例:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解题思路"><span class="post-toc-number">3.</span> <span class="post-toc-text">解题思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Title-Description"><span class="post-toc-number">1.</span> <span class="post-toc-text">Title Description</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Example"><span class="post-toc-number">2.</span> <span class="post-toc-text">Example</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Solution"><span class="post-toc-number">3.</span> <span class="post-toc-text">Solution</span></a></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-LeetCode_1486_数组异或运算"
+<article id="post-LeetCode-34-SearchRange-Medium"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">LeetCode 1486. XOR Operation in an Array (Easy)</h1>
+        <h1 class="post-card-title">LeetCode 34. SearchRange(Medium)</h1>
         <div class="post-meta">
-            <time class="post-time" title="2020-06-24 10:36:39" datetime="2020-06-24T02:36:39.000Z"  itemprop="datePublished">2020-06-24</time>
+            <time class="post-time" title="2020-12-28 20:53:54" datetime="2020-12-28T12:53:54.000Z"  itemprop="datePublished">2020-12-28</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/">study</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/study/LeetCode/">LeetCode</a></li></ul></li></ul>
@@ -189,23 +189,19 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h3 id="题目"><a href="#题目" class="headerlink" title="题目:"></a>题目:</h3><p>给你两个整数，<code>n</code> 和 <code>start</code> 。</p>
-<p>数组 <code>nums</code> 定义为：<code>nums[i]</code> = <code>start</code> + <code>2*i</code>（下标从 0 开始）且 <code>n</code> == <code>nums.length</code> 。</p>
-<p>请返回 <code>nums</code> 中所有元素按位异或（XOR）后得到的结果。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例:"></a>示例:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：n = 5, start = 0</span><br><span class="line">输出：8</span><br><span class="line">解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8 。</span><br><span class="line">     &quot;^&quot; 为按位异或 XOR 运算符。</span><br></pre></td></tr></table></figure>
+            <h3 id="Title-Description"><a href="#Title-Description" class="headerlink" title="Title Description"></a>Title Description</h3><p>Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.</p>
+<p>If target is not found in the array, return [-1, -1].</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [5,7,7,8,8,10], target = 8</span><br><span class="line">Output: [3,4]</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：n = 4, start = 3</span><br><span class="line">输出：8</span><br><span class="line">解释：数组 nums 为 [3, 5, 7, 9]，其中 (3 ^ 5 ^ 7 ^ 9) = 8.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [5,7,7,8,8,10], target = 6</span><br><span class="line">Output: [-1,-1]</span><br></pre></td></tr></table></figure>
 
-<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>首先得明白按位异或(XOR)是什么:</p>
-<p>参与运算的两个值，==如果两个相应位相同，则结果为0==，否则为1。即：0^0=0， 1^0=1， 0^1=1， 1^1=0 例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">5: 00000101</span><br><span class="line">3: 00000100</span><br><span class="line">5^3 = 00000001 -&gt; 1</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [], target = 0</span><br><span class="line">Output: [-1,-1]</span><br></pre></td></tr></table></figure>
 
-<p>我们这里只需要在一个for循环里面进行对每个数累计求异或运算 <strong>^=</strong>即可</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>代码很简单</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int xorOperation(int n, int start) &#123;</span><br><span class="line">        int result = 0;</span><br><span class="line">        for(int i=0; i&lt;n; i++)&#123;</span><br><span class="line">            result ^= start + 2*i;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">int</span>[] searchRange(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.length == <span class="number">0</span> )&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;-<span class="number">1</span>,-<span class="number">1</span>&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt;= target)&#123;</span><br><span class="line">                r = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                l = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(nums[l] != target)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;-<span class="number">1</span>,-<span class="number">1</span>&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> start = l;</span><br><span class="line">        l = <span class="number">0</span>;</span><br><span class="line">        r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &lt;= target)&#123;</span><br><span class="line">                l = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                r = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> end = r;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;start,end&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这道题是很简单的一道题.做这个题解的目的呢主要是记录一下</p>
-<p>希望自己能慢慢在leetcode上刷题来提升自己去解决更复杂的问题.</p>
 
         </div>
 
@@ -214,7 +210,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-07-14T13:50:55.882Z" itemprop="dateUpdated">2020-07-14 21:50:55</time>
+    Last updated: <time datetime="2020-12-28T12:54:30.253Z" itemprop="dateUpdated">2020-12-28 20:54:30</time>
 </span><br>
 
 
@@ -248,7 +244,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/&title=《LeetCode 1486. XOR Operation in an Array (Easy)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/&title=《LeetCode 34. SearchRange(Medium)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -258,22 +254,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/&title=《LeetCode 1486. XOR Operation in an Array (Easy)》 — null&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/&title=《LeetCode 34. SearchRange(Medium)》 — null&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode 1486. XOR Operation in an Array (Easy)》 — null&url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode 34. SearchRange(Medium)》 — null&url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -293,16 +289,16 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2020/06/25/LeetCode_1470_重新排列数组/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">LeetCode 1470. Shuffle the Array (Easy)</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/12/03/设计模式之单例模式-Singleton/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式之单例模式(Singleton)</h4>
+      </a>
+    </div>
   
 </nav>
 
@@ -415,7 +411,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/&title=《LeetCode 1486. XOR Operation in an Array (Easy)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/&title=《LeetCode 34. SearchRange(Medium)》 — null&pic=http://yoursite.com/imgs/icon.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -425,22 +421,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/&title=《LeetCode 1486. XOR Operation in an Array (Easy)》 — null&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/&title=《LeetCode 34. SearchRange(Medium)》 — null&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode 1486. XOR Operation in an Array (Easy)》 — null&url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《LeetCode 34. SearchRange(Medium)》 — null&url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -451,7 +447,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/06/24/LeetCode_1486_数组异或运算/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2020/12/28/LeetCode-34-SearchRange-Medium/" alt="微信分享二维码">
 </div>
 
 
