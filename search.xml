@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[LeetCode 19 RemoveNthNodeFromEndOfList(Medium)]]></title>
+    <url>%2F2021%2F01%2F04%2FLeetCode-19-RemoveNthNodeFromEndOfList%2F</url>
+    <content type="text"><![CDATA[Title DescriptionGiven the head of a linked list, remove the nth node from the end of the list and return its head. Follow up: Could you do this in one pass? ExampleExample 1: 12Input: head = [1,2,3,4,5], n = 2Output: [1,2,3,5] Example 2: 12Input: head = [1], n = 1Output: [] Example 3: 12Input: head = [1,2], n = 1Output: [1] Constraints The number of nodes in the list is sz. 1 &lt;= sz &lt;= 30 0 &lt;= Node.val &lt;= 100 1 &lt;= n &lt;= sz Solution12345678910111213141516171819202122232425262728293031package exam02;import LinkedList.ListNode;/** * @Author: zy * @Date: 2021/1/4 20:38 * @Description: */public class RemoveNthFromEnd19 &#123; public ListNode removeNthFromEnd(ListNode head, int n) &#123; if(head == null)&#123; return null; &#125; ListNode dummy = new ListNode(-1); dummy.next = head; ListNode pre = dummy; ListNode cur = head; // find the previous node of the target node while(n-- &gt; 0)&#123; cur = cur.next; &#125; while(cur != null)&#123; cur = cur.next; pre = pre.next; &#125; // delete it pre.next = pre.next.next; return dummy.next; &#125;&#125;]]></content>
+      <categories>
+        <category>study</category>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[LeetCode 74.SearchMatrix(Medium)]]></title>
     <url>%2F2020%2F12%2F29%2FLeetCode-74-SearchMatrix-Medium%2F</url>
     <content type="text"><![CDATA[Title DescriptionWrite an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties: Integers in each row are sorted from left to right.The first integer of each row is greater than the last integer of the previous row. ExampleExample 1: 12Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3Output: true Example 2: 12Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13Output: false Constraints m == matrix.length n == matrix[i].length 1 &lt;= m, n &lt;= 100 -10e4 &lt;= matrix[i][j], target&lt;= 10e4 Solution12345678910111213141516171819202122232425262728293031323334package exam01;/** * @Author: zy * @Date: 2020/12/29 08:31 * @Description: */public class SearchMatrix74 &#123; public static void main(String[] args) &#123; int[][] arr = new int[][]&#123;&#123;1&#125;&#125;; SearchMatrix74 searchMatrix74 = new SearchMatrix74(); System.out.println(searchMatrix74.searchMatrix(arr,1)); &#125; public boolean searchMatrix(int[][] matrix,int target)&#123; if(matrix.length == 0 || matrix[0].length == 0)&#123; return false; &#125; int col = matrix.length - 1; int row = matrix[0].length - 1; for(int i = 0; i &lt;= col; i++)&#123; for(int j = row ; j &gt;= 0 ; j--)&#123; if(matrix[i][j] == target)&#123; return true; &#125;else if(matrix[i][j] &gt; target)&#123; continue; &#125;else &#123; break; &#125; &#125; &#125; return false; &#125;&#125;]]></content>
