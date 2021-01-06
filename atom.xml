@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-04T12:52:30.834Z</updated>
+  <updated>2020-12-29T12:28:11.424Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,33 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>LeetCode 19 RemoveNthNodeFromEndOfList(Medium)</title>
-    <link href="http://yoursite.com/2021/01/04/LeetCode-19-RemoveNthNodeFromEndOfList/"/>
-    <id>http://yoursite.com/2021/01/04/LeetCode-19-RemoveNthNodeFromEndOfList/</id>
-    <published>2021-01-04T12:49:59.000Z</published>
-    <updated>2021-01-04T12:52:30.834Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="Title-Description"><a href="#Title-Description" class="headerlink" title="Title Description"></a>Title Description</h3><p>Given the head of a linked list, remove the nth node from the end of the list and return its head.</p><p>Follow up: Could you do this in one pass?</p><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p><strong>Example 1:</strong></p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg" alt title>                </div>                <div class="image-caption"></div>            </figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1,2,3,4,5], n = 2</span><br><span class="line">Output: [1,2,3,5]</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1], n = 1</span><br><span class="line">Output: []</span><br></pre></td></tr></table></figure><p><strong>Example 3:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1,2], n = 1</span><br><span class="line">Output: [1]</span><br></pre></td></tr></table></figure><h3 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints"></a>Constraints</h3><ul><li>The number of nodes in the list is sz.</li><li>1 &lt;= <code>sz</code> &lt;= 30</li><li>0 &lt;= <code>Node.val</code> &lt;= 100</li><li>1 &lt;= n &lt;= <code>sz</code></li></ul><h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> exam02;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> LinkedList.ListNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: zy</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2021/1/4 20:38</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RemoveNthFromEnd19</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        ListNode pre = dummy;</span><br><span class="line">        ListNode cur = head;</span><br><span class="line">        <span class="comment">// find the previous node of the target node</span></span><br><span class="line">        <span class="keyword">while</span>(n-- &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            pre = pre.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// delete it</span></span><br><span class="line">        pre.next = pre.next.next;</span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-      <category term="study" scheme="http://yoursite.com/categories/study/"/>
-    
-      <category term="LeetCode" scheme="http://yoursite.com/categories/study/LeetCode/"/>
-    
-    
-      <category term="LinkedList" scheme="http://yoursite.com/tags/LinkedList/"/>
-    
-  </entry>
   
   <entry>
     <title>LeetCode 74.SearchMatrix(Medium)</title>
